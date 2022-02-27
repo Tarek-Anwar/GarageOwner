@@ -42,29 +42,25 @@ public class LoginFragment extends Fragment {
 
         intiUI(view);
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email= et_email.getText().toString().trim();
-                String pass = et_password.getText().toString().trim();
-                if(!email.isEmpty()&&!pass.isEmpty()){
-                    FirebaseAuth firebaseAuth = FirebaseUtil.mFirebaseAuthl;
-                    firebaseAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(getContext(), "Welcome", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getActivity() , MainActivity.class);
-                                startActivity(intent);
-                            }
-                            else{
-                                Toast.makeText(getContext() ,task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            }
+        login.setOnClickListener(v -> {
+            String email= et_email.getText().toString().trim();
+            String pass = et_password.getText().toString().trim();
+            if(!email.isEmpty()&&!pass.isEmpty()){
+                FirebaseAuth firebaseAuth = FirebaseUtil.mFirebaseAuthl;
+                firebaseAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(getContext(), "Welcome", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getActivity() , MainActivity.class);
+                            startActivity(intent);
                         }
-                    });
-                }
+                        else{
+                            Toast.makeText(getContext() ,task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
-
         });
 
         sign.setOnClickListener(v -> {

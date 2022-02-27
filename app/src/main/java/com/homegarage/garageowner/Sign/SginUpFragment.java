@@ -43,36 +43,32 @@ public class SginUpFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_sgin_up, container, false);
         intiUI(view);
 
-            sign.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FirebaseAuth firebaseAuth = FirebaseUtil.mFirebaseAuthl;
-                    String nameuser = user.getText().toString().trim();
-                    String phoneuser = phone.getText().toString().trim();
-                    String passwoeduser = password.getText().toString().trim();
-                    String emailuser = email.getText().toString().trim();
-                    firebaseAuth.createUserWithEmailAndPassword(emailuser,passwoeduser).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                DatabaseReference databaseReference  = FirebaseUtil.mDatabaseReference;
-                                firebaseUser=task.getResult().getUser();
-                                DatabaseReference newuser = databaseReference.child(firebaseUser.getUid());
-                                newuser.child("Full Name").setValue(nameuser);
-                                newuser.child("Phone").setValue(phoneuser);
-                                newuser.child("password").setValue(passwoeduser);
-                                newuser.child("email").setValue(emailuser);
-
-                                Toast.makeText(getContext(), "Sussful sign", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getActivity() , MainActivity.class);
-                                startActivity(intent);
-                            }
-                            else {
-                                Toast.makeText(getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            }
+            sign.setOnClickListener(v -> {
+                FirebaseAuth firebaseAuth = FirebaseUtil.mFirebaseAuthl;
+                String nameuser = user.getText().toString().trim();
+                String phoneuser = phone.getText().toString().trim();
+                String passwoeduser = password.getText().toString().trim();
+                String emailuser = email.getText().toString().trim();
+                firebaseAuth.createUserWithEmailAndPassword(emailuser,passwoeduser).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            DatabaseReference databaseReference  = FirebaseUtil.mDatabaseReference;
+                            firebaseUser=task.getResult().getUser();
+                            DatabaseReference newuser = databaseReference.child(firebaseUser.getUid());
+                            newuser.child("Full Name").setValue(nameuser);
+                            newuser.child("Phone").setValue(phoneuser);
+                            newuser.child("password").setValue(passwoeduser);
+                            newuser.child("email").setValue(emailuser);
+                            Toast.makeText(getContext(), "Sussful sign", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getActivity() , MainActivity.class);
+                            startActivity(intent);
                         }
-                    });
-                }
+                        else {
+                            Toast.makeText(getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             });
         return view;
     }
