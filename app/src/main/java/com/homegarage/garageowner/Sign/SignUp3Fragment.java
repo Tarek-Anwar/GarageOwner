@@ -46,32 +46,7 @@ public class SignUp3Fragment extends Fragment {
                              Bundle savedInstanceState) {
 
         binding = FragmentSignUp3Binding.inflate(getLayoutInflater());
-        ActivityResultContract<Object, Uri> contract = new ActivityResultContract<Object, Uri>() {
-            @NonNull
-            @Override
-            public Intent createIntent(@NonNull Context context, Object input) {
-                return CropImage.activity()
-                        .setCropShape(CropImageView.CropShape.OVAL)
-                        .setAspectRatio(1,1)
-                        .getIntent(getApplicationContext());
-            }
 
-            @Override
-            public Uri parseResult(int resultCode, @Nullable Intent intent) {
-                if(CropImage.getActivityResult(intent)!=null){
-                    return CropImage.getActivityResult(intent).getUri();
-                }else {
-                    return null;
-                }
-            }
-        };
-
-        launcher=registerForActivityResult(contract,uri->{
-            if (uri!=null){
-                binding.profileImage.setImageURI(uri);
-
-            }
-        });
 
         return  binding.getRoot();
     }
