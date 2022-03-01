@@ -1,7 +1,7 @@
 package com.homegarage.garageowner.model;
 
 public class InfoUserGarageModel {
-
+    private String id;
     private String nameEn , nameAr;
     private String phone;
     private String email;
@@ -10,6 +10,53 @@ public class InfoUserGarageModel {
     private String cityEn, cityAr;
     private String restOfAddressEN , restOfAddressAr;
     private String location;
+    private float priceForHour;
+    private String imageGarage;
+
+    public float getPriceForHour() {
+        return priceForHour;
+    }
+
+    public void setPriceForHour(float priceForHour) {
+        this.priceForHour = priceForHour;
+    }
+
+    public String getImageGarage() {
+        return imageGarage;
+    }
+
+    public void setImageGarage(String imageGarage) {
+        this.imageGarage = imageGarage;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public InfoUserGarageModel(String id, String nameEn, String nameAr, String phone,
+                               String email, String password, String governoateEn,
+                               String governoateAR, String cityEn, String cityAr,
+                               String restOfAddressEN, String restOfAddressAr, String location) {
+        this.id = id;
+        this.nameEn = nameEn;
+        this.nameAr = nameAr;
+        this.phone = phone;
+        this.email = email;
+        this.password = password;
+        this.governoateEn = governoateEn;
+        this.governoateAR = governoateAR;
+        this.cityEn = cityEn;
+        this.cityAr = cityAr;
+        this.restOfAddressEN = restOfAddressEN;
+        this.restOfAddressAr = restOfAddressAr;
+        this.location = location;
+    }
+
+
 
     public InfoUserGarageModel(String nameEn, String nameAr, String phone,
                                String email, String password, String governoateEn,

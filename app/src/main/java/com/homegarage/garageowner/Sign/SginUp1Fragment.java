@@ -72,27 +72,6 @@ public class SginUp1Fragment extends Fragment {
             transaction.addToBackStack(null);
             transaction.commit();
 
-           /* FirebaseAuth firebaseAuth = FirebaseUtil.mFirebaseAuthl;
-               firebaseAuth.createUserWithEmailAndPassword(emailuser, passwoeduser).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                DatabaseReference databaseReference = FirebaseUtil.mDatabaseReference;
-                                firebaseUser = task.getResult().getUser();
-                                DatabaseReference newuser = databaseReference.child(firebaseUser.getUid());
-                                newuser.child("Full Name").setValue(nameuser);
-                                newuser.child("Phone").setValue(phoneuser);
-                                newuser.child("password").setValue(passwoeduser);
-                                newuser.child("email").setValue(emailuser);
-                                Toast.makeText(getContext(), "Sussful sign", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getActivity(), MainActivity.class);
-                                startActivity(intent);
-                            }
-                            else {
-                                Toast.makeText(getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                });*/
        });
 
         return view;
