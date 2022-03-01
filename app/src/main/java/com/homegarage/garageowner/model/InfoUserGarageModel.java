@@ -2,34 +2,83 @@ package com.homegarage.garageowner.model;
 
 public class InfoUserGarageModel {
 
-    private String name;
+    private String nameEn , nameAr;
     private String phone;
     private String email;
     private String password;
-    private String governoate;
-    private String city;
-    private String restOfAddressEN;
-    private String restOfAddressAr;
+    private String governoateEn , governoateAR;
+    private String cityEn, cityAr;
+    private String restOfAddressEN , restOfAddressAr;
     private String location;
 
-    public String getGovernoate() {
-        return governoate;
+    public InfoUserGarageModel(String nameEn, String nameAr, String phone,
+                               String email, String password, String governoateEn,
+                               String governoateAR, String cityEn, String cityAr,
+                               String restOfAddressEN, String restOfAddressAr, String location) {
+        this.nameEn = nameEn;
+        this.nameAr = nameAr;
+        this.phone = phone;
+        this.email = email;
+        this.password = password;
+        this.governoateEn = governoateEn;
+        this.governoateAR = governoateAR;
+        this.cityEn = cityEn;
+        this.cityAr = cityAr;
+        this.restOfAddressEN = restOfAddressEN;
+        this.restOfAddressAr = restOfAddressAr;
+        this.location = location;
     }
 
-    public void setGovernoate(String governoate) {
-        this.governoate = governoate;
+    public String getNameEn() {
+        return nameEn;
     }
 
-    public String getCity() {
-        return city;
+    public void setNameEn(String nameEn) {
+        this.nameEn = nameEn;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public String getNameAr() {
+        return nameAr;
     }
 
+    public void setNameAr(String nameAr) {
+        this.nameAr = nameAr;
+    }
 
+    public String getGovernoateEn() {
+        return governoateEn;
+    }
 
+    public void setGovernoateEn(String governoateEn) {
+        this.governoateEn = governoateEn;
+    }
+
+    public String getGovernoateAR() {
+        return governoateAR;
+    }
+
+    public void setGovernoateAR(String governoateAR) {
+        this.governoateAR = governoateAR;
+    }
+
+    public String getCityEn() {
+        return cityEn;
+    }
+
+    public void setCityEn(String cityEn) {
+        this.cityEn = cityEn;
+    }
+
+    public String getCityAr() {
+        return cityAr;
+    }
+
+    public void setCityAr(String cityAr) {
+        this.cityAr = cityAr;
+    }
+
+    public InfoUserGarageModel() {
+    }
     public String getLocation() {
         return location;
     }
@@ -38,20 +87,9 @@ public class InfoUserGarageModel {
         this.location = location;
     }
 
-    public InfoUserGarageModel() {
-    }
 
-    public InfoUserGarageModel(String name, String phone, String email, String password, String governoate, String city, String restOfAddressEN, String restOfAddressAr, String location) {
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.password = password;
-        this.governoate = governoate;
-        this.city = city;
-        this.restOfAddressEN = restOfAddressEN;
-        this.restOfAddressAr = restOfAddressAr;
-        this.location = location;
-    }
+
+
 
     public String getRestOfAddressEN() {
         return restOfAddressEN;
@@ -69,13 +107,6 @@ public class InfoUserGarageModel {
         this.restOfAddressAr = restOfAddressAr;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getPhone() {
         return phone;

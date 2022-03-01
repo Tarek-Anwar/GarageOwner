@@ -63,9 +63,9 @@ public class SignUp2Fragment extends Fragment {
     private double longitude , latitude;
 
     DatabaseReference spinnerRef;
-    ArrayList<String> spinnerListGover , spinnerListCity;
+    ArrayList<String> spinnerListGoverEn , spinnerListGoverAr, spinnerListCityEn , spinnerListCityAr;
     ArrayAdapter<String> adapterGover , adapterCity;
-    String getCityFormSpi , getGoverFormSpi;
+    String getCityAr ,  getCityEn, getGoverEn ,getGoverAr ;
     public SignUp2Fragment() { }
 
     @Override
@@ -77,10 +77,15 @@ public class SignUp2Fragment extends Fragment {
         infoUserGarageModel = FirebaseUtil.userGarageModel;
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
-        spinnerListGover = new ArrayList<>();
-        adapterGover = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item,spinnerListGover);
+        spinnerListGoverEn = new ArrayList<>();
+        spinnerListGoverAr = new ArrayList<>();
 
-        spinnerListCity = new ArrayList<>();
+        if(Locale.getDefault().getLanguage()=="en"){
+        adapterGover = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item,spinnerListGoverEn);}
+        else { adapterGover = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item,spinnerListGoverAr);}
+
+        spinnerListCityEn = new ArrayList<>();
+        spinnerListCityAr = new ArrayList<>();
     }
 
 
@@ -127,8 +132,10 @@ public class SignUp2Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 infoUserGarageModel.setLocation(longitude+","+latitude);
-                infoUserGarageModel.setCity(getCityFormSpi);
-                infoUserGarageModel.setGovernoate(getGoverFormSpi);
+                infoUserGarageModel.setCityAr(getCityAr);
+                infoUserGarageModel.setCityEn(getCityEn);
+                infoUserGarageModel.setGovernoateAR(getGoverAr);
+                infoUserGarageModel.setGovernoateEn(getGoverEn);
                 infoUserGarageModel.setRestOfAddressEN(restOfAddressEn.getText().toString());
                 infoUserGarageModel.setRestOfAddressAr(restOfAddressAr.getText().toString());
 
@@ -142,14 +149,18 @@ public class SignUp2Fragment extends Fragment {
         showDataGover();
 
         goverSpinner.setAdapter(adapterGover);
-        if(spinnerListGover!=null){
+
+        if(spinnerListGoverEn!=null){
             goverSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    adapterCity = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item,spinnerListCity);
+                    if(Locale.getDefault().getLanguage()=="en"){
+                    adapterCity = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item,spinnerListCityEn);}
+                    else { adapterCity = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item,spinnerListCityAr);}
                     citySpinner.setAdapter(adapterCity);
                     showDataCity(position);
-                    getGoverFormSpi =    parent.getItemAtPosition(position).toString();
+                    getGoverEn = spinnerListGoverEn.get(position);
+                    getGoverAr = spinnerListGoverAr.get(position);
                 }
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
@@ -157,11 +168,12 @@ public class SignUp2Fragment extends Fragment {
             });
         }
 
-        if(spinnerListCity!=null){
+        if(spinnerListCityEn!=null){
             citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    getCityFormSpi = parent.getItemAtPosition(position).toString();
+                    getCityEn = spinnerListCityEn.get(position);
+                    getCityAr = spinnerListCityAr.get(position);
                 }
 
                 @Override
@@ -265,19 +277,13 @@ public class SignUp2Fragment extends Fragment {
 
     private void showDataGover(){
         spinnerRef = FirebaseDatabase.getInstance().getReference("Governorate");
-        String search = "";
-        if (Locale.getDefault().getLanguage() == "en"){
-            search = "governorate_name_en";
-        }else {
-            search = "governorate_name_ar";
-        }
-        String finalSearch = search;
         spinnerRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
                     for (DataSnapshot item : snapshot.getChildren()){
-                        spinnerListGover.add(item.child(finalSearch).getValue(String.class));
+                        spinnerListGoverEn.add(item.child("governorate_name_en").getValue(String.class));
+                        spinnerListGoverAr.add(item.child("governorate_name_ar").getValue(String.class));
                     }
                     adapterGover.notifyDataSetChanged();
                 }
@@ -293,21 +299,16 @@ public class SignUp2Fragment extends Fragment {
     private void showDataCity(int pos){
         pos++;
         spinnerRef = FirebaseDatabase.getInstance().getReference("cities");
-        String search = "";
-        if (Locale.getDefault().getLanguage() == "en"){
-            search = "city_name_en";
-        }else {
-            search = "city_name_ar";
-        }
         Query query =  spinnerRef.orderByChild("governorate_id").equalTo(pos+"");
-        String finalSearch = search;
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
-                    spinnerListCity.clear();
+                    spinnerListCityEn.clear();
+                    spinnerListCityAr.clear();
                     for (DataSnapshot item : snapshot.getChildren()){
-                        spinnerListCity.add(item.child(finalSearch).getValue(String.class));
+                        spinnerListCityEn.add(item.child("city_name_en").getValue(String.class));
+                        spinnerListCityAr.add(item.child("city_name_ar").getValue(String.class));
                     }
                     adapterCity.notifyDataSetChanged();
                 }

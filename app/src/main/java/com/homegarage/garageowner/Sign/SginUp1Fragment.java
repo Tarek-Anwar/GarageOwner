@@ -3,7 +3,6 @@ package com.homegarage.garageowner.Sign;
 import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.homegarage.garageowner.FirebaseUtil;
 import com.homegarage.garageowner.R;
 import com.homegarage.garageowner.model.InfoUserGarageModel;
@@ -24,7 +24,7 @@ import com.homegarage.garageowner.model.InfoUserGarageModel;
 
 public class SginUp1Fragment extends Fragment {
 
-    private EditText user , phone , email , password , cpassword;
+    private EditText nameEn , nameAr , phone , email , password , cpassword;
     private Button next , btnDone;
     private AwesomeValidation  mAwesomeValidation;
     private ScrollView mScrollView;
@@ -36,7 +36,6 @@ public class SginUp1Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
         mAwesomeValidation.setContext(getContext());
         infoUserGarageModel = FirebaseUtil.userGarageModel;
@@ -60,11 +59,13 @@ public class SginUp1Fragment extends Fragment {
         });
 
         next.setOnClickListener(v -> {
-            addValidationForEditText();
+
             infoUserGarageModel.setEmail(email.getText().toString().trim());
-            infoUserGarageModel.setName(user.getText().toString().trim());
+            infoUserGarageModel.setNameEn(nameEn.getText().toString().trim());
             infoUserGarageModel.setPhone(phone.getText().toString());
             infoUserGarageModel.setPassword(password.getText().toString().trim());
+            infoUserGarageModel.setNameAr(nameAr.getText().toString().trim());
+
             SignUp2Fragment newFragment = new SignUp2Fragment();
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainerView, newFragment);
@@ -98,7 +99,8 @@ public class SginUp1Fragment extends Fragment {
     }
 
     void intiUI(View view){
-        user = view.findViewById(R.id.et_full_name_sign);
+        nameEn = view.findViewById(R.id.et_nameEN_sign);
+        nameAr = view.findViewById(R.id.et_nameAr_sign);
         phone = view.findViewById(R.id.et_phone_sign);
         password = view.findViewById(R.id.et_password_sign);
         email = view.findViewById(R.id.et_email_sign);
@@ -127,7 +129,8 @@ public class SginUp1Fragment extends Fragment {
     private void addValidationForEditText() {
         mAwesomeValidation.addValidation(password, "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d])(?=.*[~`!@#\\$%\\^&\\*\\(\\)\\-_\\+=\\{\\}\\[\\]\\|\\;:\"<>,./\\?]).{8,}",getString(R.string.invalid_password));
         mAwesomeValidation.addValidation(cpassword, password,getString(R.string.password_confirmation));
-        mAwesomeValidation.addValidation(user, "[a-zA-Z\\s]+",getString(R.string.name_invalid));
+        mAwesomeValidation.addValidation(nameEn, "[a-zA-Z\\s]+",getString(R.string.name_invalid));
+        mAwesomeValidation.addValidation(nameAr, RegexTemplate.NOT_EMPTY,getString(R.string.name_invalid));
         mAwesomeValidation.addValidation(email, Patterns.EMAIL_ADDRESS, getString(R.string.email_valid));
         mAwesomeValidation.addValidation(phone,"^01[0125][0-9]{8}$",getString(R.string.phone_invalid));
        // setValidationButtons(v);

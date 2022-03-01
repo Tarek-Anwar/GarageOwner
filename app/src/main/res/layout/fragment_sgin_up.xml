@@ -19,11 +19,19 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/et_full_name_sign"
+                android:id="@+id/et_nameEN_sign"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:hint="Full Name" />
+                android:hint="Full Name English" />
+
+
+            <EditText
+                android:id="@+id/et_nameAr_sign"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:hint="الاسم بالعربي" />
 
             <EditText
                 android:id="@+id/et_email_sign"
