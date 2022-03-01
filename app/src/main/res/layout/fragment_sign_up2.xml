@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout2"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     tools:context=".Sign.SignUp2Fragment">
 
     <ScrollView
-        android:id="@+id/scroll_view_2"
+        android:id="@+id/scroll_sign2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -17,70 +17,87 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
 
-            <Spinner
-                android:id="@+id/governoateSpinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <Spinner
-                android:id="@+id/citySpinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-
-
-            <EditText
-                android:id="@+id/restOfAddress_sign_en"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:hint="rest Of Address English" />
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/restOfAddress_sign_ar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:hint="باقي العنزان" />
+                <Spinner
+                    android:id="@+id/governoateSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:contentDescription="@string/governorate"
+                    android:minHeight="48dp" />
+
+                <Spinner
+                    android:id="@+id/citySpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:contentDescription="@string/city"
+                    android:minHeight="48dp" />
 
 
-        </LinearLayout>
+                <EditText
+                    android:id="@+id/restOfAddress_sign_en"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=""
+                    android:gravity="center"
+                    android:hint="@string/street_en"
+                    android:inputType="text"
+                    android:minHeight="48dp"
+                    android:textColorHint="#757575" />
 
-        <LinearLayout
+                <EditText
+                    android:id="@+id/restOfAddress_sign_ar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=""
+                    android:gravity="center"
+                    android:hint="@string/steet_ar"
+                    android:inputType="text"
+                    android:minHeight="48dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <Button
+                android:id="@+id/btn_getlocation_sign"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="get Location"
                 android:layout_gravity="center"
-                android:id="@+id/btn_getlocation_sign">
+                android:text="@string/get_location">
 
             </Button>
 
             <Button
+                android:id="@+id/btn_opne_gps"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Go To Open Gps"
                 android:layout_gravity="center"
-                android:id="@+id/btn_opne_gps">
+                android:text="@string/opne_Gps">
 
             </Button>
 
-            <EditText
-                android:id="@+id/location_sign"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:gravity="center"
-                android:hint="locaion" />
+                <EditText
+                    android:id="@+id/location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:editable="true"
+                    android:gravity="center"
+                    android:inputType="text" />
+
         </LinearLayout>
 
         </LinearLayout>
@@ -88,7 +105,7 @@
     </ScrollView>
 
     <LinearLayout
-        android:id="@+id/container_success_2"
+        android:id="@+id/layout_success_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -119,18 +136,18 @@
         android:id="@+id/check_sign2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:text="Check"
-        android:layout_gravity="center" />
+        android:text="@string/check_data" />
 
     <Button
         android:id="@+id/next_sign2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:text="next"
-        android:visibility="gone"
-        android:layout_gravity="center" />
+        android:text="@string/next"
+        android:visibility="gone" />
 
 
 </LinearLayout>

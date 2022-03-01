@@ -3,11 +3,34 @@
     <string name="app_name">Garage Owner</string>
     <string name="email_valid">من فضلك ادخل بريد صحيح</string>
     <string name="text_empt">لا يوجد بياانات</string>
-    <string name="phone_invalid">رقم الهاتف خاطئ</string>
-    <string name="name_invalid">اسم خاطئ</string>
-    <string name="password_confirmation">تأكيد كلمة السر خاطئ</string>
-    <string name="invalid_password">ادخل كلمة مرور قوية</string>
-    <string name="err_year">خطئ قي العام</string>
+    <string name="phone_invalid">رقم الهاتف من فضلك</string>
+    <string name="name_invalid">اسم الجراش من فضلك</string>
+    <string name="password_confirmation">الرجاء إعادة إدخال كلمة المرور</string>
+    <string name="invalid_password">يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل ، بما في ذلك حرف واحد صغير على الأقل وحرف واحد كبير ورقم واحد وعلامة ترقيم واحدة</string>
+    <string name="err_year">يجب أن يكون العام بين 1900 وهذا العام</string>
     <string name="img_success">نجح</string>
-    <string name="err_birth">Birthday should be like Day/Month/Year, and must be >= 18</string>
+    <string name="err_birth">يجب أن يكون تاريخ الميلاد مثل اليوم / الشهر / السنة ، ويجب أن يكون> = 18</string>
+    <string name="enter_email">ادخل البريد</string>
+    <string name="enter_password">ادخل كلمة المرور</string>
+    <string name="Login">دخول</string>
+    <string name="create_account">انشاء حساب</string>
+    <string name="name_sign_en">Enter Name Garage English</string>
+    <string name="name_sign_ar">ادخل اسم الجراش بالعربي</string>
+    <string name="email_sign">ادخل البريد الاكتروني</string>
+    <string name="phone_sign">ادخل رقم الهاتق</string>
+    <string name="check_data">تحقق من البيانات</string>
+    <string name="next">التالي</string>
+    <string name="governorate">محافظة</string>
+    <string name="city">مدينة</string>
+    <string name="street_en">Enter Street English</string>
+    <string name="steet_ar">ادخل العنوان بالعربي</string>
+    <string name="get_location">اوجد الموقع</string>
+    <string name="opne_Gps">اذهب لفتح الموقع</string>
+    <string name="invalid_location">من قضلك احصل علي الموقع</string>
+    <string name="edit">تعديل</string>
+    <string name="price_for_houre">سعر الساعة</string>
+    <string name="enter_price">ادخل السعر</string>
+    <string name="confirm_password">تأكيد كلمة المرور</string>
+    <string name="password">كلمة المرور</string>
+    <string name="sign">سجل</string>
 </resources>

@@ -27,6 +27,7 @@
         android:id="@+id/imageEdit"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:contentDescription="@string/edit"
         app:layout_constraintBottom_toBottomOf="@+id/profile_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.639"
@@ -34,42 +35,89 @@
         app:layout_constraintTop_toTopOf="@+id/profile_image"
         app:layout_constraintVertical_bias="0.91"
         app:srcCompat="@drawable/ic_baseline_add_a_photo_24"
-        android:contentDescription="edit" />
+        tools:ignore="ImageContrastCheck" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="68dp"
-        android:text="Price For Houre"
+        android:layout_marginTop="52dp"
+        android:text="@string/price_for_houre"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_image" />
 
-    <EditText
-        android:id="@+id/et_price_for_houre"
-        android:layout_width="wrap_content"
+
+
+    <LinearLayout
+        android:id="@+id/linear_password"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="16dp"
-        android:ems="10"
-        android:hint="Enter Price"
-        android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.743"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/profile_image" />
+        android:layout_marginTop="25dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <EditText
+            android:id="@+id/et_price_for_houre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:ems="10"
+            android:gravity="center"
+            android:hint="@string/enter_price"
+            android:inputType="numberSigned|number|numberDecimal"
+            android:minHeight="48dp"
+            android:textColorHint="#757575" />
+
+        <EditText
+            android:id="@+id/et_password_sign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:autofillHints=""
+            android:gravity="center"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/et_confirm_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:autofillHints=""
+            android:gravity="center"
+            android:hint="@string/confirm_password"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:minHeight="48dp"
+            android:textColorHint="#757575" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_sign_in_fire"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="164dp"
-        android:text="Sign"
+        android:layout_marginTop="64dp"
+        android:text="@string/sign"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_price_for_houre" />
+        app:layout_constraintTop_toBottomOf="@+id/linear_password" />
+
+    <Button
+        android:id="@+id/check_sign3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="@string/check_data"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear_password" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

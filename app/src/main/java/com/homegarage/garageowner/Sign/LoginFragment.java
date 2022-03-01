@@ -1,85 +1,70 @@
 package com.homegarage.garageowner.Sign;
 
+import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
+
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.homegarage.garageowner.FirebaseUtil;
 import com.homegarage.garageowner.MainActivity;
 import com.homegarage.garageowner.R;
+import com.homegarage.garageowner.databinding.FragmentLoginBinding;
 
-import java.util.ArrayList;
-import java.util.Locale;
+import java.util.Objects;
 
 public class LoginFragment extends Fragment {
 
-    private EditText et_email , et_password;
-    private Button login , sign;
+    private AwesomeValidation mAwesomeValidation;
 
+    FragmentLoginBinding binding;
     public LoginFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseUtil.openFbReference("GaragerOnwerInfo");
+        mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
+        mAwesomeValidation.setContext(getContext());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        binding = FragmentLoginBinding.inflate(getLayoutInflater());
+        addValidationForEditText();
 
-        View view= inflater.inflate(R.layout.fragment_login, container, false);
-
-        intiUI(view);
-
-        FirebaseUtil.openFbReference("GaragerOnwerInfo");
-
-        login.setOnClickListener(v -> {
-            String email= et_email.getText().toString().trim();
-            String pass = et_password.getText().toString().trim();
-            if(!email.isEmpty()&&!pass.isEmpty()){
+        binding.btnLogin.setOnClickListener(v -> {
+            if(mAwesomeValidation.validate()){
+                String email= binding.etEmailLog.getText().toString().trim();
+                String pass = binding.etPasswordLog.getText().toString().trim();
                 FirebaseAuth firebaseAuth = FirebaseUtil.mFirebaseAuthl;
-                firebaseAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(getContext(), "Welcome", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getActivity() , MainActivity.class);
-                            startActivity(intent);
-                        }
-                        else{
-                            Toast.makeText(getContext() ,task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+                firebaseAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        Toast.makeText(getContext(), "Welcome", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getActivity() , MainActivity.class);
+                        startActivity(intent);
+                    }
+                    else{
+                        Toast.makeText(getContext() , Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         });
 
-        sign.setOnClickListener(v -> {
+        binding.btnGoSign.setOnClickListener(v -> {
             SginUp1Fragment fragment = new SginUp1Fragment();
             FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainerView,fragment);
@@ -87,14 +72,19 @@ public class LoginFragment extends Fragment {
             transaction.commit();
         });
 
-        return view;
+        return  binding.getRoot();
     }
 
-    private void intiUI(View view) {
-        et_email = view.findViewById(R.id.et_email_log);
-        et_password = view.findViewById(R.id.et_password_log);
-        login = view.findViewById(R.id.btn_login);
-        sign = view.findViewById(R.id.bt_go_sign);
+    private void addValidationForEditText() {
+        mAwesomeValidation.addValidation(binding.etPasswordLog,RegexTemplate.NOT_EMPTY,getString(R.string.invalid_password));
+        mAwesomeValidation.addValidation(binding.etEmailLog, Patterns.EMAIL_ADDRESS, getString(R.string.email_valid));
     }
+
+    private void clearValidation() {
+        if (mAwesomeValidation != null) {
+            mAwesomeValidation.clear();
+        }
+    }
+
 
 }

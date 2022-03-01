@@ -3,13 +3,36 @@
     <string name="email_valid">Email address please</string>
     <string name="text_empt">Not Find Text</string>
     <string name="phone_invalid">Telephone Number please</string>
-    <string name="name_invalid">Human name please</string>
+    <string name="name_invalid">Garage name please</string>
     <string name="password_confirmation">Please re-enter the password</string>
     <string name="err_year">Year must be between 1900 and this year</string>
     <string name="img_success">Success</string>
     <string name="invalid_password">The password should contain at least 8 characters, including at least one lower case letter, one upper case letter, one number and one punctuation mark</string>
     <string name="err_birth">Birthday should be like Day/Month/Year, and must be >= 18</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="Login">Login</string>
+    <string name="create_account">Create an account</string>
+    <string name="name_sign_en">Enter Name Garage English</string>
+    <string name="name_sign_ar">ادخل اسم الجراش بالعربي</string>
+    <string name="email_sign">Enter Email Address</string>
+    <string name="phone_sign" >Enter Phone Number</string>
+    <string name="check_data">Check the data</string>
+    <string name="next">Next</string>
+    <string name="governorate">Governorate</string>
+    <string name="city">City</string>
+    <string name="street_en">Enter Street English</string>
+    <string name="steet_ar">ادخل العنوان بالعربي</string>
+    <string name="get_location">Get Location</string>
+    <string name="opne_Gps">Go To Open Gps</string>
+    <string name="invalid_location">Please get Location</string>
+    <string name="edit">edit</string>
+    <string name="price_for_houre">Price For Houre</string>
+    <string name="enter_price">Enter Price</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="password">Password</string>
+    <string name="sign">Sign</string>
+
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

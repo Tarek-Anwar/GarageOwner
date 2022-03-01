@@ -15,11 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,7 +24,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -42,30 +36,25 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.homegarage.garageowner.FirebaseUtil;
 import com.homegarage.garageowner.R;
+import com.homegarage.garageowner.databinding.FragmentSignUp2Binding;
 import com.homegarage.garageowner.model.InfoUserGarageModel;
-
 import java.util.ArrayList;
 import java.util.Locale;
 
 
 public class SignUp2Fragment extends Fragment {
 
-    private EditText restOfAddressEn , restOfAddressAr , location ;
-    private Button next , getlocation , open_gps , btnDone ;
-    private Spinner goverSpinner , citySpinner;
+    FragmentSignUp2Binding binding;
     AwesomeValidation mAwesomeValidation;
-    ScrollView mScrollView;
-    private LinearLayout mViewSuccess;
-
     InfoUserGarageModel infoUserGarageModel;
-    private FusedLocationProviderClient mFusedLocationClient;
     private final int locationRequestCode = 1;
     private double longitude , latitude;
-
+    String allLocation = null;
     DatabaseReference spinnerRef;
     ArrayList<String> spinnerListGoverEn , spinnerListGoverAr, spinnerListCityEn , spinnerListCityAr;
     ArrayAdapter<String> adapterGover , adapterCity;
     String getCityAr ,  getCityEn, getGoverEn ,getGoverAr ;
+
     public SignUp2Fragment() { }
 
     @Override
@@ -75,12 +64,11 @@ public class SignUp2Fragment extends Fragment {
         mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
         mAwesomeValidation.setContext(getContext());
         infoUserGarageModel = FirebaseUtil.userGarageModel;
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
         spinnerListGoverEn = new ArrayList<>();
         spinnerListGoverAr = new ArrayList<>();
 
-        if(Locale.getDefault().getLanguage()=="en"){
+        if(Locale.getDefault().getLanguage().equals("en")){
         adapterGover = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item,spinnerListGoverEn);}
         else { adapterGover = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item,spinnerListGoverAr);}
 
@@ -90,74 +78,68 @@ public class SignUp2Fragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View root =  inflater.inflate(R.layout.fragment_sign_up2, container, false);
-        intiUI(root);
-
-        LocationManager manager2 = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        binding = FragmentSignUp2Binding.inflate(getLayoutInflater());
+        LocationManager manager2 = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
         final boolean locationEnable2 = manager2.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        if(locationEnable2){
-            open_gps.setVisibility(View.GONE);
-        }else{ open_gps.setVisibility(View.VISIBLE); }
+        if(!locationEnable2){ binding.btnOpneGps.setVisibility(View.VISIBLE); }
+        else{ binding.btnOpneGps.setVisibility(View.GONE); }
 
-        open_gps.setOnClickListener(v -> {
-        LocationManager manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        binding.btnOpneGps.setOnClickListener(v -> {
+        LocationManager manager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
         final boolean locationEnable = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             if(!locationEnable){
-                open_gps.setVisibility(View.VISIBLE);
+                binding.btnOpneGps.setVisibility(View.VISIBLE);
                 Toast.makeText(getContext(), "please, opne Gps to get Location", Toast.LENGTH_SHORT).show();
                 enableLoaction();
             }else{
-                open_gps.setVisibility(View.GONE);
+                binding.btnOpneGps.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "GPS is opne", Toast.LENGTH_SHORT).show();
             }
         });
 
-        getlocation.setOnClickListener(v -> getCurrantLoaction());
+        binding.btnGetlocationSign.setOnClickListener(v -> getCurrantLoaction());
 
-        btnDone.setOnClickListener(v -> {
-            addValidationForEditText();
+        addValidationForEditText();
+        binding.checkSign2.setOnClickListener(v -> {
             if (mAwesomeValidation.validate()) {
-                mScrollView.fullScroll(View.FOCUS_DOWN);
-                next.setVisibility(View.VISIBLE);
-                mViewSuccess.setVisibility(View.VISIBLE);
+                binding.scrollSign2.fullScroll(View.FOCUS_DOWN);
+                binding.nextSign2.setVisibility(View.VISIBLE);
+                binding.layoutSuccess2.setVisibility(View.VISIBLE);
             } else {
-                mViewSuccess.setVisibility(View.GONE);
+                binding.layoutSuccess2.setVisibility(View.GONE);
             }
         });
 
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                infoUserGarageModel.setLocation(longitude+","+latitude);
-                infoUserGarageModel.setCityAr(getCityAr);
-                infoUserGarageModel.setCityEn(getCityEn);
-                infoUserGarageModel.setGovernoateAR(getGoverAr);
-                infoUserGarageModel.setGovernoateEn(getGoverEn);
-                infoUserGarageModel.setRestOfAddressEN(restOfAddressEn.getText().toString());
-                infoUserGarageModel.setRestOfAddressAr(restOfAddressAr.getText().toString());
+        binding.nextSign2.setOnClickListener(v -> {
+            infoUserGarageModel.setLocation(longitude+","+latitude);
+            infoUserGarageModel.setCityAr(getCityAr);
+            infoUserGarageModel.setCityEn(getCityEn);
+            infoUserGarageModel.setGovernoateAR(getGoverAr);
+            infoUserGarageModel.setGovernoateEn(getGoverEn);
+            infoUserGarageModel.setRestOfAddressEN(binding.restOfAddressSignEn.getText().toString());
+            infoUserGarageModel.setRestOfAddressAr(binding.restOfAddressSignAr.getText().toString());
 
-                SignUp3Fragment newFragment = new SignUp3Fragment();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragmentContainerView, newFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
-            }
+            SignUp3Fragment newFragment = new SignUp3Fragment();
+            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragmentContainerView, newFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
         });
+
         showDataGover();
 
-        goverSpinner.setAdapter(adapterGover);
-
+        binding.governoateSpinner.setAdapter(adapterGover);
         if(spinnerListGoverEn!=null){
-            goverSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            binding.governoateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if(Locale.getDefault().getLanguage()=="en"){
-                    adapterCity = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item,spinnerListCityEn);}
+                    if(Locale.getDefault().getLanguage().equals("en")){
+                        adapterCity = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item,spinnerListCityEn);}
                     else { adapterCity = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item,spinnerListCityAr);}
-                    citySpinner.setAdapter(adapterCity);
+
+                    binding.citySpinner.setAdapter(adapterCity);
                     showDataCity(position);
                     getGoverEn = spinnerListGoverEn.get(position);
                     getGoverAr = spinnerListGoverAr.get(position);
@@ -169,7 +151,7 @@ public class SignUp2Fragment extends Fragment {
         }
 
         if(spinnerListCityEn!=null){
-            citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            binding.citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     getCityEn = spinnerListCityEn.get(position);
@@ -183,71 +165,37 @@ public class SignUp2Fragment extends Fragment {
             });
         }
 
-        return root;
+        return binding.getRoot();
     }
-
-    void intiUI(View view){
-        getlocation = view.findViewById(R.id.btn_getlocation_sign);
-        goverSpinner = view.findViewById(R.id.governoateSpinner);
-        citySpinner = view.findViewById(R.id.citySpinner);
-        restOfAddressEn = view.findViewById(R.id.restOfAddress_sign_en);
-        restOfAddressAr = view.findViewById(R.id.restOfAddress_sign_ar);
-        location = view.findViewById(R.id.location_sign);
-        mScrollView = view.findViewById(R.id.scroll_view_2);
-        mViewSuccess = view.findViewById(R.id.container_success_2);
-        open_gps = view.findViewById(R.id.btn_opne_gps);
-        btnDone = view.findViewById(R.id.check_sign2);
-        next = view.findViewById(R.id.next_sign2);
-    }
-
-   /* private void setValidationButtons(View v) {
-        Button btnDone = v.findViewById(R.id.check_sign2);
-        btnDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mAwesomeValidation.validate()) {
-                    mScrollView.fullScroll(View.FOCUS_DOWN);
-                    sign.setVisibility(View.VISIBLE);
-                    mViewSuccess.setVisibility(View.VISIBLE);
-                } else {
-                    mViewSuccess.setVisibility(View.GONE);
-                }
-            }
-        });
-    }*/
 
     private void addValidationForEditText() {
-        mAwesomeValidation.addValidation(restOfAddressEn, RegexTemplate.NOT_EMPTY,getString(R.string.text_empt));
-        mAwesomeValidation.addValidation(restOfAddressAr, RegexTemplate.NOT_EMPTY,getString(R.string.text_empt));
-        mAwesomeValidation.addValidation(location, RegexTemplate.NOT_EMPTY,getString(R.string.text_empt));
+        mAwesomeValidation.addValidation(binding.restOfAddressSignAr, RegexTemplate.NOT_EMPTY,getString(R.string.text_empt));
+        mAwesomeValidation.addValidation(binding.restOfAddressSignEn, RegexTemplate.NOT_EMPTY,getString(R.string.text_empt));
+        mAwesomeValidation.addValidation(binding.location,RegexTemplate.NOT_EMPTY,getString(R.string.invalid_location));
     }
 
     private void getCurrantLoaction() {
-
         LocationRequest locationRequest =  LocationRequest.create();
         locationRequest.setInterval(10000);
         locationRequest.setFastestInterval(3000);
         locationRequest.setNumUpdates(1);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             String[] permission = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
-            ActivityCompat.requestPermissions(getActivity(), permission, locationRequestCode);
+            ActivityCompat.requestPermissions(requireActivity(), permission, locationRequestCode);
         } else {
-
-            LocationServices.getFusedLocationProviderClient(getContext()).requestLocationUpdates(locationRequest, new LocationCallback() {
+            LocationServices.getFusedLocationProviderClient(requireContext()).requestLocationUpdates(locationRequest, new LocationCallback() {
                 @Override
                 public void onLocationResult(@NonNull LocationResult locationResult) {
                     super.onLocationResult(locationResult);
-                    if(locationResult != null && locationResult.getLocations().size()>0){
+                    if(locationResult.getLocations().size()>0){
                         int indx = locationResult.getLocations().size()-1;
                         longitude = locationResult.getLocations().get(indx).getLongitude();
                         latitude =    locationResult.getLocations().get(indx).getLatitude();
-                        String data = "Longitude : "+ longitude + "Latitude : " + latitude;
-                        location.setText(data);
-                        location.setEnabled(false);
-                        Toast.makeText(getContext(), data, Toast.LENGTH_SHORT).show();
+                        allLocation  =  longitude + "," + latitude;
+                        binding.location.setText(allLocation);
+                        Toast.makeText(getContext(), allLocation, Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -262,16 +210,14 @@ public class SignUp2Fragment extends Fragment {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case locationRequestCode:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getCurrantLoaction();
-                } else {
-                    Toast.makeText(getContext(), "Permission denied", Toast.LENGTH_SHORT).show();
-                }
-                break;
+        if (requestCode == locationRequestCode) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getCurrantLoaction();
+            } else {
+                Toast.makeText(getContext(), "Permission denied", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -288,11 +234,8 @@ public class SignUp2Fragment extends Fragment {
                     adapterGover.notifyDataSetChanged();
                 }
             }
-
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
     }
 
@@ -314,9 +257,7 @@ public class SignUp2Fragment extends Fragment {
                 }
             }
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
     }
 

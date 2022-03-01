@@ -6,24 +6,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center"
     tools:context=".Sign.SginUp1Fragment">
 
     <ScrollView
-        android:id="@+id/scroll_view_1"
+        android:id="@+id/scroll_sign_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:layout_marginTop="25dp">
+
 
             <EditText
                 android:id="@+id/et_nameEN_sign"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:hint="Full Name English" />
+                android:hint="@string/name_sign_en"
+                android:inputType="textPersonName|textAutoComplete" />
 
 
             <EditText
@@ -31,47 +36,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:hint="الاسم بالعربي" />
+                android:hint="@string/name_sign_ar"
+                android:inputType="textPersonName|textAutoComplete" />
 
             <EditText
                 android:id="@+id/et_email_sign"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                 android:gravity="center"
-                android:hint="Email Address" />
+                android:gravity="center"
+                android:hint="@string/email_sign"
+                android:inputType="textEmailAddress" />
 
             <EditText
                 android:id="@+id/et_phone_sign"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:hint="Phone Number"
+                android:hint="@string/phone_sign"
                 android:inputType="phone" />
-
-            <EditText
-                android:id="@+id/et_password_sign"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:maxLines="1" />
-
-            <EditText
-                android:id="@+id/et_confirm_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:hint="confirm password"
-                android:inputType="textPassword"
-                android:maxLines="1" />
-
 
         </LinearLayout>
     </ScrollView>
 
     <LinearLayout
-        android:id="@+id/container_success_1"
+        android:id="@+id/layout_success_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -102,17 +90,17 @@
         android:id="@+id/check_sign1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:text="Check"
-        android:layout_gravity="center" />
+        android:text="@string/check_data" />
 
     <Button
         android:id="@+id/next_sign1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:text="next"
-        android:visibility="gone"
-        android:layout_gravity="center" />
+        android:text="@string/next"
+        android:visibility="gone" />
 
 </LinearLayout>

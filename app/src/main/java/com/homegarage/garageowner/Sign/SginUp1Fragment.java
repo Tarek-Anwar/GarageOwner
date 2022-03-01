@@ -3,32 +3,37 @@ package com.homegarage.garageowner.Sign;
 import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.homegarage.garageowner.FirebaseUtil;
 import com.homegarage.garageowner.R;
+import com.homegarage.garageowner.databinding.FragmentSginUpBinding;
 import com.homegarage.garageowner.model.InfoUserGarageModel;
+
+import java.util.ArrayList;
 
 
 public class SginUp1Fragment extends Fragment {
 
-    private EditText nameEn , nameAr , phone , email , password , cpassword;
-    private Button next , btnDone;
+    private FragmentSginUpBinding binding;
     private AwesomeValidation  mAwesomeValidation;
-    private ScrollView mScrollView;
-    private LinearLayout mViewSuccess;
     InfoUserGarageModel infoUserGarageModel;
 
     public SginUp1Fragment() { }
@@ -42,76 +47,44 @@ public class SginUp1Fragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_sgin_up, container, false);
-        intiUI(view);
 
-        btnDone.setOnClickListener(v -> {
-            addValidationForEditText();
+        binding = FragmentSginUpBinding.inflate(getLayoutInflater());
+
+        addValidationForEditText();
+        binding.checkSign1.setOnClickListener(v -> {
             if (mAwesomeValidation.validate()) {
-                mScrollView.fullScroll(View.FOCUS_DOWN);
-                next.setVisibility(View.VISIBLE);
-                mViewSuccess.setVisibility(View.VISIBLE);
+                binding.scrollSign1.fullScroll(View.FOCUS_DOWN);
+                binding.nextSign1.setVisibility(View.VISIBLE);
+                binding.layoutSuccess1.setVisibility(View.VISIBLE);
+
             } else {
-                mViewSuccess.setVisibility(View.GONE);
+                binding.layoutSuccess1.setVisibility(View.GONE);
             }
         });
 
-        next.setOnClickListener(v -> {
-
-            infoUserGarageModel.setEmail(email.getText().toString().trim());
-            infoUserGarageModel.setNameEn(nameEn.getText().toString().trim());
-            infoUserGarageModel.setPhone(phone.getText().toString());
-            infoUserGarageModel.setPassword(password.getText().toString().trim());
-            infoUserGarageModel.setNameAr(nameAr.getText().toString().trim());
+        binding.nextSign1.setOnClickListener(v -> {
+            infoUserGarageModel.setEmail(binding.etEmailSign.getText().toString().trim());
+            infoUserGarageModel.setNameEn(binding.etNameENSign.getText().toString().trim());
+            infoUserGarageModel.setNameAr(binding.etNameArSign.getText().toString().trim());
+            infoUserGarageModel.setPhone(binding.etPhoneSign.getText().toString());
 
             SignUp2Fragment newFragment = new SignUp2Fragment();
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainerView, newFragment);
             transaction.addToBackStack(null);
             transaction.commit();
-
-       });
-
-        return view;
-    }
-
-    void intiUI(View view){
-        nameEn = view.findViewById(R.id.et_nameEN_sign);
-        nameAr = view.findViewById(R.id.et_nameAr_sign);
-        phone = view.findViewById(R.id.et_phone_sign);
-        password = view.findViewById(R.id.et_password_sign);
-        email = view.findViewById(R.id.et_email_sign);
-        next = view.findViewById(R.id.next_sign1);
-        cpassword = view.findViewById(R.id.et_confirm_password);
-        mScrollView = view.findViewById(R.id.scroll_view_1);
-        mViewSuccess = view.findViewById(R.id.container_success_1);
-        btnDone =  view.findViewById(R.id.check_sign1);
-    }
-
-   /* private void setValidationButtons(View v) {
-        btnDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mAwesomeValidation.validate()) {
-                    mScrollView.fullScroll(View.FOCUS_DOWN);
-                    next.setVisibility(View.VISIBLE);
-                    mViewSuccess.setVisibility(View.VISIBLE);
-                } else {
-                    mViewSuccess.setVisibility(View.GONE);
-                }
-            }
         });
-    }*/
+
+        return binding.getRoot();
+    }
 
     private void addValidationForEditText() {
-        mAwesomeValidation.addValidation(password, "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d])(?=.*[~`!@#\\$%\\^&\\*\\(\\)\\-_\\+=\\{\\}\\[\\]\\|\\;:\"<>,./\\?]).{8,}",getString(R.string.invalid_password));
-        mAwesomeValidation.addValidation(cpassword, password,getString(R.string.password_confirmation));
-        mAwesomeValidation.addValidation(nameEn, "[a-zA-Z\\s]+",getString(R.string.name_invalid));
-        mAwesomeValidation.addValidation(nameAr, RegexTemplate.NOT_EMPTY,getString(R.string.name_invalid));
-        mAwesomeValidation.addValidation(email, Patterns.EMAIL_ADDRESS, getString(R.string.email_valid));
-        mAwesomeValidation.addValidation(phone,"^01[0125][0-9]{8}$",getString(R.string.phone_invalid));
-       // setValidationButtons(v);
+        mAwesomeValidation.addValidation(binding.etNameENSign, RegexTemplate.NOT_EMPTY,getString(R.string.name_invalid));
+        mAwesomeValidation.addValidation(binding.etNameArSign, RegexTemplate.NOT_EMPTY,getString(R.string.name_invalid));
+        mAwesomeValidation.addValidation(binding.etEmailSign, Patterns.EMAIL_ADDRESS, getString(R.string.email_valid));
+        mAwesomeValidation.addValidation(binding.etPhoneSign,"^01[0125][0-9]{8}$",getString(R.string.phone_invalid));
     }
+
 }
