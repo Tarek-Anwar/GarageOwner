@@ -5,8 +5,11 @@
       <map>
         <entry key="..\:/Android Project/GarageOwner2/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Android Project/GarageOwner2/app/src/main/res/layout/activity_sign.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android Project/GarageOwner2/app/src/main/res/layout/activity_test.xml" value="0.25416666666666665" />
         <entry key="..\:/Android Project/GarageOwner2/app/src/main/res/layout/fragment_login.xml" value="0.25416666666666665" />
-        <entry key="..\:/Android Project/GarageOwner2/app/src/main/res/layout/fragment_sgin_up.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android Project/GarageOwner2/app/src/main/res/layout/fragment_sgin_up.xml" value="0.264" />
+        <entry key="..\:/Android Project/GarageOwner2/app/src/main/res/layout/fragment_sign_up2.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android Project/GarageOwner2/app/src/main/res/layout/fragment_sign_up3.xml" value="0.1140625" />
       </map>
     </option>
   </component>

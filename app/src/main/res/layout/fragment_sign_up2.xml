@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout"
+    android:id="@+id/frameLayout2"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".Sign.SginUp1Fragment">
+    tools:context=".Sign.SignUp2Fragment">
 
     <ScrollView
-        android:id="@+id/scroll_view_1"
+        android:id="@+id/scroll_view_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -17,53 +17,78 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Spinner
+                android:id="@+id/governoateSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/citySpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
 
             <EditText
-                android:id="@+id/et_full_name_sign"
+                android:id="@+id/restOfAddress_sign_en"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:hint="Full Name" />
+                android:hint="rest Of Address English" />
 
             <EditText
-                android:id="@+id/et_email_sign"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                 android:gravity="center"
-                android:hint="Email Address" />
-
-            <EditText
-                android:id="@+id/et_phone_sign"
+                android:id="@+id/restOfAddress_sign_ar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:hint="Phone Number"
-                android:inputType="phone" />
-
-            <EditText
-                android:id="@+id/et_password_sign"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:maxLines="1" />
-
-            <EditText
-                android:id="@+id/et_confirm_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:hint="confirm password"
-                android:inputType="textPassword"
-                android:maxLines="1" />
+                android:hint="باقي العنزان" />
 
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="get Location"
+                android:layout_gravity="center"
+                android:id="@+id/btn_getlocation_sign">
+
+            </Button>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Go To Open Gps"
+                android:layout_gravity="center"
+                android:id="@+id/btn_opne_gps">
+
+            </Button>
+
+            <EditText
+                android:id="@+id/location_sign"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:gravity="center"
+                android:hint="locaion" />
+        </LinearLayout>
+
+        </LinearLayout>
+
     </ScrollView>
 
     <LinearLayout
-        android:id="@+id/container_success_1"
+        android:id="@+id/container_success_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -91,7 +116,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/check_sign1"
+        android:id="@+id/check_sign2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -99,12 +124,13 @@
         android:layout_gravity="center" />
 
     <Button
-        android:id="@+id/next_sign1"
+        android:id="@+id/next_sign2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="next"
         android:visibility="gone"
         android:layout_gravity="center" />
+
 
 </LinearLayout>

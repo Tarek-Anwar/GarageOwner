@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Garage Owner</string>
+    <string name="email_valid">من فضلك ادخل بريد صحيح</string>
+    <string name="text_empt">لا يوجد بياانات</string>
+    <string name="phone_invalid">رقم الهاتف خاطئ</string>
+    <string name="name_invalid">اسم خاطئ</string>
+    <string name="password_confirmation">تأكيد كلمة السر خاطئ</string>
+    <string name="invalid_password">ادخل كلمة مرور قوية</string>
+    <string name="err_year">خطئ قي العام</string>
+    <string name="img_success">نجح</string>
+    <string name="err_birth">Birthday should be like Day/Month/Year, and must be >= 18</string>
+</resources>

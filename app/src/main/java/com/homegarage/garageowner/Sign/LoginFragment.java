@@ -1,15 +1,21 @@
 package com.homegarage.garageowner.Sign;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -18,20 +24,28 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.homegarage.garageowner.FirebaseUtil;
 import com.homegarage.garageowner.MainActivity;
 import com.homegarage.garageowner.R;
 
+import java.util.ArrayList;
+import java.util.Locale;
+
 public class LoginFragment extends Fragment {
 
-    private EditText et_email ,et_password;
+    private EditText et_email , et_password;
     private Button login , sign;
+
     public LoginFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -41,6 +55,8 @@ public class LoginFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_login, container, false);
 
         intiUI(view);
+
+        FirebaseUtil.openFbReference("GaragerOnwerInfo");
 
         login.setOnClickListener(v -> {
             String email= et_email.getText().toString().trim();
@@ -64,24 +80,21 @@ public class LoginFragment extends Fragment {
         });
 
         sign.setOnClickListener(v -> {
-            SginUpFragment fragment = new SginUpFragment();
+            SginUp1Fragment fragment = new SginUp1Fragment();
             FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainerView,fragment);
             transaction.addToBackStack(null);
             transaction.commit();
-
         });
+
         return view;
     }
 
     private void intiUI(View view) {
-
         et_email = view.findViewById(R.id.et_email_log);
         et_password = view.findViewById(R.id.et_password_log);
         login = view.findViewById(R.id.btn_login);
         sign = view.findViewById(R.id.bt_go_sign);
-
     }
-
 
 }
