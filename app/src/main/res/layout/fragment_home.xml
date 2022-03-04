@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout4"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:padding="10dp"
+    tools:context=".home.HomeFragment">
+<!--
+    <EditText
+        android:id="@+id/title_not"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="5dp"
+        android:hint="Title"/>
+
+    <EditText
+        android:id="@+id/body_not"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="5dp"
+        android:hint="Body"/>
+
+    <EditText
+        android:id="@+id/token_not"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="5dp"
+        android:hint="Token"/>
+
+    <Button
+        android:id="@+id/btn_send_all"
+        android:text="Send All"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btn_send_single"
+        android:text="Send Single"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+-->
+</LinearLayout>

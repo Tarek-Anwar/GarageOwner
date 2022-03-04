@@ -33,4 +33,8 @@
     <string name="confirm_password">تأكيد كلمة المرور</string>
     <string name="password">كلمة المرور</string>
     <string name="sign">سجل</string>
+    <string name="select_gover">اختار المحافظة</string>
+    <string name="select_city">اختار المدينة</string>
+    <string name="setting">الاعدادات</string>
+    <string name="log_out">تسجيل الخروج</string>
 </resources>

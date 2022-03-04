@@ -52,8 +52,8 @@ public class SignUp2Fragment extends Fragment {
     String allLocation = null;
     DatabaseReference spinnerRef;
     ArrayList<String> spinnerListGoverEn , spinnerListGoverAr, spinnerListCityEn , spinnerListCityAr;
-    ArrayAdapter<String> adapterGover , adapterCity;
-    String getCityAr ,  getCityEn, getGoverEn ,getGoverAr ;
+    ArrayAdapter<String> adapterAutoGover , adapterAutoCity;
+    String getCityAr , getCityEn, getGoverEn ,getGoverAr ;
 
     public SignUp2Fragment() { }
 
@@ -68,10 +68,11 @@ public class SignUp2Fragment extends Fragment {
         spinnerListGoverEn = new ArrayList<>();
         spinnerListGoverAr = new ArrayList<>();
 
+        showDataGover();
         if(Locale.getDefault().getLanguage().equals("en")){
-        adapterGover = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item,spinnerListGoverEn);}
-        else { adapterGover = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item,spinnerListGoverAr);}
-
+        adapterAutoGover = new ArrayAdapter<>(requireContext(),R.layout.list_item,spinnerListGoverEn); }
+        else {
+            adapterAutoGover = new ArrayAdapter<>(requireContext(),R.layout.list_item,spinnerListGoverAr); }
         spinnerListCityEn = new ArrayList<>();
         spinnerListCityAr = new ArrayList<>();
     }
@@ -80,6 +81,7 @@ public class SignUp2Fragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         binding = FragmentSignUp2Binding.inflate(getLayoutInflater());
         LocationManager manager2 = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
         final boolean locationEnable2 = manager2.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -102,6 +104,7 @@ public class SignUp2Fragment extends Fragment {
         binding.btnGetlocationSign.setOnClickListener(v -> getCurrantLoaction());
 
         addValidationForEditText();
+
         binding.checkSign2.setOnClickListener(v -> {
             if (mAwesomeValidation.validate()) {
                 binding.scrollSign2.fullScroll(View.FOCUS_DOWN);
@@ -128,40 +131,27 @@ public class SignUp2Fragment extends Fragment {
             transaction.commit();
         });
 
-        showDataGover();
 
-        binding.governoateSpinner.setAdapter(adapterGover);
+        binding.autoCompleteGover.setAdapter(adapterAutoGover);
+
         if(spinnerListGoverEn!=null){
-            binding.governoateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if(Locale.getDefault().getLanguage().equals("en")){
-                        adapterCity = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item,spinnerListCityEn);}
-                    else { adapterCity = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item,spinnerListCityAr);}
+        binding.autoCompleteGover.setOnItemClickListener((parent, view, position, id) -> {
+            showDataCity(position);
+           if(Locale.getDefault().getLanguage().equals("en")){
+                adapterAutoCity = new ArrayAdapter<>(getContext(), R.layout.list_item,spinnerListCityEn); }
+            else { adapterAutoCity = new ArrayAdapter<>(getContext(), R.layout.list_item,spinnerListCityAr);}
+            binding.autoCompleteCity.setAdapter(adapterAutoCity);
 
-                    binding.citySpinner.setAdapter(adapterCity);
-                    showDataCity(position);
-                    getGoverEn = spinnerListGoverEn.get(position);
-                    getGoverAr = spinnerListGoverAr.get(position);
-                }
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                }
-            });
-        }
+            getGoverAr = spinnerListGoverAr.get(position);
+            getGoverEn = spinnerListGoverEn.get(position);
+
+        });
+    }
 
         if(spinnerListCityEn!=null){
-            binding.citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    getCityEn = spinnerListCityEn.get(position);
-                    getCityAr = spinnerListCityAr.get(position);
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
+            binding.autoCompleteCity.setOnItemClickListener((parent, view, position, id) -> {
+                getCityAr = spinnerListCityAr.get(position);
+                getCityEn = spinnerListCityEn.get(position);
             });
         }
 
@@ -231,7 +221,7 @@ public class SignUp2Fragment extends Fragment {
                         spinnerListGoverEn.add(item.child("governorate_name_en").getValue(String.class));
                         spinnerListGoverAr.add(item.child("governorate_name_ar").getValue(String.class));
                     }
-                    adapterGover.notifyDataSetChanged();
+                    adapterAutoGover.notifyDataSetChanged();
                 }
             }
             @Override
@@ -253,7 +243,7 @@ public class SignUp2Fragment extends Fragment {
                         spinnerListCityEn.add(item.child("city_name_en").getValue(String.class));
                         spinnerListCityAr.add(item.child("city_name_ar").getValue(String.class));
                     }
-                    adapterCity.notifyDataSetChanged();
+                    adapterAutoCity.notifyDataSetChanged();
                 }
             }
             @Override

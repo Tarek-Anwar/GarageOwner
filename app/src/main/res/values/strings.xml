@@ -17,7 +17,7 @@
     <string name="name_sign_en">Enter Name Garage English</string>
     <string name="name_sign_ar">ادخل اسم الجراش بالعربي</string>
     <string name="email_sign">Enter Email Address</string>
-    <string name="phone_sign" >Enter Phone Number</string>
+    <string name="phone_sign">Enter Phone Number</string>
     <string name="check_data">Check the data</string>
     <string name="next">Next</string>
     <string name="governorate">Governorate</string>
@@ -33,6 +33,18 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="password">Password</string>
     <string name="sign">Sign</string>
+    <string name="select_gover">Select Governorate</string>
+    <string name="select_city">Select City</string>
+    <string name="setting">Setting</string>
+    <string name="log_out">Log out</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="open_menu">Open</string>
+    <string name="close_menu">Close</string>
+    <string name="file_user_info">flle_uset_info</string>
+    <string name="edit_info">Edit Information</string>
+    <string name="new_password">Add New Password ?</string>
 
+    <string name="save">Save</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

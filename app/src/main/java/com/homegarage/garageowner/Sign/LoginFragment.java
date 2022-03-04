@@ -80,11 +80,17 @@ public class LoginFragment extends Fragment {
         mAwesomeValidation.addValidation(binding.etEmailLog, Patterns.EMAIL_ADDRESS, getString(R.string.email_valid));
     }
 
-    private void clearValidation() {
-        if (mAwesomeValidation != null) {
-            mAwesomeValidation.clear();
-        }
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        FirebaseUtil.attachListener();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
 
+        FirebaseUtil.detachListener();
+    }
 }
