@@ -54,36 +54,19 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
 
     ActivityMainBinding binding;
-
-    public static final String TAG = "TAG556";
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         FirebaseUtil.openFbReference("GaragerOnwerInfo");
+        user = FirebaseUtil.mFirebaseAuthl.getCurrentUser();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
 
-       // FirebaseMessaging.getInstance().subscribeToTopic("all");
-
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(new OnCompleteListener<String>() {
-                    @Override
-                    public void onComplete(@NonNull Task<String> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
-                            return;
-                        }
-
-                        // Get new FCM registration token
-                        String token = task.getResult();
-
-                        // Log and toast
-                        Log.d(TAG, token);
-                        Toast.makeText(MainActivity.this, token, Toast.LENGTH_SHORT).show();
-                    }
-                });
+       FirebaseMessaging.getInstance().subscribeToTopic(user.getEmail());
 
         Button sendAll = findViewById(R.id.btn_send_all);
         EditText title = findViewById(R.id.title_not);
@@ -95,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
                         && !body.getText().toString().isEmpty()){
 
                     FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-
                             "/topics/all" ,title.getText().toString()
                             ,body.getText().toString() , getApplicationContext(),MainActivity.this);
 
@@ -190,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkLogin(){
-        FirebaseUser user = FirebaseUtil.mFirebaseAuthl.getCurrentUser();
         if (user == null) {
             Log.i("dsfsdfsdf","not user sign");
             Intent intent = new Intent(this, SignActivity.class);
@@ -218,7 +199,6 @@ public class MainActivity extends AppCompatActivity {
                     editor.putString(SignUp3Fragment.STREET_AR, model.getRestOfAddressAr());
                     editor.putString(SignUp3Fragment.STREET_EN, model.getRestOfAddressEN());
                     editor.commit();
-
                 }
 
                 @Override

@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
-
+/*
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);

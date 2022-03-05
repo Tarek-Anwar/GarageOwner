@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class FirebaseInstanceService extends FirebaseMessagingService {
-
+/*
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
@@ -90,6 +90,6 @@ public class FirebaseInstanceService extends FirebaseMessagingService {
     public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
         Log.d("TOKENFIREBASE", s);
-    }
+    }*/
 }
 
