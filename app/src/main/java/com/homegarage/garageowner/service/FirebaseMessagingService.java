@@ -27,7 +27,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-        String title = remoteMessage.getNotification().getTitle();
+        /*String title = remoteMessage.getNotification().getTitle();
         String body = remoteMessage.getNotification().getBody();
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "RESIRVE");
         builder.setContentTitle(title);
@@ -35,17 +35,16 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         builder.setSmallIcon(R.drawable.icon);
 
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(123, builder.build());
+        manager.notify(123, builder.build());*/
 
+        // playing audio and vibration when user se reques
 
-       /* // playing audio and vibration when user se reques
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
         r.play();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             r.setLooping(false);
         }
-
         // vibration
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         long[] pattern = {100, 300, 300, 300};
@@ -55,17 +54,14 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
        int resourceImage = getResources().getIdentifier(remoteMessage.getNotification().getIcon(), "drawable", getPackageName());
 
 
-
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "RESIRVE");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            builder.setSmallIcon(R.drawable.icontrans);
+        // builder.setSmallIcon(R.drawable.icontrans);
            builder.setSmallIcon(resourceImage);
         } else {
-//            builder.setSmallIcon(R.drawable.icon_kritikar);
+        // builder.setSmallIcon(R.drawable.icon_kritikar);
             builder.setSmallIcon(resourceImage);
         }
-
-
 
         Intent resultIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -80,9 +76,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         mNotificationManager =
                 (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-        {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String channelId = "Your_channel_id";
             NotificationChannel channel = new NotificationChannel(
                     channelId,
@@ -92,9 +86,8 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
             builder.setChannelId(channelId);
         }
 
-
         // notificationId is a unique int for each notification that you must define
-        mNotificationManager.notify(100, builder.build());*/
+        mNotificationManager.notify(100, builder.build());
 
     }
 

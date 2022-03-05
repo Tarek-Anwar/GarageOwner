@@ -105,9 +105,7 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.log_out_nav) {
                 FirebaseUtil.mFirebaseAuthl.signOut();
-
                 editor.clear();
-
                 drawerLayout.closeDrawer(GravityCompat.START);
                 Toast.makeText(getApplicationContext(), "Log Out .... GoodBye ", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, SignActivity.class);
@@ -151,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         checkLogin();
         FirebaseMessaging.getInstance().subscribeToTopic(user.getUid());
+        Log.i("fsdfsdf", user.getUid());
         sendAll.setOnClickListener(v -> {
             if(!title.getText().toString().isEmpty()
                     && !body.getText().toString().isEmpty()){
@@ -167,7 +166,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkLogin(){
         if (user == null) {
-            Log.i("dsfsdfsdf","not user sign");
             Intent intent = new Intent(this, SignActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
