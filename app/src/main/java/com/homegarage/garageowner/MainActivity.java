@@ -66,33 +66,28 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
 
-       FirebaseMessaging.getInstance().subscribeToTopic(user.getEmail());
+        FirebaseMessaging.getInstance().subscribeToTopic("NEW_TOPIC");
 
         Button sendAll = findViewById(R.id.btn_send_all);
         EditText title = findViewById(R.id.title_not);
         EditText body = findViewById(R.id.body_not);
-        sendAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!title.getText().toString().isEmpty()
-                        && !body.getText().toString().isEmpty()){
 
-                    FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                            "/topics/all" ,title.getText().toString()
-                            ,body.getText().toString() , getApplicationContext(),MainActivity.this);
+        Log.i("fsdfsdf", user.getEmail());
+        sendAll.setOnClickListener(v -> {
+            if(!title.getText().toString().isEmpty()
+                    && !body.getText().toString().isEmpty()){
+                FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
+                        "/topics/" ,title.getText().toString()
+                        ,body.getText().toString() , getApplicationContext(),MainActivity.this);
 
-                    notificationsSender.SendNotifications();
-                }else {
-                    Toast.makeText(getApplicationContext(), "Write some text", Toast.LENGTH_SHORT).show();
-                }
+                notificationsSender.SendNotifications();
+            }else {
+                Toast.makeText(getApplicationContext(), "Write some text", Toast.LENGTH_SHORT).show();
             }
         });
 
-        findViewById(R.id.btn_send_single).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        findViewById(R.id.btn_send_single).setOnClickListener(v -> {
 
-            }
         });
 
          preferences = getSharedPreferences(getString(R.string.file_user_info),Context.MODE_PRIVATE);

@@ -72,8 +72,6 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                 (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
 
-
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {
             String channelId = "Your_channel_id";
