@@ -37,44 +37,26 @@ public class FcmNotificationsSender  {
         this.body = body;
         this.mContext = mContext;
         this.mActivity = mActivity;
-
-
     }
 
     public void SendNotifications() {
-
         requestQueue = Volley.newRequestQueue(mActivity);
         JSONObject mainObj = new JSONObject();
         try {
-            mainObj.put("to", userFcmToken);
+            mainObj.put("to", "/topics/"+ userFcmToken);
             JSONObject notiObject = new JSONObject();
             notiObject.put("title", title);
             notiObject.put("body", body);
-            notiObject.put("icon", R.drawable.icon); // enter icon that exists in drawable only
-
             mainObj.put("notification", notiObject);
-
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, postUrl, mainObj, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-
-                    // code run is got response
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    // code run is got error
-                }
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, postUrl, mainObj, response -> {
+            }, error -> {
             }) {
                 @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-
+                public Map<String, String> getHeaders() {
                     Map<String, String> header = new HashMap<>();
                     header.put("content-type", "application/json");
                     header.put("authorization", "key=" + fcmServerKey);
                     return header;
-
                 }
             };
             requestQueue.add(request);
@@ -82,6 +64,5 @@ public class FcmNotificationsSender  {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 }

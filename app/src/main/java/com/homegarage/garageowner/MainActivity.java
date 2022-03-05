@@ -55,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
     FirebaseUser user;
-
+    Button sendAll ;
+    EditText title , body;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,25 +67,10 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
 
-        FirebaseMessaging.getInstance().subscribeToTopic("NEW_TOPIC");
 
-        Button sendAll = findViewById(R.id.btn_send_all);
-        EditText title = findViewById(R.id.title_not);
-        EditText body = findViewById(R.id.body_not);
-
-        Log.i("fsdfsdf", user.getEmail());
-        sendAll.setOnClickListener(v -> {
-            if(!title.getText().toString().isEmpty()
-                    && !body.getText().toString().isEmpty()){
-                FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                        "/topics/" ,title.getText().toString()
-                        ,body.getText().toString() , getApplicationContext(),MainActivity.this);
-
-                notificationsSender.SendNotifications();
-            }else {
-                Toast.makeText(getApplicationContext(), "Write some text", Toast.LENGTH_SHORT).show();
-            }
-        });
+        sendAll = findViewById(R.id.btn_send_all);
+        title = findViewById(R.id.title_not);
+        body = findViewById(R.id.body_not);
 
         findViewById(R.id.btn_send_single).setOnClickListener(v -> {
 
@@ -164,6 +150,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         checkLogin();
+        FirebaseMessaging.getInstance().subscribeToTopic(user.getUid());
+        sendAll.setOnClickListener(v -> {
+            if(!title.getText().toString().isEmpty()
+                    && !body.getText().toString().isEmpty()){
+                FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
+                        user.getUid() ,title.getText().toString()
+                        ,body.getText().toString() , getApplicationContext(),MainActivity.this);
+
+                notificationsSender.SendNotifications();
+            }else {
+                Toast.makeText(getApplicationContext(), "Write some text", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void checkLogin(){
@@ -179,7 +178,6 @@ public class MainActivity extends AppCompatActivity {
             ref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                     InfoUserGarageModel model = snapshot.getValue(InfoUserGarageModel.class);
                     editor.putString(SignUp3Fragment.NAME_AR, model.getNameAr());
                     editor.putString(SignUp3Fragment.NAME_EN, model.getNameEn());
@@ -201,21 +199,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
-          /*editor.putString(SignUp3Fragment.NAME_AR, model.getNameAr());
-            editor.putString(SignUp3Fragment.NAME_EN, model.getNameEn());
-            editor.putString(SignUp3Fragment.EMAIL, model.getEmail());
-            editor.putString(SignUp3Fragment.PHONE, model.getPhone());
-            editor.putString(SignUp3Fragment.GOVER_EN, model.getGovernoateEn());
-            editor.putString(SignUp3Fragment.GOVER_Ar, model.getGovernoateAR());
-            editor.putString(SignUp3Fragment.CITY_AR, model.getCityAr());
-            editor.putString(SignUp3Fragment.CITY_EN, model.getCityEn());
-            editor.putFloat(SignUp3Fragment.PRICE, model.getPriceForHour());
-            editor.putString(SignUp3Fragment.LOCATION, model.getLocation());
-            editor.putString(SignUp3Fragment.STREET_AR, model.getRestOfAddressAr());
-            editor.putString(SignUp3Fragment.STREET_EN, model.getRestOfAddressEN());
-            editor.commit();*/
             setHeaderNav(preferences);
-            Log.i("dsfsdfsdf","user sign id "+ user.getUid());
         }
     }
 }
