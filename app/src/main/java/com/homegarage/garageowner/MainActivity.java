@@ -149,8 +149,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         checkLogin();
+
         FirebaseMessaging.getInstance().subscribeToTopic(user.getUid());
-        Log.i("fsdfsdf", user.getUid());
+
         sendAll.setOnClickListener(v -> {
             if(!title.getText().toString().isEmpty()
                     && !body.getText().toString().isEmpty()){
