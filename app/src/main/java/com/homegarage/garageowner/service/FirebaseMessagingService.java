@@ -51,17 +51,17 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         v.vibrate(pattern, -1);
 
 
-       int resourceImage = getResources().getIdentifier(remoteMessage.getNotification().getIcon(), "drawable", getPackageName());
+      // int resourceImage = getResources().getIdentifier(remoteMessage.getNotification().getIcon(), "drawable", getPackageName());
 
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "RESIRVE");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         // builder.setSmallIcon(R.drawable.icontrans);
            builder.setSmallIcon(resourceImage);
         } else {
         // builder.setSmallIcon(R.drawable.icon_kritikar);
             builder.setSmallIcon(resourceImage);
-        }
+        }*/
 
         Intent resultIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -85,7 +85,6 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
             mNotificationManager.createNotificationChannel(channel);
             builder.setChannelId(channelId);
         }
-
         // notificationId is a unique int for each notification that you must define
         mNotificationManager.notify(100, builder.build());
 

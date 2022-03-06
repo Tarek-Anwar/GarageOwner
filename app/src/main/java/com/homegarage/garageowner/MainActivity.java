@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.log_out_nav) {
                 FirebaseUtil.mFirebaseAuthl.signOut();
+                FirebaseMessaging.getInstance().unsubscribeFromTopic(user.getUid());
                 editor.clear();
                 drawerLayout.closeDrawer(GravityCompat.START);
                 Toast.makeText(getApplicationContext(), "Log Out .... GoodBye ", Toast.LENGTH_SHORT).show();

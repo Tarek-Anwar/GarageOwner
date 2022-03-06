@@ -128,6 +128,7 @@ public class SignUp3Fragment extends Fragment {
                 binding.checkSign3.setVisibility(View.VISIBLE);
             }
         });
+
         binding.profileImage.setOnClickListener(v->launcher.launch(null));
 
         binding.btnSignInFire.setOnClickListener(v -> {
@@ -140,6 +141,7 @@ public class SignUp3Fragment extends Fragment {
                     assert firebaseUser != null;
                     DatabaseReference newuser = databaseReference.child(firebaseUser.getUid());
                     model.setPriceForHour(Float.parseFloat(binding.etPriceForHoure.getText().toString()));
+                    model.setId(firebaseUser.getUid());
                     newuser.setValue(model);
                     Toast.makeText(getContext(), "Sussful sign", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getActivity(), MainActivity.class);
@@ -149,7 +151,6 @@ public class SignUp3Fragment extends Fragment {
                     Toast.makeText(getContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
-
             editor.putString(NAME_AR, model.getNameAr());
             editor.putString(NAME_EN, model.getNameEn());
             editor.putString(EMAIL, model.getEmail());
@@ -162,6 +163,7 @@ public class SignUp3Fragment extends Fragment {
             editor.putString(LOCATION, model.getLocation());
             editor.putString(STREET_AR, model.getRestOfAddressAr());
             editor.putString(STREET_EN, model.getRestOfAddressEN());
+
             editor.apply();
 
         });
