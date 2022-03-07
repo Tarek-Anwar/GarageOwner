@@ -26,4 +26,10 @@
         <item name="android:padding">10dp</item>
         <item name="android:textSize">20sp</item>
     </style>
+    <style name="Theme.GarageOwner.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.GarageOwner.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.GarageOwner.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

@@ -35,7 +35,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FirebaseUtil.openFbReference("GaragerOnwerInfo");
+        FirebaseUtil.openFbReference("GaragerOnwerInfo", "Operation");
         mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
         mAwesomeValidation.setContext(getContext());
     }

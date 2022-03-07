@@ -39,6 +39,7 @@ import com.homegarage.garageowner.Sign.SignUp3Fragment;
 import com.homegarage.garageowner.databinding.ActivityMainBinding;
 import com.homegarage.garageowner.home.EditUserInfoActivity;
 import com.homegarage.garageowner.model.InfoUserGarageModel;
+import com.homegarage.garageowner.model.Opreation;
 import com.homegarage.garageowner.service.FcmNotificationsSender;
 
 import java.util.Objects;
@@ -52,29 +53,18 @@ public class MainActivity extends AppCompatActivity {
 
     SharedPreferences preferences ;
     SharedPreferences.Editor editor;
-
     ActivityMainBinding binding;
     FirebaseUser user;
-    Button sendAll ;
-    EditText title , body;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FirebaseUtil.openFbReference("GaragerOnwerInfo");
+        FirebaseUtil.openFbReference("GaragerOnwerInfo", "Operation");
+
         user = FirebaseUtil.mFirebaseAuthl.getCurrentUser();
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-
-
-        sendAll = findViewById(R.id.btn_send_all);
-        title = findViewById(R.id.title_not);
-        body = findViewById(R.id.body_not);
-
-        findViewById(R.id.btn_send_single).setOnClickListener(v -> {
-
-        });
 
          preferences = getSharedPreferences(getString(R.string.file_user_info),Context.MODE_PRIVATE);
          editor = preferences.edit();
@@ -149,21 +139,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         checkLogin();
-
         FirebaseMessaging.getInstance().subscribeToTopic(user.getUid());
-
-        sendAll.setOnClickListener(v -> {
-            if(!title.getText().toString().isEmpty()
-                    && !body.getText().toString().isEmpty()){
-                FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                        user.getUid() ,title.getText().toString()
-                        ,body.getText().toString() , getApplicationContext(),MainActivity.this);
-
-                notificationsSender.SendNotifications();
-            }else {
-                Toast.makeText(getApplicationContext(), "Write some text", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     private void checkLogin(){
@@ -193,13 +169,11 @@ public class MainActivity extends AppCompatActivity {
                     editor.putString(SignUp3Fragment.STREET_EN, model.getRestOfAddressEN());
                     editor.commit();
                 }
-
                 @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
+                public void onCancelled(@NonNull DatabaseError error) { }
             });
             setHeaderNav(preferences);
         }
     }
+
 }

@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/profile_image_edi"
+            android:id="@+id/profile_image_car"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="center"
@@ -30,11 +30,11 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:contentDescription="@string/edit"
-            app:layout_constraintBottom_toBottomOf="@+id/profile_image_edi"
+            app:layout_constraintBottom_toBottomOf="@+id/profile_image_car"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.639"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/profile_image_edi"
+            app:layout_constraintTop_toTopOf="@+id/profile_image_car"
             app:layout_constraintVertical_bias="0.91"
             app:srcCompat="@drawable/ic_baseline_add_a_photo_24"
             tools:ignore="ImageContrastCheck" />
@@ -48,7 +48,7 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_image_edi">
+            app:layout_constraintTop_toBottomOf="@+id/profile_image_car">
 
             <ImageView
                 android:id="@+id/image_e"

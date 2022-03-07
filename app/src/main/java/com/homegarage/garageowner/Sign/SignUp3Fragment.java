@@ -143,14 +143,17 @@ public class SignUp3Fragment extends Fragment {
                     model.setPriceForHour(Float.parseFloat(binding.etPriceForHoure.getText().toString()));
                     model.setId(firebaseUser.getUid());
                     newuser.setValue(model);
-                    Toast.makeText(getContext(), "Sussful sign", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Welcome", Toast.LENGTH_SHORT).show();
+
                     Intent intent = new Intent(getActivity(), MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 }
                 else {
                     Toast.makeText(getContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
+
             editor.putString(NAME_AR, model.getNameAr());
             editor.putString(NAME_EN, model.getNameEn());
             editor.putString(EMAIL, model.getEmail());

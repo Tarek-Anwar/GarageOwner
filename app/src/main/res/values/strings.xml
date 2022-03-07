@@ -46,5 +46,14 @@
     <string name="new_password">Add New Password ?</string>
 
     <string name="save">Save</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="requst_reservation">Requst Reservation from</string>
+    <string name="in_time">In Time</string>
+    <string name="accpet">Accpet</string>
+    <string name="Refusal">Refusal</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="state">State</string>
+    <string name="date">Date</string>
+
 </resources>

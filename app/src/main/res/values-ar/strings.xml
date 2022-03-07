@@ -37,4 +37,18 @@
     <string name="select_city">اختار المدينة</string>
     <string name="setting">الاعدادات</string>
     <string name="log_out">تسجيل الخروج</string>
+    <string name="open_menu">Open</string>
+    <string name="file_user_info">flle_uset_info</string>
+    <string name="close_menu">Close</string>
+    <string name="edit_info">تعديل البيانات</string>
+    <string name="new_password">اضافة رقم سري جديد</string>
+    <string name="save">حفظ</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="requst_reservation">طلب حجز من</string>
+    <string name="in_time">في وقت</string>
+    <string name="accpet">موافقة</string>
+    <string name="Refusal">رفض</string>
+    <string name="name">الاسم</string>
+    <string name="email">البريد</string>
+    <string name="phone">الهاتف</string>
 </resources>

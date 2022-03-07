@@ -23,14 +23,14 @@ public class FirebaseUtil {
     private static FirebaseUtil mFirebaseUtil;
     public static FirebaseAuth mFirebaseAuthl;
     public static InfoUserGarageModel userGarageModel;
-
     public static StorageReference mStorageReference;
     public static FirebaseStorage mStorage;
-
     public static FirebaseAuth.AuthStateListener mAuthStateListener;
+    public static DatabaseReference referenceOperattion;
+
     private FirebaseUtil(){}
 
-    public static void openFbReference(String ref){
+    public static void openFbReference(String ref , String refOperattion ){
         if (mFirebaseUtil == null) {
             mFirebaseUtil = new FirebaseUtil();
             mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -46,7 +46,7 @@ public class FirebaseUtil {
         }
         userGarageModel = new InfoUserGarageModel();
         mDatabaseReference = mFirebaseDatabase.getReference().child(ref);
-
+        referenceOperattion = mFirebaseDatabase.getReference().child(refOperattion);
     }
 
     public static void connectStorage(){
