@@ -27,13 +27,6 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         String title = remoteMessage.getNotification().getTitle();
         String body = remoteMessage.getNotification().getBody();
         String tag = remoteMessage.getNotification().getTag();
-       /* NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "RESIRVE");
-        builder.setContentTitle(title);
-        builder.setContentText(body);
-
-        Log.i("NotificationInfo" , title);
-        Log.i("Notification" , body);
-        builder.setSmallIcon(R.drawable.icon);*/
 
 
         Intent notificationIntent  = new Intent(getApplicationContext(), NotificationActivity.class);

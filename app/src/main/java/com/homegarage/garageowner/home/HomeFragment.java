@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +22,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.homegarage.garageowner.FirebaseUtil;
+import com.homegarage.garageowner.MainActivity;
 import com.homegarage.garageowner.R;
 import com.homegarage.garageowner.adapter.RequstOperAdapter;
 import com.homegarage.garageowner.databinding.FragmentHomeBinding;
@@ -28,11 +30,14 @@ import com.homegarage.garageowner.model.Opreation;
 import com.homegarage.garageowner.service.FcmNotificationsSender;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class HomeFragment extends Fragment {
 
     FragmentHomeBinding binding;
+    RequstOperAdapter  adapter ;
+    HomeFragment fragment;
 
     public HomeFragment() { }
 
@@ -48,14 +53,20 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding  = FragmentHomeBinding.inflate(getLayoutInflater());
 
+        adapter  = new RequstOperAdapter();
+
         binding.recyclerRequst.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL,false));
-        binding.recyclerRequst.setAdapter(new RequstOperAdapter());
+        binding.recyclerRequst.setAdapter(adapter);
+
         return binding.getRoot();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        getActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
     }
+
+
 }

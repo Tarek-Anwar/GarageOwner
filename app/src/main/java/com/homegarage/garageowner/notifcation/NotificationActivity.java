@@ -1,15 +1,18 @@
 package com.homegarage.garageowner.notifcation;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.homegarage.garageowner.databinding.ActivityNotificationBinding;
+import com.homegarage.garageowner.model.Opreation;
 import com.homegarage.garageowner.service.FirebaseMessagingService;
 
 public class NotificationActivity extends AppCompatActivity {
-    public static String idOpreation;
 
+    public static String idOpreation = null;
+    public static Opreation allOpreation = null;
     ActivityNotificationBinding binding;
 
     @Override
@@ -17,7 +20,9 @@ public class NotificationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityNotificationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        idOpreation  = getIntent().getStringExtra(FirebaseMessagingService.ID_OPERATTON);
-    }
 
+        idOpreation = getIntent().getStringExtra(FirebaseMessagingService.ID_OPERATTON);
+        allOpreation = (Opreation) getIntent().getSerializableExtra("modelOper");
+
+    }
 }

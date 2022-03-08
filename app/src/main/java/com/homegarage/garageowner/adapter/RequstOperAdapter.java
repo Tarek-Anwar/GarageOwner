@@ -1,5 +1,7 @@
 package com.homegarage.garageowner.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +13,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.ChildEventListener;
@@ -20,6 +26,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.homegarage.garageowner.FirebaseUtil;
 import com.homegarage.garageowner.R;
 import com.homegarage.garageowner.model.Opreation;
+import com.homegarage.garageowner.notifcation.NotificationActivity;
+import com.homegarage.garageowner.service.FcmNotificationsSender;
 
 import java.util.ArrayList;
 
@@ -28,10 +36,10 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
 
     ArrayList <Opreation> opreationslist;
     DatabaseReference reference;
+
     public RequstOperAdapter() {
         reference = FirebaseUtil.referenceOperattion;
         opreationslist = FirebaseUtil.reqstOperaionList;
-
         reference.addChildEventListener(new ChildEventListener() {
             Opreation opreation;
             @Override
@@ -41,10 +49,8 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
                         opreationslist.add(opreation);
                         notifyItemChanged(opreationslist.size()-1);
                     }
-                Log.i("Data onChildAdded", "onChildAdded  :  " + snapshot.getValue().toString());
-                Log.i("Data onChildAdded" , "Size : " + opreationslist.size());
+                    notifyDataSetChanged();
             }
-
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 notifyDataSetChanged();
@@ -54,41 +60,21 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) { notifyDataSetChanged(); }
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
-
-       /* Query query =  reference.orderByChild("to").equalTo(FirebaseUtil.mFirebaseAuthl.getUid());
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });*/
-
     }
-
-
 
     @NonNull
     @Override
     public RequstViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-       View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.opreation_wait_row,parent,false);
 
-       return  new RequstViewHolder(root);
+       View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.opreation_wait_row,parent,false);
+        return  new RequstViewHolder(root);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RequstViewHolder holder, int position) {
-            holder.BulidUI(opreationslist.get(position));
+        holder.BulidUI(opreationslist.get(position));
     }
 
     @Override
@@ -96,7 +82,7 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
         return opreationslist.size();
     }
 
-    public class RequstViewHolder extends RecyclerView.ViewHolder {
+    public class RequstViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView nameCar , dateOper , typeOper;
         Button btnAccpet , btnRefusal;
         public RequstViewHolder(@NonNull View itemView) {
@@ -106,6 +92,7 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
             typeOper = itemView.findViewById(R.id.text_state_oper);
             btnAccpet = itemView.findViewById(R.id.btn_accpet_requst);
             btnRefusal = itemView.findViewById(R.id.btn_reusal_req);
+            itemView.setOnClickListener(this);
         }
 
         public void BulidUI(Opreation opreation){
@@ -121,15 +108,20 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
                 btnRefusal.setEnabled(false);
                 btnAccpet.setEnabled(false);
 
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        opreationslist.remove(opreation);
-                        notifyDataSetChanged();
+                new Handler().postDelayed(() -> {
+                    opreationslist.remove(opreation);
+                    notifyDataSetChanged();
+                    btnRefusal.setEnabled(true);
+                    btnAccpet.setEnabled(true);
 
-                    }
+                    FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
+                            opreation.getFrom()
+                            , "Accpet"
+                            ,"Accpet Reservion from Garage " + opreation.getToName()
+                            , opreation.getId(), itemView.getContext());
+                    notificationsSender.SendNotifications();
+
                 }, 2000);
-
 
                 Toast.makeText(itemView.getContext(), FirebaseUtil.typeList.get(Integer.parseInt(opreation.getType())-1), Toast.LENGTH_SHORT).show();
             });
@@ -141,17 +133,31 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
                 btnRefusal.setEnabled(false);
                 btnAccpet.setEnabled(false);
 
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                       opreationslist.remove(opreation);
-                        notifyDataSetChanged();
-                    }
+                new Handler().postDelayed(() -> {
+                   opreationslist.remove(opreation);
+                    notifyDataSetChanged();
+                    btnRefusal.setEnabled(true);
+                    btnAccpet.setEnabled(true);
+
+                    FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
+                            opreation.getFrom()
+                            , "Refusal"
+                            ,"sorry , Reservion cancel from Garage " + opreation.getToName()
+                            , opreation.getId(), itemView.getContext());
+                    notificationsSender.SendNotifications();
+
                 }, 2000);
 
                 Toast.makeText(itemView.getContext(), FirebaseUtil.typeList.get(Integer.parseInt(opreation.getType())-1), Toast.LENGTH_SHORT).show();
             });
         }
 
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(v.getContext(), NotificationActivity.class);
+            intent.putExtra("modelOper" , opreationslist.get(getAdapterPosition()));
+            v.getContext().startActivity(intent);
+        }
     }
+
 }

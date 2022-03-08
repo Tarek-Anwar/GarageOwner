@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".home.HomeFragment">
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_requst"
         android:layout_width="match_parent"
@@ -19,6 +18,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.499"
         tools:listitem="@layout/opreation_wait_row" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,6 +16,9 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,9 +31,11 @@ import com.homegarage.garageowner.Sign.SignActivity;
 import com.homegarage.garageowner.Sign.SignUp3Fragment;
 import com.homegarage.garageowner.databinding.ActivityMainBinding;
 import com.homegarage.garageowner.home.EditUserInfoActivity;
+import com.homegarage.garageowner.home.HomeFragment;
 import com.homegarage.garageowner.model.InfoUserGarageModel;
 
 import java.util.Objects;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+
 
         FirebaseUtil.openFbReference("GaragerOnwerInfo", "Operation");
         user = FirebaseUtil.mFirebaseAuthl.getCurrentUser();
@@ -162,5 +169,6 @@ public class MainActivity extends AppCompatActivity {
             setHeaderNav(preferences);
         }
     }
+
 
 }

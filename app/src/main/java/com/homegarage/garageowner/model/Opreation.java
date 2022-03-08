@@ -1,6 +1,8 @@
 package com.homegarage.garageowner.model;
 
-public class Opreation {
+import java.io.Serializable;
+
+public class Opreation implements Serializable {
     String id , state , type , fromName ,toName , from , to , date ,expectData;
     float price;
 

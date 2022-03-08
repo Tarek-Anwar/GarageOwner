@@ -3,6 +3,8 @@ package com.homegarage.garageowner.service;
 import android.app.Activity;
 import android.content.Context;
 
+import androidx.fragment.app.FragmentActivity;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -32,17 +34,16 @@ public class FcmNotificationsSender  {
     private final String postUrl = "https://fcm.googleapis.com/fcm/send";
     private final String fcmServerKey ="AAAAyqSchTQ:APA91bGjkuA9FNg2MZKjq2u4SN3mtkQMGzqTQ93AmTGCXPS-FGmpKVxHPnoHNJAuV9bNCMNs9YH9uJ8UaOcrmFI_FgcGIGrx2qMy2tInT9FJdHVjVkG4czCDKi30uv4dUxLsnb1V2ttg";
 
-    public FcmNotificationsSender(String userFcmToken, String title, String body,String id_reser, Context mContext, Activity mActivity) {
+    public FcmNotificationsSender(String userFcmToken, String title, String body , String id_reser, Context mContext) {
         this.userFcmToken = userFcmToken;
         this.title = title;
         this.body = body;
         this.id_reser = id_reser;
         this.mContext = mContext;
-        this.mActivity = mActivity;
     }
 
     public void SendNotifications() {
-        requestQueue = Volley.newRequestQueue(mActivity);
+        requestQueue = Volley.newRequestQueue(mContext);
         JSONObject mainObj = new JSONObject();
         try {
             mainObj.put("to", "/topics/"+ userFcmToken);
