@@ -51,4 +51,13 @@
     <string name="name">الاسم</string>
     <string name="email">البريد</string>
     <string name="phone">الهاتف</string>
+    <string name="state">الحالة</string>
+    <string name="date">التاريخ</string>
+    <string name="waiting_requst">في الانتظار</string>
+    <string name="active_requst">جاري الان</string>
+    <string name="finshed_requst">منتهي</string>
+    <string name="requst_type">طلب</string>
+    <string name="accpet_type">مقبول</string>
+    <string name="refusal_type">مرفوض</string>
+    <string name="pay_type">دفع</string>
 </resources>

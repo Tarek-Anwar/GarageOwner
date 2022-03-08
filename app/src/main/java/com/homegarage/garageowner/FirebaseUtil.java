@@ -1,18 +1,14 @@
 package com.homegarage.garageowner;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.homegarage.garageowner.model.InfoUserGarageModel;
+import com.homegarage.garageowner.model.Opreation;
 
 import java.util.ArrayList;
 
@@ -27,7 +23,10 @@ public class FirebaseUtil {
     public static FirebaseStorage mStorage;
     public static FirebaseAuth.AuthStateListener mAuthStateListener;
     public static DatabaseReference referenceOperattion;
+    public static ArrayList<Opreation> reqstOperaionList;
 
+    public  static ArrayList<Integer> stateList ;
+    public  static ArrayList<Integer> typeList ;
     private FirebaseUtil(){}
 
     public static void openFbReference(String ref , String refOperattion ){
@@ -44,7 +43,20 @@ public class FirebaseUtil {
             };
             connectStorage();
         }
+
+        stateList = new ArrayList<>();
+        stateList.add(R.string.waiting_requst);
+        stateList.add(R.string.active_requst);
+        stateList.add(R.string.finshed_requst);
+
+        typeList = new ArrayList<>();
+        typeList.add(R.string.requst_type);
+        typeList.add(R.string.accpet_type);
+        typeList.add(R.string.refusal_type);
+        typeList.add(R.string.pay_type);
+
         userGarageModel = new InfoUserGarageModel();
+        reqstOperaionList = new ArrayList<>();
         mDatabaseReference = mFirebaseDatabase.getReference().child(ref);
         referenceOperattion = mFirebaseDatabase.getReference().child(refOperattion);
     }

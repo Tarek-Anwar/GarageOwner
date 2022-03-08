@@ -64,7 +64,6 @@ public class RequstReserFragment extends Fragment {
         });
 
         binding.btnAccpetReser.setOnClickListener(v -> {
-            opreation.setState("Finshed");
             opreation.setFromName(carInfo.getName());
             refOperation.setValue(opreation);
         });

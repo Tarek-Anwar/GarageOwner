@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,22 +22,25 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.homegarage.garageowner.FirebaseUtil;
 import com.homegarage.garageowner.R;
+import com.homegarage.garageowner.adapter.RequstOperAdapter;
 import com.homegarage.garageowner.databinding.FragmentHomeBinding;
 import com.homegarage.garageowner.model.Opreation;
 import com.homegarage.garageowner.service.FcmNotificationsSender;
 
+import java.util.ArrayList;
+
 
 public class HomeFragment extends Fragment {
 
-    FirebaseUser user;
     FragmentHomeBinding binding;
+
     public HomeFragment() { }
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        user = FirebaseUtil.mFirebaseAuthl.getCurrentUser();
+
     }
 
     @Override
@@ -43,29 +48,14 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding  = FragmentHomeBinding.inflate(getLayoutInflater());
 
-
+        binding.recyclerRequst.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL,false));
+        binding.recyclerRequst.setAdapter(new RequstOperAdapter());
         return binding.getRoot();
     }
 
-    private void getOperationNow(){
-        DatabaseReference reference = FirebaseUtil.referenceOperattion;
-        Query query =  reference.orderByChild("to").equalTo(user.getUid());
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    for (DataSnapshot item : snapshot.getChildren()){
-                        Opreation opreation = item.getValue(Opreation.class);
-                        if(opreation.getState().equals("Reqest")){
-                            Log.i("dsfsdfsdfsdfxzc" , item.toString());}
-                    }
-                }
-            }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 }

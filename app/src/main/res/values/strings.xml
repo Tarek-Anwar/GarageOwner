@@ -56,4 +56,13 @@
     <string name="state">State</string>
     <string name="date">Date</string>
 
+    <string name="waiting_requst">Waiting</string>
+    <string name="active_requst">Active</string>
+    <string name="finshed_requst">Finshed</string>
+    <string name="requst_type">Requst</string>
+    <string name="accpet_type">Accpet</string>
+    <string name="refusal_type">Refusal</string>
+    <string name="pay_type">Pay</string>
+
+
 </resources>
