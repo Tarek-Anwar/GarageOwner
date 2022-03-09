@@ -116,9 +116,9 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
 
                     FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
                             opreation.getFrom()
-                            , "Accpet"
+                            ,"Accpet"
                             ,"Accpet Reservion from Garage " + opreation.getToName()
-                            , opreation.getId(), itemView.getContext());
+                            ,opreation.getId(), itemView.getContext());
                     notificationsSender.SendNotifications();
 
                 }, 2000);
@@ -141,9 +141,9 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
 
                     FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
                             opreation.getFrom()
-                            , "Refusal"
+                            ,"Refusal"
                             ,"sorry , Reservion cancel from Garage " + opreation.getToName()
-                            , opreation.getId(), itemView.getContext());
+                            ,opreation.getId(), itemView.getContext());
                     notificationsSender.SendNotifications();
 
                 }, 2000);

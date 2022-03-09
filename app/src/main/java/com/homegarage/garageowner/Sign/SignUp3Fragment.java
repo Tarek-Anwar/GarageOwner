@@ -121,8 +121,6 @@ public class SignUp3Fragment extends Fragment {
             if (mAwesomeValidation.validate()) {
                 binding.btnSignInFire.setVisibility(View.VISIBLE);
                 binding.checkSign3.setVisibility(View.GONE);
-                model.setPassword(binding.etPasswordSign.getText().toString());
-
             } else {
                 binding.btnSignInFire.setVisibility(View.GONE);
                 binding.checkSign3.setVisibility(View.VISIBLE);
@@ -134,7 +132,7 @@ public class SignUp3Fragment extends Fragment {
         binding.btnSignInFire.setOnClickListener(v -> {
 
             FirebaseAuth firebaseAuth = FirebaseUtil.mFirebaseAuthl;
-            firebaseAuth.createUserWithEmailAndPassword(model.getEmail(), model.getPassword()).addOnCompleteListener(task -> {
+            firebaseAuth.createUserWithEmailAndPassword(model.getEmail(), binding.etPasswordSign.getText().toString()).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     DatabaseReference databaseReference = FirebaseUtil.mDatabaseReference;
                     FirebaseUser firebaseUser = task.getResult().getUser();
@@ -180,7 +178,6 @@ public class SignUp3Fragment extends Fragment {
     }
 
     private void uploadImage(Uri filePath) {
-
         if (filePath != null) {
             ProgressDialog progressDialog = new ProgressDialog(requireContext());
             progressDialog.setTitle("Uploading...");

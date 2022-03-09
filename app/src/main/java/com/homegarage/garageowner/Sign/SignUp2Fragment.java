@@ -249,6 +249,8 @@ public class SignUp2Fragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
         });
+
+
     }
 
 }

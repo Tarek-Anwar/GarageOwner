@@ -36,16 +36,12 @@ import java.util.Objects;
 public class HomeFragment extends Fragment {
 
     FragmentHomeBinding binding;
-    RequstOperAdapter  adapter ;
-    HomeFragment fragment;
 
     public HomeFragment() { }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -53,19 +49,10 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding  = FragmentHomeBinding.inflate(getLayoutInflater());
 
-        adapter  = new RequstOperAdapter();
-
         binding.recyclerRequst.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL,false));
-        binding.recyclerRequst.setAdapter(adapter);
+        binding.recyclerRequst.setAdapter(new RequstOperAdapter());
 
         return binding.getRoot();
-    }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        getActivity().getSupportFragmentManager().beginTransaction().detach(this).attach(this).commit();
     }
 
 
