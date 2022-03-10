@@ -3,18 +3,11 @@ package com.homegarage.garageowner.model;
 import java.io.Serializable;
 
 public class Opreation implements Serializable {
+
     String id , state , type , fromName ,toName , from , to , date ,expectData;
     float price;
 
     public  Opreation(){}
-
-    public Opreation(String type, String fromName, String toName, String date, float price) {
-        this.type = type;
-        this.fromName = fromName;
-        this.toName = toName;
-        this.date = date;
-        this.price = price;
-    }
 
     public String getId() {
         return id;
@@ -44,9 +37,7 @@ public class Opreation implements Serializable {
         return toName;
     }
 
-    public void setToName(String toName) {
-        this.toName = toName;
-    }
+    public void setToName(String toName) { this.toName = toName; }
 
     public String getFrom() {
         return from;

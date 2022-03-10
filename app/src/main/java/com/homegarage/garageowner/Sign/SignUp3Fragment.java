@@ -43,40 +43,20 @@ import java.util.UUID;
 
 public class SignUp3Fragment extends Fragment {
 
-    InfoUserGarageModel model;
+    private InfoUserGarageModel model;
     private AwesomeValidation mAwesomeValidation;
     private FragmentSignUp3Binding binding;
     private ActivityResultLauncher<Object> launcher;
 
-    private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference databaseReference;
-
-    public static final String NAME_EN = "nameEn";
-    public static final String NAME_AR = "nameAr";
-    public static final String EMAIL = "email";
-    public static final String PHONE = "phone";
-    public static final String GOVER_EN = "GOVER_EN";
-    public static final String GOVER_Ar = "GOVER_AR";
-    public static final String CITY_EN = "CITY_EN";
-    public static final String CITY_AR = "CITY_AR";
-    public static final String STREET_EN = "STREET_AR";
-    public static final String STREET_AR = "STREET_AR";
-    public static final String PRICE = "PRICE";
-    public static final String LOCATION = "LOCATION";
-    public static final String IMAGE_PROFILE = "IMAGE_PROFILE";
-
     public SignUp3Fragment() { }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        model = FirebaseUtil.userGarageModel;
+
+        model = FirebaseUtil.userGarageSign;
         mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
         mAwesomeValidation.setContext(getContext());
-        firebaseDatabase = FirebaseUtil.mFirebaseDatabase;
-        databaseReference = FirebaseUtil.mDatabaseReference;
-
     }
 
     @Override
@@ -104,13 +84,10 @@ public class SignUp3Fragment extends Fragment {
                 }
             }
         };
-        SharedPreferences preferences = requireActivity().getSharedPreferences(getString(R.string.file_user_info),Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
 
         launcher=registerForActivityResult(contract,uri->{
             if (uri!=null){
                 binding.profileImage.setImageURI(uri);
-                editor.putString(IMAGE_PROFILE,uri.getPath());
                 uploadImage(uri);
             }
         });
@@ -137,6 +114,7 @@ public class SignUp3Fragment extends Fragment {
                     DatabaseReference databaseReference = FirebaseUtil.mDatabaseReference;
                     FirebaseUser firebaseUser = task.getResult().getUser();
                     assert firebaseUser != null;
+
                     DatabaseReference newuser = databaseReference.child(firebaseUser.getUid());
                     model.setPriceForHour(Float.parseFloat(binding.etPriceForHoure.getText().toString()));
                     model.setId(firebaseUser.getUid());
@@ -151,21 +129,6 @@ public class SignUp3Fragment extends Fragment {
                     Toast.makeText(getContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
-
-            editor.putString(NAME_AR, model.getNameAr());
-            editor.putString(NAME_EN, model.getNameEn());
-            editor.putString(EMAIL, model.getEmail());
-            editor.putString(PHONE, model.getPhone());
-            editor.putString(GOVER_EN, model.getGovernoateEn());
-            editor.putString(GOVER_Ar, model.getGovernoateAR());
-            editor.putString(CITY_AR, model.getCityAr());
-            editor.putString(CITY_EN, model.getCityEn());
-            editor.putFloat(PRICE, model.getPriceForHour());
-            editor.putString(LOCATION, model.getLocation());
-            editor.putString(STREET_AR, model.getRestOfAddressAr());
-            editor.putString(STREET_EN, model.getRestOfAddressEN());
-
-            editor.apply();
 
         });
         return  binding.getRoot();

@@ -7,8 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -36,15 +34,13 @@ public class RequstReserFragment extends Fragment {
 
     public RequstReserFragment(){ }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentRequstReserBinding.inflate(getLayoutInflater());
 
@@ -119,7 +115,7 @@ public class RequstReserFragment extends Fragment {
                 FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
                         carInfo.getId()
                         , getString(FirebaseUtil.typeList.get(2))
-                        ,"sorry , Reservion cancel from Garage " + opreation.getToName()
+                        ,"sorry , reservion cancel from Garage " + opreation.getToName()
                         , opreation.getId(), getContext());
 
                 notificationsSender.SendNotifications();
@@ -148,6 +144,7 @@ public class RequstReserFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 opreation = snapshot.getValue(Opreation.class);
+                assert opreation != null;
                 callback.onDataReceived(opreation.getDate());
                 callback.onIDReceived(opreation.getFrom());
             }
@@ -164,6 +161,7 @@ public class RequstReserFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 carInfo = snapshot.getValue(CarInfo.class);
+                assert carInfo != null;
                 opreation.setFromName(carInfo.getName());
                 refOperation.setValue(opreation);
                 callback.onIDReceived(carInfo.getName());

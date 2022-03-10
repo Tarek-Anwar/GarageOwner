@@ -4,8 +4,7 @@ public class CarInfo {
     private String id , email , phone , name;
     private float balance;
 
-    public CarInfo() {
-    }
+    public CarInfo() { }
 
     public String getId() {
         return id;

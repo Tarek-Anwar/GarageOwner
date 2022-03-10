@@ -7,13 +7,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
+import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.homegarage.garageowner.R;
 import com.homegarage.garageowner.notifcation.NotificationActivity;
 
-public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
+public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     //NotificationManager mNotificationManager;
     public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
@@ -21,7 +23,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     public static final String ID_OPERATTON = "ID_OPERATTON";
 
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
+    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
         String title = remoteMessage.getNotification().getTitle();

@@ -18,15 +18,16 @@ public class FirebaseUtil {
     public static DatabaseReference mDatabaseReference;
     private static FirebaseUtil mFirebaseUtil;
     public static FirebaseAuth mFirebaseAuthl;
-    public static InfoUserGarageModel userGarageModel;
+    public static InfoUserGarageModel userGarageSign;
     public static StorageReference mStorageReference;
     public static FirebaseStorage mStorage;
     public static FirebaseAuth.AuthStateListener mAuthStateListener;
     public static DatabaseReference referenceOperattion;
-    public static ArrayList<Opreation> reqstOperaionList;
+    public static InfoUserGarageModel userGarageInfo;
 
-    public  static ArrayList<Integer> stateList ;
-    public  static ArrayList<Integer> typeList ;
+    public static ArrayList<Opreation> reqstOperaionList;
+    public static ArrayList<Integer> stateList ;
+    public static ArrayList<Integer> typeList ;
     private FirebaseUtil(){}
 
     public static void openFbReference(String ref , String refOperattion ){
@@ -55,7 +56,9 @@ public class FirebaseUtil {
         typeList.add(R.string.refusal_type);
         typeList.add(R.string.pay_type);
 
-        userGarageModel = new InfoUserGarageModel();
+        userGarageInfo = new InfoUserGarageModel();
+        userGarageSign = new InfoUserGarageModel();
+
         reqstOperaionList = new ArrayList<>();
         mDatabaseReference = mFirebaseDatabase.getReference().child(ref);
         referenceOperattion = mFirebaseDatabase.getReference().child(refOperattion);

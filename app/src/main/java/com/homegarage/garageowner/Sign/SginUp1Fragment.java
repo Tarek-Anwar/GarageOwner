@@ -3,12 +3,10 @@ package com.homegarage.garageowner.Sign;
 import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,34 +14,27 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.homegarage.garageowner.FirebaseUtil;
 import com.homegarage.garageowner.R;
 import com.homegarage.garageowner.databinding.FragmentSginUpBinding;
 import com.homegarage.garageowner.model.InfoUserGarageModel;
-
-import java.util.ArrayList;
 
 
 public class SginUp1Fragment extends Fragment {
 
     private FragmentSginUpBinding binding;
     private AwesomeValidation  mAwesomeValidation;
-    InfoUserGarageModel infoUserGarageModel;
+    private InfoUserGarageModel infoUserGarageModel;
 
     public SginUp1Fragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
         mAwesomeValidation.setContext(getContext());
-        infoUserGarageModel = FirebaseUtil.userGarageModel;
+        infoUserGarageModel = FirebaseUtil.userGarageSign;
     }
 
     @Override

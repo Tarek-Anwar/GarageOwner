@@ -13,7 +13,6 @@ import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -38,22 +37,23 @@ import com.homegarage.garageowner.FirebaseUtil;
 import com.homegarage.garageowner.R;
 import com.homegarage.garageowner.databinding.FragmentSignUp2Binding;
 import com.homegarage.garageowner.model.InfoUserGarageModel;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
 
 public class SignUp2Fragment extends Fragment {
 
-    FragmentSignUp2Binding binding;
-    AwesomeValidation mAwesomeValidation;
-    InfoUserGarageModel infoUserGarageModel;
+    private FragmentSignUp2Binding binding;
+    private AwesomeValidation mAwesomeValidation;
+    private InfoUserGarageModel infoUserGarageModel;
     private final int locationRequestCode = 1;
     private double longitude , latitude;
-    String allLocation = null;
-    DatabaseReference spinnerRef;
-    ArrayList<String> spinnerListGoverEn , spinnerListGoverAr, spinnerListCityEn , spinnerListCityAr;
-    ArrayAdapter<String> adapterAutoGover , adapterAutoCity;
-    String getCityAr , getCityEn, getGoverEn ,getGoverAr ;
+    private  String allLocation = null;
+    private DatabaseReference spinnerRef;
+    private ArrayList<String> spinnerListGoverEn , spinnerListGoverAr, spinnerListCityEn , spinnerListCityAr;
+    private ArrayAdapter<String> adapterAutoGover , adapterAutoCity;
+    private String getCityAr , getCityEn, getGoverEn ,getGoverAr ;
 
     public SignUp2Fragment() { }
 
@@ -63,12 +63,13 @@ public class SignUp2Fragment extends Fragment {
 
         mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
         mAwesomeValidation.setContext(getContext());
-        infoUserGarageModel = FirebaseUtil.userGarageModel;
+        infoUserGarageModel = FirebaseUtil.userGarageSign;
 
         spinnerListGoverEn = new ArrayList<>();
         spinnerListGoverAr = new ArrayList<>();
 
         showDataGover();
+
         if(Locale.getDefault().getLanguage().equals("en")){
         adapterAutoGover = new ArrayAdapter<>(requireContext(),R.layout.list_item,spinnerListGoverEn); }
         else {
@@ -249,8 +250,6 @@ public class SignUp2Fragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
         });
-
-
     }
 
 }

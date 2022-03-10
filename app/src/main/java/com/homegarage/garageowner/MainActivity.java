@@ -1,9 +1,6 @@
 package com.homegarage.garageowner;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,9 +13,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,10 +22,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.homegarage.garageowner.Sign.SignActivity;
-import com.homegarage.garageowner.Sign.SignUp3Fragment;
 import com.homegarage.garageowner.databinding.ActivityMainBinding;
 import com.homegarage.garageowner.home.EditUserInfoActivity;
-import com.homegarage.garageowner.home.HomeFragment;
 import com.homegarage.garageowner.model.InfoUserGarageModel;
 
 import java.util.Objects;
@@ -44,24 +36,18 @@ public class MainActivity extends AppCompatActivity {
     TextView name , balance;
     ImageView img_profile;
 
-    SharedPreferences preferences ;
-    SharedPreferences.Editor editor;
     ActivityMainBinding binding;
     FirebaseUser user;
 
+    InfoUserGarageModel userGarageInfo = FirebaseUtil.userGarageInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
-
         FirebaseUtil.openFbReference("GaragerOnwerInfo", "Operation");
         user = FirebaseUtil.mFirebaseAuthl.getCurrentUser();
-
-         preferences = getSharedPreferences(getString(R.string.file_user_info),Context.MODE_PRIVATE);
-         editor = preferences.edit();
 
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.main_nave_view);
@@ -69,8 +55,6 @@ public class MainActivity extends AppCompatActivity {
         View v = navigationView.getHeaderView(0);
 
         intiHeader(v);
-
-        preferences = getSharedPreferences(getString(R.string.file_user_info),Context.MODE_PRIVATE);
 
         //set usr information if their
         img_profile.setOnClickListener( V->{
@@ -90,14 +74,14 @@ public class MainActivity extends AppCompatActivity {
             if (item.getItemId() == R.id.log_out_nav) {
                 FirebaseUtil.mFirebaseAuthl.signOut();
                 FirebaseMessaging.getInstance().unsubscribeFromTopic(user.getUid());
-                editor.clear();
+
                 drawerLayout.closeDrawer(GravityCompat.START);
                 Toast.makeText(getApplicationContext(), "Log Out .... GoodBye ", Toast.LENGTH_SHORT).show();
+
                 Intent intent = new Intent(this, SignActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
-
             }
             return true;
         });
@@ -119,13 +103,10 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    void setHeaderNav(SharedPreferences preferences){
-        if (preferences.getString(SignUp3Fragment.NAME_EN,null)!= null) {
-            name.setText(preferences.getString(SignUp3Fragment.NAME_EN, "New User"));
-            balance.setText(preferences.getFloat(SignUp3Fragment.PRICE,0.0f)+"");
-        }
-        if(preferences.getString(SignUp3Fragment.IMAGE_PROFILE,null)!= null){
-            img_profile.setImageURI(Uri.parse((preferences.getString(SignUp3Fragment.IMAGE_PROFILE,null))));
+    void setHeaderNav(InfoUserGarageModel model){
+        if (model != null) {
+            name.setText(model.getNameEn());
+            balance.setText("Balance "+model.getBalance()+" EG");
         }
     }
 
@@ -148,25 +129,14 @@ public class MainActivity extends AppCompatActivity {
             ref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    InfoUserGarageModel model = snapshot.getValue(InfoUserGarageModel.class);
-                    editor.putString(SignUp3Fragment.NAME_AR, model.getNameAr());
-                    editor.putString(SignUp3Fragment.NAME_EN, model.getNameEn());
-                    editor.putString(SignUp3Fragment.EMAIL, model.getEmail());
-                    editor.putString(SignUp3Fragment.PHONE, model.getPhone());
-                    editor.putString(SignUp3Fragment.GOVER_EN, model.getGovernoateEn());
-                    editor.putString(SignUp3Fragment.GOVER_Ar, model.getGovernoateAR());
-                    editor.putString(SignUp3Fragment.CITY_AR, model.getCityAr());
-                    editor.putString(SignUp3Fragment.CITY_EN, model.getCityEn());
-                    editor.putFloat(SignUp3Fragment.PRICE, model.getPriceForHour());
-                    editor.putString(SignUp3Fragment.LOCATION, model.getLocation());
-                    editor.putString(SignUp3Fragment.STREET_AR, model.getRestOfAddressAr());
-                    editor.putString(SignUp3Fragment.STREET_EN, model.getRestOfAddressEN());
-                    editor.commit();
+                    userGarageInfo = snapshot.getValue(InfoUserGarageModel.class);
+                    setHeaderNav(userGarageInfo);
                 }
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) { }
             });
-            setHeaderNav(preferences);
+
         }
     }
 

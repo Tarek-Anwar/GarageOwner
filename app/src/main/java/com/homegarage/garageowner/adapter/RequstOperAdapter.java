@@ -1,9 +1,8 @@
 package com.homegarage.garageowner.adapter;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +12,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.homegarage.garageowner.FirebaseUtil;
 import com.homegarage.garageowner.R;
 import com.homegarage.garageowner.model.Opreation;
@@ -36,29 +32,36 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
 
     ArrayList <Opreation> opreationslist;
     DatabaseReference reference;
-
+    Query query;
     public RequstOperAdapter() {
-        reference = FirebaseUtil.referenceOperattion;
         opreationslist = FirebaseUtil.reqstOperaionList;
-        reference.addChildEventListener(new ChildEventListener() {
+        reference = FirebaseUtil.referenceOperattion;
+        query = reference.orderByChild("to").equalTo(FirebaseUtil.mFirebaseAuthl.getUid());
+        query.addChildEventListener(new ChildEventListener() {
             Opreation opreation;
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    opreation = snapshot.getValue(Opreation.class);
-                    if(opreation.getState().equals("1") && opreation.getType().equals("1")) {
+                opreation = snapshot.getValue(Opreation.class);
+                assert opreation != null;
+                if(opreation.getState().equals("1") && opreation.getType().equals("1")) {
                         opreationslist.add(opreation);
                         notifyItemChanged(opreationslist.size()-1);
                     }
                     notifyDataSetChanged();
             }
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                notifyDataSetChanged();
-            }
+                notifyDataSetChanged(); }
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) { notifyDataSetChanged(); }
+
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) { notifyDataSetChanged(); }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
         });
@@ -95,6 +98,7 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
             itemView.setOnClickListener(this);
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         public void BulidUI(Opreation opreation){
 
             nameCar.setText(opreation.getFromName());
