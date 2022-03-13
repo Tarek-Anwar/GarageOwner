@@ -2,6 +2,7 @@ package com.homegarage.garageowner;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,14 +33,13 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
-    ActionBarDrawerToggle actionBarDrawerToggle;
-    TextView name , balance;
-    ImageView img_profile;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
+    private TextView name , balance;
+    private ImageView img_profile;
 
-    ActivityMainBinding binding;
-    FirebaseUser user;
-
-    InfoUserGarageModel userGarageInfo = FirebaseUtil.userGarageInfo;
+    private ActivityMainBinding binding;
+    private FirebaseUser user;
+    private InfoUserGarageModel userGarageInfo = FirebaseUtil.userGarageInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,11 +49,11 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUtil.openFbReference("GaragerOnwerInfo", "Operation");
         user = FirebaseUtil.mFirebaseAuthl.getCurrentUser();
 
+
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.main_nave_view);
         //find header Navigation
         View v = navigationView.getHeaderView(0);
-
         intiHeader(v);
 
         //set usr information if their
@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         // set listener to item in navigation
         navigationView.setNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.log_out_nav) {
+
                 FirebaseUtil.mFirebaseAuthl.signOut();
                 FirebaseMessaging.getInstance().unsubscribeFromTopic(user.getUid());
 

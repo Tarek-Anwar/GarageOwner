@@ -95,7 +95,6 @@ public class RequstReserFragment extends Fragment {
                         , getString(FirebaseUtil.typeList.get(1))
                         ,"Accpet Reservion from Garage " + opreation.getToName()
                         , opreation.getId(), getContext());
-
                 notificationsSender.SendNotifications();
 
                 refOperation.setValue(opreation);
@@ -106,7 +105,7 @@ public class RequstReserFragment extends Fragment {
         });
 
         binding.btnRefusalReser.setOnClickListener(v -> {
-            opreation.setState("2");
+            opreation.setState("3");
             opreation.setType("3");
 
             binding.btnAccpetReser.setEnabled(false);

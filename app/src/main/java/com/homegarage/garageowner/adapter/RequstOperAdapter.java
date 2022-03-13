@@ -25,11 +25,14 @@ import com.homegarage.garageowner.model.Opreation;
 import com.homegarage.garageowner.notifcation.NotificationActivity;
 import com.homegarage.garageowner.service.FcmNotificationsSender;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.RequstViewHolder> {
 
-
+    SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm aa" , new Locale("en"));
     ArrayList <Opreation> opreationslist;
     DatabaseReference reference;
     Query query;
@@ -106,8 +109,10 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
             typeOper.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreation.getType())-1));
 
             btnAccpet.setOnClickListener(v -> {
+                Date date = new Date(System.currentTimeMillis());
                 opreation.setState("2");
                 opreation.setType("2");
+                opreation.setDate(formatterLong.format(date));
                 reference.child(opreation.getId()).setValue(opreation);
                 btnRefusal.setEnabled(false);
                 btnAccpet.setEnabled(false);
@@ -131,7 +136,7 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
             });
 
             btnRefusal.setOnClickListener(v -> {
-                opreation.setState("2");
+                opreation.setState("3");
                 opreation.setType("3");
                 reference.child(opreation.getId()).setValue(opreation);
                 btnRefusal.setEnabled(false);
