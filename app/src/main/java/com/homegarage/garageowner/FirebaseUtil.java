@@ -26,6 +26,7 @@ public class FirebaseUtil {
     public static InfoUserGarageModel userGarageInfo;
 
     public static ArrayList<Opreation> reqstOperaionList;
+    public static ArrayList<Opreation> payOpreations;
     public static ArrayList<Integer> stateList ;
     public static ArrayList<Integer> typeList ;
     private FirebaseUtil(){}
@@ -60,6 +61,7 @@ public class FirebaseUtil {
         userGarageSign = new InfoUserGarageModel();
 
         reqstOperaionList = new ArrayList<>();
+        payOpreations = new ArrayList<>();
         mDatabaseReference = mFirebaseDatabase.getReference().child(ref);
         referenceOperattion = mFirebaseDatabase.getReference().child(refOperattion);
     }
