@@ -3,18 +3,35 @@ package com.homegarage.garageowner.model;
 public class InfoUserGarageModel {
 
     private String id;
+    private int NumOfRatings;
+    private float Balance , Rate;
+    private float priceForHour;
     private String nameEn , nameAr;
     private String phone;
-    private float Balance;
     private String email;
     private String governoateEn , governoateAR;
     private String cityEn, cityAr;
     private String restOfAddressEN , restOfAddressAr;
     private String location;
-    private float priceForHour;
     private String imageGarage;
 
     public InfoUserGarageModel() { }
+
+    public int getNumOfRatings() {
+        return NumOfRatings;
+    }
+
+    public void setNumOfRatings(int numOfRatings) {
+        NumOfRatings = numOfRatings;
+    }
+
+    public float getRate() {
+        return Rate;
+    }
+
+    public void setRate(float rate) {
+        Rate = rate;
+    }
 
     public float getBalance() { return Balance; }
 
