@@ -118,7 +118,7 @@ public class SignUp3Fragment extends Fragment {
                     DatabaseReference newuser = databaseReference.child(firebaseUser.getUid());
                     model.setPriceForHour(Float.parseFloat(binding.etPriceForHoure.getText().toString()));
                     model.setId(firebaseUser.getUid());
-                    model.setRate(0.0f);
+                    model.setRate(0f);
                     model.setNumOfRatings(0);
                     newuser.setValue(model);
                     Toast.makeText(getContext(), "Welcome", Toast.LENGTH_SHORT).show();
