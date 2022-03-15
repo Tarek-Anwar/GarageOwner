@@ -26,6 +26,7 @@ public class FirebaseUtil {
     public static InfoUserGarageModel userGarageInfo;
 
     public static ArrayList<Opreation> reqstOperaionList;
+    public static ArrayList<Opreation> activeOpreations;
     public static ArrayList<Integer> stateList ;
     public static ArrayList<Integer> typeList ;
     public static ArrayList<Opreation> payOpreations;

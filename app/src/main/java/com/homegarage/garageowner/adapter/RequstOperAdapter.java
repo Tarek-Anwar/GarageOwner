@@ -32,7 +32,7 @@ import java.util.Locale;
 
 public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.RequstViewHolder> {
 
-    SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm aa" , new Locale("en"));
+
     ArrayList <Opreation> opreationslist;
     DatabaseReference reference;
     Query query;
@@ -109,10 +109,8 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
             typeOper.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreation.getType())-1));
 
             btnAccpet.setOnClickListener(v -> {
-                Date date = new Date(System.currentTimeMillis());
                 opreation.setState("2");
                 opreation.setType("2");
-                opreation.setDate(formatterLong.format(date));
                 reference.child(opreation.getId()).setValue(opreation);
                 btnRefusal.setEnabled(false);
                 btnAccpet.setEnabled(false);

@@ -95,6 +95,7 @@ public class RequstReserFragment extends Fragment {
                         , getString(FirebaseUtil.typeList.get(1))
                         ,"Accpet Reservion from Garage " + opreation.getToName()
                         , opreation.getId(), getContext());
+
                 notificationsSender.SendNotifications();
 
                 refOperation.setValue(opreation);

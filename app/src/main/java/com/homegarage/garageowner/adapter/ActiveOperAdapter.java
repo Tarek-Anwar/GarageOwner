@@ -3,6 +3,7 @@ package com.homegarage.garageowner.adapter;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.homegarage.garageowner.FirebaseUtil;
 import com.homegarage.garageowner.R;
 import com.homegarage.garageowner.model.Opreation;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,8 +48,7 @@ public class ActiveOperAdapter extends RecyclerView.Adapter<ActiveOperAdapter.Vi
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 opreation=snapshot.getValue(Opreation.class);
                 assert opreation!=null;
-                if ((opreation.getState().equals("2")&&opreation.getType().equals("2")))
-                {
+                if ((opreation.getState().equals("2")&&opreation.getType().equals("2"))) {
                     opreations.add(opreation);
                     notifyItemChanged(opreations.size()-1);
                 }
@@ -100,8 +101,10 @@ public class ActiveOperAdapter extends RecyclerView.Adapter<ActiveOperAdapter.Vi
         TextView carOnwer,date;
         ProgressBar progressBar;
         Chronometer chronometer;
+        Date start = null;
         int progress=0;
         SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm aa" , new Locale("en"));
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             carOnwer=itemView.findViewById(R.id.carTV);
@@ -113,10 +116,17 @@ public class ActiveOperAdapter extends RecyclerView.Adapter<ActiveOperAdapter.Vi
         @RequiresApi(api = Build.VERSION_CODES.O)
         public void  bind(Opreation opreation)
         {
-            String carTxt=carOnwer.getText().toString();
-            String dateTxt=date.getText().toString();
-            date.setText(dateTxt+formatterLong.format(new Date(opreation.getDate())));
-            carOnwer.setText(carTxt+opreation.getFromName());
+            date.setText("Data Start : " + opreation.getDate());
+            carOnwer.setText("Car Owner : " + opreation.getFromName());
+
+            try { start = formatterLong.parse(opreation.getDate());
+            } catch (ParseException e) { e.printStackTrace(); }
+
+            Long diff = System.currentTimeMillis() - start.getTime();
+            progress = (int) (diff / 10000);
+
+
+            chronometer.setBase(SystemClock.elapsedRealtime() - diff);
             progressBar.setMin(0);
             progressBar.setMax(1100);
             chronometer.start();

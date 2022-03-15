@@ -32,8 +32,10 @@ public class HomeFragment extends Fragment {
 
         binding.recyclerRequst.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL,false));
         binding.recyclerRequst.setAdapter(new RequstOperAdapter());
+
         binding.activeRV.setLayoutManager(new LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false));
         binding.activeRV.setAdapter(new ActiveOperAdapter());
+
         return binding.getRoot();
     }
 
