@@ -26,8 +26,11 @@ public class FirebaseUtil {
     public static InfoUserGarageModel userGarageInfo;
 
     public static ArrayList<Opreation> reqstOperaionList;
+    public static ArrayList<Opreation> activeOpreations;
     public static ArrayList<Integer> stateList ;
     public static ArrayList<Integer> typeList ;
+    public static ArrayList<Opreation> payOpreations;
+
     private FirebaseUtil(){}
 
     public static void openFbReference(String ref , String refOperattion ){
@@ -59,6 +62,8 @@ public class FirebaseUtil {
         userGarageInfo = new InfoUserGarageModel();
         userGarageSign = new InfoUserGarageModel();
 
+        activeOpreations=new ArrayList<>();
+        payOpreations=new ArrayList<>();
         reqstOperaionList = new ArrayList<>();
         mDatabaseReference = mFirebaseDatabase.getReference().child(ref);
         referenceOperattion = mFirebaseDatabase.getReference().child(refOperattion);

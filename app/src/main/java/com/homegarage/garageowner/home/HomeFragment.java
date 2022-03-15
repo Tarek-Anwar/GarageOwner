@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.homegarage.garageowner.adapter.ActiveOperAdapter;
 import com.homegarage.garageowner.adapter.RequstOperAdapter;
 import com.homegarage.garageowner.databinding.FragmentHomeBinding;
 
@@ -31,7 +32,8 @@ public class HomeFragment extends Fragment {
 
         binding.recyclerRequst.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL,false));
         binding.recyclerRequst.setAdapter(new RequstOperAdapter());
-
+        binding.activeRV.setLayoutManager(new LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false));
+        binding.activeRV.setAdapter(new ActiveOperAdapter());
         return binding.getRoot();
     }
 

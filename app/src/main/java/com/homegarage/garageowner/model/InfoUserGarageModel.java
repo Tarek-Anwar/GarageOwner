@@ -1,7 +1,6 @@
 package com.homegarage.garageowner.model;
 
 public class InfoUserGarageModel {
-
     private String id;
     private String nameEn , nameAr;
     private String phone;
@@ -13,6 +12,24 @@ public class InfoUserGarageModel {
     private String location;
     private float priceForHour;
     private String imageGarage;
+    private float rate;
+    private int numOfRatings;
+
+    public float getRate() {
+        return rate;
+    }
+
+    public void setRate(float rate) {
+        this.rate = rate;
+    }
+
+    public int getNumOfRatings() {
+        return numOfRatings;
+    }
+
+    public void setNumOfRatings(int numOfRatings) {
+        this.numOfRatings = numOfRatings;
+    }
 
     public InfoUserGarageModel() { }
 

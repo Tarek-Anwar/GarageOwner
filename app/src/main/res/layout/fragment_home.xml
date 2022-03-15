@@ -6,17 +6,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".home.HomeFragment">
-
+    <TextView
+        android:id="@+id/requestTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Requestes : "
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="32dp"
+        android:layout_marginStart="12dp"
+        />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_requst"
         android:layout_width="match_parent"
         android:layout_height="220dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499"
+        app:layout_constraintTop_toBottomOf="@id/requestTV"
         tools:listitem="@layout/opreation_wait_row" />
+    <TextView
+        android:id="@+id/activeTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Active : "
+        app:layout_constraintTop_toBottomOf="@id/recycler_requst"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="32dp"
+        android:layout_marginStart="12dp"
+        />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activeTV">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/activeRV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/activeTV"
+            tools:listitem="@layout/active_item_view" />
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
