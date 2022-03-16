@@ -46,6 +46,7 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                opreationslist.clear();
                 opreation = snapshot.getValue(Opreation.class);
                 assert opreation != null;
                 if(opreation.getState().equals("1") && opreation.getType().equals("1")) {

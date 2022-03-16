@@ -7,11 +7,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.homegarage.garageowner.home.Active;
+import com.homegarage.garageowner.home.Finish;
 import com.homegarage.garageowner.home.Requestes;
 
 public class TabAdepter  extends FragmentPagerAdapter {
 
-    String Title[] = {"Requestes", "Actives"};
+    String Title[] = {"Requestes", "Actives","Finished"};
 
     public TabAdepter(FragmentManager supportFragmentManager) {
         super(supportFragmentManager);
@@ -21,12 +22,13 @@ public class TabAdepter  extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if (position == 0) return new Requestes();
-        else return new Active();
+        else if (position==1)return new Active();
+        else return new Finish();
     }
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
     @Nullable
