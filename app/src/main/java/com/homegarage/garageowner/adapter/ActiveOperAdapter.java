@@ -33,7 +33,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ActiveOperAdapter extends RecyclerView.Adapter<ActiveOperAdapter.ViewHolder> {
-    ArrayList<Opreation> opreations;
+    public ArrayList<Opreation> opreations;
     DatabaseReference opreationsRef;
     Query query;
 
@@ -116,7 +116,7 @@ public class ActiveOperAdapter extends RecyclerView.Adapter<ActiveOperAdapter.Vi
         @RequiresApi(api = Build.VERSION_CODES.O)
         public void  bind(Opreation opreation)
         {
-            date.setText("Data Start : " + opreation.getDate());
+            date.setText("Date : " + opreation.getDate());
             carOnwer.setText("Car Owner : " + opreation.getFromName());
 
             try { start = formatterLong.parse(opreation.getDate());

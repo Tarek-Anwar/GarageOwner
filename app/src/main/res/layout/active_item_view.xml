@@ -33,19 +33,19 @@
         android:id="@+id/carTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Car Onwer : "
+        tools:text="Car Onwer : "
         app:layout_constraintTop_toTopOf="@id/progressBar"
         app:layout_constraintStart_toEndOf="@id/progressBar"
         app:layout_constraintBottom_toBottomOf="@id/progressBar"
         android:layout_margin="32dp"
         android:layout_marginBottom="12dp"
         />
+
     <TextView
         android:id="@+id/dateTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Date : "
-        app:layout_constraintTop_toBottomOf="@id/carTV"
         app:layout_constraintStart_toStartOf="@id/carTV"
-        />
+        app:layout_constraintTop_toBottomOf="@id/carTV"
+        tools:text="Date : " />
 </androidx.constraintlayout.widget.ConstraintLayout>

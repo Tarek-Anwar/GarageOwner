@@ -1,54 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".home.HomeFragment">
-    <TextView
-        android:id="@+id/requestTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="Requestes : "
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="32dp"
-        android:layout_marginStart="12dp"
-        />
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_requst"
-        android:layout_width="match_parent"
-        android:layout_height="220dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/requestTV"
-        tools:listitem="@layout/opreation_wait_row" />
-    <TextView
-        android:id="@+id/activeTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Active : "
-        app:layout_constraintTop_toBottomOf="@id/recycler_requst"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="32dp"
-        android:layout_marginStart="12dp"
-        />
+    tools:context=".home.HomeFragment"
+    android:orientation="vertical"
+    >
 
-    <ScrollView
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/activeTV">
+        android:clipChildren="false"
+        app:tabMode="scrollable">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/activeRV"
+        <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/activeTV"
-            tools:listitem="@layout/active_item_view" />
-    </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_marginEnd="200dp"
+            android:text="request" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+</LinearLayout>

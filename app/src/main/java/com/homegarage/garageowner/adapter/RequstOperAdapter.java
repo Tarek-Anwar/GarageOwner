@@ -33,7 +33,7 @@ import java.util.Locale;
 public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.RequstViewHolder> {
 
 
-    ArrayList <Opreation> opreationslist;
+   public ArrayList <Opreation> opreationslist;
     DatabaseReference reference;
     Query query;
     public RequstOperAdapter() {
