@@ -3,6 +3,7 @@ package com.homegarage.garageowner.adapter;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,8 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
                         notifyItemChanged(opreationslist.size()-1);
                     }
                     notifyDataSetChanged();
+                Log.i("tttt",opreationslist.size()+"   Resust");
+
             }
             @SuppressLint("NotifyDataSetChanged")
             @Override

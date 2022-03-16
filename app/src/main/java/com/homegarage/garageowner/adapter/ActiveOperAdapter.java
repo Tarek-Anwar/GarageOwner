@@ -22,6 +22,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.homegarage.garageowner.FirebaseUtil;
 import com.homegarage.garageowner.R;
 import com.homegarage.garageowner.model.Opreation;
@@ -41,35 +42,22 @@ public class ActiveOperAdapter extends RecyclerView.Adapter<ActiveOperAdapter.Vi
         opreations= FirebaseUtil.activeOpreations;
         opreationsRef=FirebaseUtil.referenceOperattion;
         query=opreationsRef.orderByChild("to").equalTo(FirebaseUtil.mFirebaseAuthl.getUid());
-        query.addChildEventListener(new ChildEventListener() {
-            Opreation opreation;
-            @SuppressLint("NotifyDataSetChanged")
+        query.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                opreation=snapshot.getValue(Opreation.class);
-                assert opreation!=null;
-                if ((opreation.getState().equals("2")&&opreation.getType().equals("2"))) {
-                    opreations.add(opreation);
-                    notifyItemChanged(opreations.size()-1);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot item : snapshot.getChildren()){
+                        Opreation opreation= item.getValue(Opreation.class);
+                        if ((opreation.getState().equals("2") && opreation.getType().equals("2"))) {
+                            opreations.add(opreation);
+                            notifyItemChanged(opreations.size()-1);
+                        }
+                        notifyDataSetChanged();
+                        Log.i("tttt",opreations.size()+"  Active");
+                    }
                 }
-                notifyDataSetChanged();
-                Log.i("tttt",opreations.size()+"");
             }
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                notifyDataSetChanged();
-            }
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                notifyDataSetChanged();
-            }
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                notifyDataSetChanged();
-            }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -92,7 +80,6 @@ public class ActiveOperAdapter extends RecyclerView.Adapter<ActiveOperAdapter.Vi
 
     @Override
     public int getItemCount() {
-        Log.i("tttt",opreations.size()+"");
         return opreations.size();
 
     }
