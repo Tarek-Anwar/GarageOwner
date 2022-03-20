@@ -5,7 +5,6 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,11 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
@@ -85,10 +86,13 @@ public class SignUp3Fragment extends Fragment {
             }
         };
 
-        launcher=registerForActivityResult(contract,uri->{
-            if (uri!=null){
-                binding.profileImage.setImageURI(uri);
-                uploadImage(uri);
+        launcher=registerForActivityResult(contract, new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri uri) {
+                if (uri != null) {
+                    binding.profileImage.setImageURI(uri);
+                    SignUp3Fragment.this.uploadImage(uri);
+                }
             }
         });
 
@@ -104,7 +108,9 @@ public class SignUp3Fragment extends Fragment {
             }
         });
 
-        binding.profileImage.setOnClickListener(v->launcher.launch(null));
+        binding.profileImage.setOnClickListener(v-> {
+            launcher.launch(null);
+        });
 
         binding.btnSignInFire.setOnClickListener(v -> {
 
@@ -121,11 +127,12 @@ public class SignUp3Fragment extends Fragment {
                     model.setRate(0f);
                     model.setNumOfRatings(0);
                     newuser.setValue(model);
-                    Toast.makeText(getContext(), "Welcome", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(getActivity(), MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
+                   Sign_up4 signUp4=new Sign_up4(firebaseUser);
+                    FragmentTransaction transaction=requireActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragmentContainerView,signUp4);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
                 }
                 else {
                     Toast.makeText(getContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();

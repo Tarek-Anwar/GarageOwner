@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Sign.Sign_up4">
+
+    <ImageView
+        android:id="@+id/firstIdImg"
+        android:layout_width="match_parent"
+        android:layout_height="152dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </ImageView>
+
+    <ImageView
+        android:id="@+id/imageID1Edit"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:contentDescription="@string/edit"
+        app:layout_constraintBottom_toBottomOf="@+id/firstIdImg"
+        app:layout_constraintEnd_toEndOf="@+id/firstIdImg"
+        app:srcCompat="@drawable/ic_baseline_add_a_photo_24"
+        tools:ignore="ImageContrastCheck" />
+    <ImageView
+        android:id="@+id/secIdImg"
+        android:layout_width="match_parent"
+        android:layout_height="152dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintStart_toStartOf="@id/firstIdImg"
+        app:layout_constraintTop_toBottomOf="@id/firstIdImg" />
+    <ImageView
+        android:id="@+id/imageID2Edit"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:contentDescription="@string/edit"
+        app:layout_constraintBottom_toBottomOf="@+id/secIdImg"
+        app:layout_constraintEnd_toEndOf="@+id/secIdImg"
+        app:srcCompat="@drawable/ic_baseline_add_a_photo_24"
+        tools:ignore="ImageContrastCheck" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/bankAccountName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/secIdImg"
+        app:layout_constraintStart_toStartOf="@id/firstIdImg"
+        android:layout_margin="24dp"
+        android:hint="your bank acount name"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/bankAccountNum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/bankAccountName"
+        app:layout_constraintStart_toStartOf="@id/imageID1Edit"
+        android:layout_margin="24dp"
+        android:hint="your bank account number"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="number"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+    <LinearLayout
+        android:id="@+id/layout_success_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@id/bankAccountNum"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:src="@android:drawable/presence_online"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/img_success" />
+
+        <ImageView
+            android:src="@android:drawable/presence_online"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/img_success" />
+
+        <ImageView
+            android:src="@android:drawable/presence_online"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/img_success" />
+
+    </LinearLayout>
+        <Button
+            android:id="@+id/check_sign4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/layout_success_4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:text="@string/check_data"
+            />
+    <Button
+        android:id="@+id/next_sign4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/layout_success_4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:text="@string/sign"
+        android:visibility="gone"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

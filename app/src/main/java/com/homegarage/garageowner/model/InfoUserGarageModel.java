@@ -16,9 +16,44 @@ public class InfoUserGarageModel {
     private String imageGarage;
     private float rate;
     private int numOfRatings;
+    private String nationalIDImg1,nationalIDImg2;
+    private String bankAcountName, bankAcountNum;
+
+
+    public String getBankAcountName() {
+        return bankAcountName;
+    }
+
+    public void setBankAcountName(String bankAcountName) {
+        this.bankAcountName = bankAcountName;
+    }
+
+    public String getBankAcountNum() {
+        return bankAcountNum;
+    }
+
+    public void setBankAcountNum(String bankAcountNum) {
+        this.bankAcountNum = bankAcountNum;
+    }
 
     public int getNumOfRatings() {
         return NumOfRatings;
+    }
+
+    public String getNationalIDImg1() {
+        return nationalIDImg1;
+    }
+
+    public void setNationalIDImg1(String nationalIDImg1) {
+        this.nationalIDImg1 = nationalIDImg1;
+    }
+
+    public String getNationalIDImg2() {
+        return nationalIDImg2;
+    }
+
+    public void setNationalIDImg2(String nationalIDImg2) {
+        this.nationalIDImg2 = nationalIDImg2;
     }
 
     public void setNumOfRatings(int numOfRatings) {
