@@ -113,40 +113,29 @@ public class SignUp3Fragment extends Fragment {
         });
 
         binding.btnSignInFire.setOnClickListener(v -> {
-
-            FirebaseAuth firebaseAuth = FirebaseUtil.mFirebaseAuthl;
-            firebaseAuth.createUserWithEmailAndPassword(model.getEmail(), binding.etPasswordSign.getText().toString()).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
                     DatabaseReference databaseReference = FirebaseUtil.mDatabaseReference;
-                    FirebaseUser firebaseUser = task.getResult().getUser();
+                    FirebaseUser firebaseUser =FirebaseUtil.mFirebaseAuthl.getCurrentUser();
                     assert firebaseUser != null;
-
                     DatabaseReference newuser = databaseReference.child(firebaseUser.getUid());
                     model.setPriceForHour(Float.parseFloat(binding.etPriceForHoure.getText().toString()));
                     model.setId(firebaseUser.getUid());
                     model.setRate(0f);
                     model.setNumOfRatings(0);
                     newuser.setValue(model);
-
-                   Sign_up4 signUp4=new Sign_up4(firebaseUser);
+                    Sign_up4 signUp4=new Sign_up4(firebaseUser);
                     FragmentTransaction transaction=requireActivity().getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.fragmentContainerView,signUp4);
                     transaction.addToBackStack(null);
                     transaction.commit();
-                }
-                else {
-                    Toast.makeText(getContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
 
         });
         return  binding.getRoot();
     }
 
     private void addValidationForEditText() {
-       mAwesomeValidation.addValidation(binding.etPasswordSign, "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d])(?=.*[~`!@#\\$%\\^&\\*\\(\\)\\-_\\+=\\{\\}\\[\\]\\|\\;:\"<>,./\\?]).{8,}",getString(R.string.invalid_password));
-       mAwesomeValidation.addValidation(binding.etConfirmPassword, binding.etPasswordSign,getString(R.string.password_confirmation));
        mAwesomeValidation.addValidation(binding.etPriceForHoure,RegexTemplate.NOT_EMPTY,getString(R.string.text_empt));
+       mAwesomeValidation.addValidation(binding.etPhoneSign,"^01[0125][0-9]{8}$",getString(R.string.phone_invalid));
+
     }
 
     private void uploadImage(Uri filePath) {

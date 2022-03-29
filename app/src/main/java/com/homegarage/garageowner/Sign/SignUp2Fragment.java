@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,10 +33,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.homegarage.garageowner.FirebaseUtil;
 import com.homegarage.garageowner.R;
 import com.homegarage.garageowner.databinding.FragmentSignUp2Binding;
+import com.homegarage.garageowner.model.City;
 import com.homegarage.garageowner.model.InfoUserGarageModel;
 
 import java.util.ArrayList;
@@ -51,10 +54,13 @@ public class SignUp2Fragment extends Fragment {
     private double longitude , latitude;
     private  String allLocation = null;
     private DatabaseReference spinnerRef;
-    private ArrayList<String> spinnerListGoverEn , spinnerListGoverAr, spinnerListCityEn , spinnerListCityAr;
+    private ArrayList<String> spinnerListGoverEn , spinnerListGoverAr, spinnerListCityEn , spinnerListCityAr,spinnerListCityEnID , spinnerListCityArID;
     private ArrayAdapter<String> adapterAutoGover , adapterAutoCity;
     private String getCityAr , getCityEn, getGoverEn ,getGoverAr ;
-
+    String cityId;
+    int num;
+    DatabaseReference reference;
+    City city;
     public SignUp2Fragment() { }
 
     @Override
@@ -64,10 +70,12 @@ public class SignUp2Fragment extends Fragment {
         mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
         mAwesomeValidation.setContext(getContext());
         infoUserGarageModel = FirebaseUtil.userGarageSign;
+        reference=FirebaseDatabase.getInstance().getReference().child("cities");
 
         spinnerListGoverEn = new ArrayList<>();
         spinnerListGoverAr = new ArrayList<>();
 
+        city=new City();
         showDataGover();
 
         if(Locale.getDefault().getLanguage().equals("en")){
@@ -76,6 +84,8 @@ public class SignUp2Fragment extends Fragment {
             adapterAutoGover = new ArrayAdapter<>(requireContext(),R.layout.list_item,spinnerListGoverAr); }
         spinnerListCityEn = new ArrayList<>();
         spinnerListCityAr = new ArrayList<>();
+        spinnerListCityEnID =new ArrayList<>();
+        spinnerListCityArID=new ArrayList<>();
     }
 
 
@@ -125,6 +135,8 @@ public class SignUp2Fragment extends Fragment {
             infoUserGarageModel.setRestOfAddressEN(binding.restOfAddressSignEn.getText().toString());
             infoUserGarageModel.setRestOfAddressAr(binding.restOfAddressSignAr.getText().toString());
 
+
+
             SignUp3Fragment newFragment = new SignUp3Fragment();
             FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainerView, newFragment);
@@ -142,7 +154,6 @@ public class SignUp2Fragment extends Fragment {
                 adapterAutoCity = new ArrayAdapter<>(getContext(), R.layout.list_item,spinnerListCityEn); }
             else { adapterAutoCity = new ArrayAdapter<>(getContext(), R.layout.list_item,spinnerListCityAr);}
             binding.autoCompleteCity.setAdapter(adapterAutoCity);
-
             getGoverAr = spinnerListGoverAr.get(position);
             getGoverEn = spinnerListGoverEn.get(position);
 
@@ -151,8 +162,19 @@ public class SignUp2Fragment extends Fragment {
 
         if(spinnerListCityEn!=null){
             binding.autoCompleteCity.setOnItemClickListener((parent, view, position, id) -> {
-                getCityAr = spinnerListCityAr.get(position);
-                getCityEn = spinnerListCityEn.get(position);
+                        getCityAr = spinnerListCityAr.get(position);
+                        getCityEn = spinnerListCityEn.get(position);
+
+
+                getCityNum(new GetCity() {
+                    @Override
+                    public void getNum(int i) {
+                        num=i+1;
+                        reference.child(cityId).child("numberGarage").setValue(num);
+                        Log.d("LLLL",num+"");
+                    }
+                });
+
             });
         }
 
@@ -251,5 +273,34 @@ public class SignUp2Fragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) { }
         });
     }
+    void getCityNum(GetCity getCity)
+    {
+        Query query = reference.orderByChild("city_name_en").equalTo(getCityEn);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        city = dataSnapshot.getValue(City.class);
+                        cityId=dataSnapshot.getKey();
+                    //    Log.d("LLLL", dataSnapshot.getKey() + "");
+                      //  Log.d("LLLL", city.getNumberGarage() + "");
+                    }
+                    getCity.getNum(city.getNumberGarage());
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+
+    public interface GetCity
+    {
+        void getNum(int i);
+    }
 }

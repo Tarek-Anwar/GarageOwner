@@ -9,6 +9,7 @@
         <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/layout/fragment_finish.xml" value="0.33" />
         <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/layout/fragment_requestes.xml" value="0.1296875" />
+        <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/layout/fragment_sgin_up.xml" value="0.20416666666666666" />
         <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/layout/fragment_sign_up2.xml" value="0.19010416666666666" />
         <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/layout/fragment_sign_up3.xml" value="0.33" />
         <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/layout/fragment_sign_up4.xml" value="0.19010416666666666" />
@@ -33,7 +34,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
