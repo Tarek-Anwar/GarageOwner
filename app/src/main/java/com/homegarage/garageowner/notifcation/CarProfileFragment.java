@@ -36,7 +36,13 @@ public class CarProfileFragment extends Fragment {
         binding.txtEmailCar.setText(carInfo.getEmail());
         binding.txtNameCar.setText(carInfo.getName());
         binding.txtPhoneCar.setText(carInfo.getPhone());
-
+        binding.depositBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog dialog=new Dialog(carInfo);
+                dialog.show(getParentFragmentManager(),"deposit");
+            }
+        });
         return binding.getRoot();
     }
 }

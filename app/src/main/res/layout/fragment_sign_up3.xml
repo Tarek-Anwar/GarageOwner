@@ -70,6 +70,22 @@
             android:textColorHint="#757575" />
 
         <EditText
+            android:id="@+id/et_nameEN_sign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="@string/name_sign_en"
+            android:inputType="textPersonName|textAutoComplete" />
+
+
+        <EditText
+            android:id="@+id/et_nameAr_sign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="@string/name_sign_ar"
+            android:inputType="textPersonName|textAutoComplete" />
+        <EditText
             android:id="@+id/et_phone_sign"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

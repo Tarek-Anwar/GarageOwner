@@ -22,22 +22,7 @@
             android:layout_marginTop="25dp">
 
 
-            <EditText
-                android:id="@+id/et_nameEN_sign"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:hint="@string/name_sign_en"
-                android:inputType="textPersonName|textAutoComplete" />
 
-
-            <EditText
-                android:id="@+id/et_nameAr_sign"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:hint="@string/name_sign_ar"
-                android:inputType="textPersonName|textAutoComplete" />
 
             <EditText
                 android:id="@+id/et_email_sign"
@@ -53,7 +38,11 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:hint="@string/password"
-                 />
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:minHeight="48dp"
+                android:textColorHint="#757575"
+                />
 
             <EditText
                 android:id="@+id/et_confirm_password"

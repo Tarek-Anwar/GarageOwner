@@ -10,7 +10,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -61,6 +61,8 @@ public class SignUp2Fragment extends Fragment {
     int num;
     DatabaseReference reference;
     City city;
+
+
     public SignUp2Fragment() { }
 
     @Override
@@ -134,7 +136,12 @@ public class SignUp2Fragment extends Fragment {
             infoUserGarageModel.setGovernoateEn(getGoverEn);
             infoUserGarageModel.setRestOfAddressEN(binding.restOfAddressSignEn.getText().toString());
             infoUserGarageModel.setRestOfAddressAr(binding.restOfAddressSignAr.getText().toString());
-
+            getCityNum(new GetCity() {
+                @Override
+                public void getNum(int i) {
+                    reference.child(cityId).child("numberGarage").setValue(i+1);
+                }
+            });
 
 
             SignUp3Fragment newFragment = new SignUp3Fragment();
@@ -164,17 +171,6 @@ public class SignUp2Fragment extends Fragment {
             binding.autoCompleteCity.setOnItemClickListener((parent, view, position, id) -> {
                         getCityAr = spinnerListCityAr.get(position);
                         getCityEn = spinnerListCityEn.get(position);
-
-
-                getCityNum(new GetCity() {
-                    @Override
-                    public void getNum(int i) {
-                        num=i+1;
-                        reference.child(cityId).child("numberGarage").setValue(num);
-                        Log.d("LLLL",num+"");
-                    }
-                });
-
             });
         }
 
@@ -276,15 +272,15 @@ public class SignUp2Fragment extends Fragment {
     void getCityNum(GetCity getCity)
     {
         Query query = reference.orderByChild("city_name_en").equalTo(getCityEn);
-        query.addValueEventListener(new ValueEventListener() {
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         city = dataSnapshot.getValue(City.class);
                         cityId=dataSnapshot.getKey();
-                    //    Log.d("LLLL", dataSnapshot.getKey() + "");
-                      //  Log.d("LLLL", city.getNumberGarage() + "");
+                        //    Log.d("LLLL", dataSnapshot.getKey() + "");
+                        //  Log.d("LLLL", city.getNumberGarage() + "");
                     }
                     getCity.getNum(city.getNumberGarage());
                 }
@@ -295,7 +291,6 @@ public class SignUp2Fragment extends Fragment {
 
             }
         });
-
     }
 
 

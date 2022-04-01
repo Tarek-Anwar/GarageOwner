@@ -117,6 +117,8 @@ public class SignUp3Fragment extends Fragment {
                     FirebaseUser firebaseUser =FirebaseUtil.mFirebaseAuthl.getCurrentUser();
                     assert firebaseUser != null;
                     DatabaseReference newuser = databaseReference.child(firebaseUser.getUid());
+                    model.setNameEn(binding.etNameENSign.getText().toString().trim());
+                    model.setNameAr(binding.etNameArSign.getText().toString().trim());
                     model.setPriceForHour(Float.parseFloat(binding.etPriceForHoure.getText().toString()));
                     model.setId(firebaseUser.getUid());
                     model.setRate(0f);
@@ -135,7 +137,8 @@ public class SignUp3Fragment extends Fragment {
     private void addValidationForEditText() {
        mAwesomeValidation.addValidation(binding.etPriceForHoure,RegexTemplate.NOT_EMPTY,getString(R.string.text_empt));
        mAwesomeValidation.addValidation(binding.etPhoneSign,"^01[0125][0-9]{8}$",getString(R.string.phone_invalid));
-
+        mAwesomeValidation.addValidation(binding.etNameENSign, RegexTemplate.NOT_EMPTY,getString(R.string.name_invalid));
+        mAwesomeValidation.addValidation(binding.etNameArSign, RegexTemplate.NOT_EMPTY,getString(R.string.name_invalid));
     }
 
     private void uploadImage(Uri filePath) {

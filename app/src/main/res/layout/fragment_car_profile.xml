@@ -82,5 +82,15 @@
         app:layout_constraintStart_toStartOf="@+id/txt_email_car"
         app:layout_constraintTop_toBottomOf="@+id/txt_email_car" />
 
+    <Button
+        android:id="@+id/depositBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Deposit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_phone_car" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

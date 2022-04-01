@@ -19,6 +19,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.homegarage.garageowner.FirebaseUtil;
 import com.homegarage.garageowner.R;
 import com.homegarage.garageowner.databinding.FragmentSginUpBinding;
@@ -64,13 +69,13 @@ public class SginUp1Fragment extends Fragment {
 
         binding.nextSign1.setOnClickListener(v -> {
             infoUserGarageModel.setEmail(binding.etEmailSign.getText().toString().trim());
-            infoUserGarageModel.setNameEn(binding.etNameENSign.getText().toString().trim());
-            infoUserGarageModel.setNameAr(binding.etNameArSign.getText().toString().trim());
+
             FirebaseAuth firebaseAuth = FirebaseUtil.mFirebaseAuthl;
             firebaseAuth.createUserWithEmailAndPassword(infoUserGarageModel.getEmail(), binding.etPasswordSign.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
+
                         SignUp2Fragment newFragment = new SignUp2Fragment();
                         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
                         transaction.replace(R.id.fragmentContainerView, newFragment);
@@ -88,8 +93,6 @@ public class SginUp1Fragment extends Fragment {
     }
 
     private void addValidationForEditText() {
-        mAwesomeValidation.addValidation(binding.etNameENSign, RegexTemplate.NOT_EMPTY,getString(R.string.name_invalid));
-        mAwesomeValidation.addValidation(binding.etNameArSign, RegexTemplate.NOT_EMPTY,getString(R.string.name_invalid));
         mAwesomeValidation.addValidation(binding.etPasswordSign, "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d])(?=.*[~`!@#\\$%\\^&\\*\\(\\)\\-_\\+=\\{\\}\\[\\]\\|\\;:\"<>,./\\?]).{8,}",getString(R.string.invalid_password));
         mAwesomeValidation.addValidation(binding.etConfirmPassword, binding.etPasswordSign,getString(R.string.password_confirmation));
         mAwesomeValidation.addValidation(binding.etEmailSign, Patterns.EMAIL_ADDRESS, getString(R.string.email_valid));

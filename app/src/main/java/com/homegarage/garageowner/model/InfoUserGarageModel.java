@@ -20,6 +20,7 @@ public class InfoUserGarageModel {
     private String bankAcountName, bankAcountNum;
 
 
+
     public String getBankAcountName() {
         return bankAcountName;
     }

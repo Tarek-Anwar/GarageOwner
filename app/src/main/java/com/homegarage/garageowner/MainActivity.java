@@ -2,7 +2,6 @@ package com.homegarage.garageowner;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +13,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.homegarage.garageowner.Sign.SignActivity;
+import com.homegarage.garageowner.Sign.SignUp2Fragment;
 import com.homegarage.garageowner.databinding.ActivityMainBinding;
 import com.homegarage.garageowner.home.EditUserInfoActivity;
 import com.homegarage.garageowner.model.InfoUserGarageModel;
@@ -40,11 +42,18 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private FirebaseUser user;
     private InfoUserGarageModel userGarageInfo = FirebaseUtil.userGarageInfo;
+    FragmentContainerView containerView;
+    FragmentContainerView view;
+    View v;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        containerView=(FragmentContainerView)findViewById(R.id.fragmentContainerView2);
+        view=(FragmentContainerView)findViewById(R.id.fragmentContainerView);
 
         FirebaseUtil.openFbReference("GaragerOnwerInfo", "Operation");
         user = FirebaseUtil.mFirebaseAuthl.getCurrentUser();
@@ -53,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.main_nave_view);
         //find header Navigation
-        View v = navigationView.getHeaderView(0);
+        v = navigationView.getHeaderView(0);
         intiHeader(v);
 
         //set usr information if their
@@ -130,8 +139,23 @@ public class MainActivity extends AppCompatActivity {
             ref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    userGarageInfo = snapshot.getValue(InfoUserGarageModel.class);
-                    setHeaderNav(userGarageInfo);
+                    if (snapshot.exists()) {
+                        containerView.setVisibility(View.VISIBLE);
+                        userGarageInfo = snapshot.getValue(InfoUserGarageModel.class);
+                        setHeaderNav(userGarageInfo);
+                    }
+                    else
+                    {
+                        view.setVisibility(View.VISIBLE);
+                        v.setVisibility(View.GONE);
+
+                        SignUp2Fragment newFragment = new SignUp2Fragment();
+                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.fragmentContainerView, newFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+
+                    }
                 }
 
                 @Override
