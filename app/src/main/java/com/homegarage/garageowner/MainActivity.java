@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUtil.openFbReference("GaragerOnwerInfo", "Operation");
         user = FirebaseUtil.mFirebaseAuthl.getCurrentUser();
 
-
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.main_nave_view);
         //find header Navigation

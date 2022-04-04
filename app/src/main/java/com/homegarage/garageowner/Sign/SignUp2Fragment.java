@@ -206,7 +206,6 @@ public class SignUp2Fragment extends Fragment {
                         binding.location.setText(allLocation);
                         Toast.makeText(getContext(), allLocation, Toast.LENGTH_SHORT).show();
                     }
-
                 }
             }, Looper.getMainLooper());
         }

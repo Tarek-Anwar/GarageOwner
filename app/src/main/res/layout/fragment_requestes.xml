@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".home.Requestes"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_requst"
         android:layout_width="match_parent"
@@ -20,6 +19,6 @@
         android:text="No Requestes!"
         android:textSize="16sp"
         android:textColor="@color/black"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
+
 </LinearLayout>

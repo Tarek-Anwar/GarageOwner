@@ -49,13 +49,11 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
                 opreationslist.clear();
                 opreation = snapshot.getValue(Opreation.class);
                 assert opreation != null;
-                if(opreation.getState().equals("1") && opreation.getType().equals("1")) {
+                if(opreation.getState().equals("1") && opreation.getType().equals("1") ) {
                         opreationslist.add(opreation);
                         notifyItemChanged(opreationslist.size()-1);
                     }
                     notifyDataSetChanged();
-                Log.i("tttt",opreationslist.size()+"   Resust");
-
             }
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -93,8 +91,10 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
     }
 
     public class RequstViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        SimpleDateFormat formatterLong = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa", new Locale("en"));
         TextView nameCar , dateOper , typeOper;
         Button btnAccpet , btnRefusal;
+        
         public RequstViewHolder(@NonNull View itemView) {
             super(itemView);
             nameCar = itemView.findViewById(R.id.text_name_car_owner);
@@ -111,10 +111,12 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
             nameCar.setText(opreation.getFromName());
             dateOper.setText(opreation.getDate());
             typeOper.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreation.getType())-1));
-
             btnAccpet.setOnClickListener(v -> {
+                Date date = new Date(System.currentTimeMillis());
+                String dateOpreation = formatterLong.format(date);
                 opreation.setState("2");
                 opreation.setType("2");
+                opreation.setDate(dateOpreation);
                 reference.child(opreation.getId()).setValue(opreation);
                 btnRefusal.setEnabled(false);
                 btnAccpet.setEnabled(false);
@@ -136,10 +138,13 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
 
                 Toast.makeText(itemView.getContext(), FirebaseUtil.typeList.get(Integer.parseInt(opreation.getType())-1), Toast.LENGTH_SHORT).show();
             });
-
             btnRefusal.setOnClickListener(v -> {
+
+                Date date = new Date(System.currentTimeMillis());
+                String dateOpreation = formatterLong.format(date);
                 opreation.setState("3");
                 opreation.setType("3");
+                opreation.setDate(dateOpreation);
                 reference.child(opreation.getId()).setValue(opreation);
                 btnRefusal.setEnabled(false);
                 btnAccpet.setEnabled(false);

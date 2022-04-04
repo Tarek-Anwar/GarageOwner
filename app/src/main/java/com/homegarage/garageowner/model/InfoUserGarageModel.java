@@ -7,7 +7,7 @@ public class InfoUserGarageModel {
     private float priceForHour;
     private String nameEn , nameAr;
     private String phone;
-    private float balance;
+    private float Balance;
     private String email;
     private String governoateEn , governoateAR;
     private String cityEn, cityAr;
@@ -70,11 +70,11 @@ public class InfoUserGarageModel {
     }
 
     public float getBalance() {
-        return balance;
+        return Balance;
     }
 
     public void setBalance(float balance) {
-        this.balance = balance;
+        Balance = balance;
     }
 
     public float getPriceForHour() { return priceForHour; }

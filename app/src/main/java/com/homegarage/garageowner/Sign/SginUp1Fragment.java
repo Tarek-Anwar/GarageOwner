@@ -43,7 +43,6 @@ public class SginUp1Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
         mAwesomeValidation.setContext(getContext());
         infoUserGarageModel = FirebaseUtil.userGarageSign;
@@ -61,7 +60,6 @@ public class SginUp1Fragment extends Fragment {
                 binding.scrollSign1.fullScroll(View.FOCUS_DOWN);
                 binding.nextSign1.setVisibility(View.VISIBLE);
                 binding.layoutSuccess1.setVisibility(View.VISIBLE);
-
             } else {
                 binding.layoutSuccess1.setVisibility(View.GONE);
             }

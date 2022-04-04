@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Opreation implements Serializable {
 
-    String id , state , type , fromName ,toName , from , to , date ,expectData;
+    String id , state , type , fromName ,toName , from , to , date ,dataEnd;
     float price;
 
     public  Opreation(){}
@@ -55,12 +55,12 @@ public class Opreation implements Serializable {
         this.to = to;
     }
 
-    public String getExpectData() {
-        return expectData;
+    public String getDataEnd() {
+        return dataEnd;
     }
 
-    public void setExpectData(String expectData) {
-        this.expectData = expectData;
+    public void setDataEnd(String dataEnd) {
+        this.dataEnd = dataEnd;
     }
 
     public float getPrice() {

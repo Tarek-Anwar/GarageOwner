@@ -9,7 +9,6 @@
     <string name="img_success">Success</string>
     <string name="invalid_password">The password should contain at least 8 characters, including at least one lower case letter, one upper case letter, one number and one punctuation mark</string>
     <string name="err_birth">Birthday should be like Day/Month/Year, and must be >= 18</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="enter_email">Enter Email</string>
     <string name="enter_password">Enter Password</string>
     <string name="Login">Login</string>
@@ -37,14 +36,12 @@
     <string name="select_city">Select City</string>
     <string name="setting">Setting</string>
     <string name="log_out">Log out</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="open_menu">Open</string>
     <string name="close_menu">Close</string>
     <string name="file_user_info">flle_uset_info</string>
     <string name="edit_info">Edit Information</string>
     <string name="new_password">Add New Password ?</string>
-
     <string name="save">Save</string>
     <string name="requst_reservation">Requst Reservation from</string>
     <string name="in_time">In Time</string>
@@ -71,6 +68,13 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="total">Total</string>
+    <string name="deposit">Deposit</string>
+    <string name="rotating">Rotating</string>
+    <string name="eg">E.G.</string>
+    <string name="done">Done</string>
+    <string name="cancel">Cancel</string>
+    <string name="Purchase">Purchase</string>
 
 
 </resources>
