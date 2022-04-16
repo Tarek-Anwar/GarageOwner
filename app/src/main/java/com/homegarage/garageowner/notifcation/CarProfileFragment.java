@@ -39,8 +39,7 @@ public class CarProfileFragment extends Fragment {
         binding.depositBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogDespost dialog=new DialogDespost(carInfo);
-                dialog.show(getParentFragmentManager(),"deposit");
+
             }
         });
         return binding.getRoot();

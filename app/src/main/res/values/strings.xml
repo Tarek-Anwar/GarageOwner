@@ -9,6 +9,7 @@
     <string name="img_success">Success</string>
     <string name="invalid_password">The password should contain at least 8 characters, including at least one lower case letter, one upper case letter, one number and one punctuation mark</string>
     <string name="err_birth">Birthday should be like Day/Month/Year, and must be >= 18</string>
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="enter_email">Enter Email</string>
     <string name="enter_password">Enter Password</string>
     <string name="Login">Login</string>
@@ -36,12 +37,14 @@
     <string name="select_city">Select City</string>
     <string name="setting">Setting</string>
     <string name="log_out">Log out</string>
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="open_menu">Open</string>
     <string name="close_menu">Close</string>
     <string name="file_user_info">flle_uset_info</string>
     <string name="edit_info">Edit Information</string>
     <string name="new_password">Add New Password ?</string>
+
     <string name="save">Save</string>
     <string name="requst_reservation">Requst Reservation from</string>
     <string name="in_time">In Time</string>
@@ -60,21 +63,41 @@
     <string name="accpet_type">Accpet</string>
     <string name="refusal_type">Refusal</string>
     <string name="pay_type">Pay</string>
-    <string name="title_activity_information">Information</string>
+    <string name="title_activity_information" translatable="false">Information</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+    <string name="first_fragment_label" translatable="false">First Fragment</string>
+    <string name="second_fragment_label" translatable="false">Second Fragment</string>
     <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="total">Total</string>
-    <string name="deposit">Deposit</string>
-    <string name="rotating">Rotating</string>
-    <string name="eg">E.G.</string>
-    <string name="done">Done</string>
-    <string name="cancel">Cancel</string>
-    <string name="Purchase">Purchase</string>
+    <string name="hello_first_fragment" translatable="false">Hello first fragment</string>
+    <string name="hello_second_fragment" translatable="false">Hello second fragment. Arg: %1$s</string>
+    <string name="welcom">Welcom !</string>
+    <string name="log_in_to_continue">log in to continue.</string>
+    <string name="don_t_have_an_account">Don`t have an account?</string>
+    <string name="sign_up">sign up</string>
+    <string name="sign_up_to_continue">sign up to continue</string>
+    <string name="step_1_4">step 1/4</string>
+    <string name="by_signning_up_you_agree_with_our">By signning up,you agree with our</string>
+    <string name="terms_amp_conditions"><![CDATA[Terms & Conditions]]></string>
+    <string name="continue2">continue.</string>
+    <string name="step2_4">step2/4</string>
+    <string name="enter_street">enter street</string>
+    <string name="arabic_adress">العنوان(عربي)</string>
+    <string name="information_about_garage">information about garage</string>
+    <string name="step_3_4">step 3/4</string>
+    <string name="garage_name">Garage name</string>
+    <string name="in_english">(in English)</string>
+    <string name="in_arabic">(in Arabic)</string>
+    <string name="garage_rent">garage rent</string>
+    <string name="per_hour">(per Hour)</string>
+    <string name="phone_number">Phone number</string>
+    <string name="enter_a_pic_n_for_garage">Enter a pic \n (for garage)</string>
+    <string name="information_about_payment_operation">information about payment operation</string>
+    <string name="step4_4">step4/4</string>
+    <string name="bank_account_name">Bank account name</string>
+    <string name="bank_account_number">Bank account number</string>
+    <string name="enter_a_pic_n_for_national_id_card">Enter a pic \n (for National ID card)</string>
+    <string name="finish">finish</string>
 
 
 </resources>

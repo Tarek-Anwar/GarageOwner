@@ -1,10 +1,12 @@
 package com.homegarage.garageowner.Sign;
 
+import static com.basgeekball.awesomevalidation.ValidationStyle.BASIC;
 import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -56,8 +59,7 @@ public class SignUp3Fragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         model = FirebaseUtil.userGarageSign;
-        mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
-        mAwesomeValidation.setContext(getContext());
+        mAwesomeValidation = new AwesomeValidation(BASIC);
     }
 
     @Override
@@ -65,7 +67,7 @@ public class SignUp3Fragment extends Fragment {
                              Bundle savedInstanceState) {
 
         binding = FragmentSignUp3Binding.inflate(getLayoutInflater());
-
+        binding.terms.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
         ActivityResultContract<Object, Uri> contract = new ActivityResultContract<Object, Uri>() {
             @NonNull
             @Override
@@ -90,7 +92,6 @@ public class SignUp3Fragment extends Fragment {
             @Override
             public void onActivityResult(Uri uri) {
                 if (uri != null) {
-                    binding.profileImage.setImageURI(uri);
                     SignUp3Fragment.this.uploadImage(uri);
                 }
             }
@@ -98,47 +99,39 @@ public class SignUp3Fragment extends Fragment {
 
         addValidationForEditText();
 
-        binding.checkSign3.setOnClickListener(v -> {
-            if (mAwesomeValidation.validate()) {
-                binding.btnSignInFire.setVisibility(View.VISIBLE);
-                binding.checkSign3.setVisibility(View.GONE);
-            } else {
-                binding.btnSignInFire.setVisibility(View.GONE);
-                binding.checkSign3.setVisibility(View.VISIBLE);
-            }
-        });
 
-        binding.profileImage.setOnClickListener(v-> {
+        binding.getIMG.setOnClickListener(v-> {
             launcher.launch(null);
         });
 
         binding.btnSignInFire.setOnClickListener(v -> {
-                    DatabaseReference databaseReference = FirebaseUtil.mDatabaseReference;
-                    FirebaseUser firebaseUser =FirebaseUtil.mFirebaseAuthl.getCurrentUser();
-                    assert firebaseUser != null;
-                    DatabaseReference newuser = databaseReference.child(firebaseUser.getUid());
-                    model.setNameEn(binding.etNameENSign.getText().toString().trim());
-                    model.setNameAr(binding.etNameArSign.getText().toString().trim());
-                    model.setPriceForHour(Float.parseFloat(binding.etPriceForHoure.getText().toString()));
-                    model.setId(firebaseUser.getUid());
+            if (mAwesomeValidation.validate())
+            {
+
+                    model.setNameEn(binding.etNameENSign.getEditText().getText().toString().trim());
+                    model.setNameAr(binding.etNameArSign.getEditText().getText().toString().trim());
+                    model.setPriceForHour(Float.parseFloat(binding.etPriceForHoure.getEditText().getText().toString()));
+
                     model.setRate(0f);
                     model.setNumOfRatings(0);
-                    newuser.setValue(model);
-                    Sign_up4 signUp4=new Sign_up4(firebaseUser);
+                    Sign_up4 signUp4=new Sign_up4();
                     FragmentTransaction transaction=requireActivity().getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.fragmentContainerView,signUp4);
                     transaction.addToBackStack(null);
                     transaction.commit();
-
+            }
+            else
+                Toast.makeText(getContext(),"invalid data",Toast.LENGTH_SHORT).show();
         });
+
         return  binding.getRoot();
     }
 
     private void addValidationForEditText() {
-       mAwesomeValidation.addValidation(binding.etPriceForHoure,RegexTemplate.NOT_EMPTY,getString(R.string.text_empt));
-       mAwesomeValidation.addValidation(binding.etPhoneSign,"^01[0125][0-9]{8}$",getString(R.string.phone_invalid));
-        mAwesomeValidation.addValidation(binding.etNameENSign, RegexTemplate.NOT_EMPTY,getString(R.string.name_invalid));
-        mAwesomeValidation.addValidation(binding.etNameArSign, RegexTemplate.NOT_EMPTY,getString(R.string.name_invalid));
+       mAwesomeValidation.addValidation(binding.etPriceForHoure.getEditText(),RegexTemplate.NOT_EMPTY,getString(R.string.text_empt));
+       mAwesomeValidation.addValidation(binding.etPhoneSign.getEditText(),"^01[0125][0-9]{8}$",getString(R.string.phone_invalid));
+        mAwesomeValidation.addValidation(binding.etNameENSign.getEditText(), RegexTemplate.NOT_EMPTY,getString(R.string.name_invalid));
+        mAwesomeValidation.addValidation(binding.etNameArSign.getEditText(), RegexTemplate.NOT_EMPTY,getString(R.string.name_invalid));
     }
 
     private void uploadImage(Uri filePath) {

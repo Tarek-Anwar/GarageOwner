@@ -1,11 +1,13 @@
 package com.homegarage.garageowner.Sign;
 
+import static com.basgeekball.awesomevalidation.ValidationStyle.BASIC;
 import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Paint;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
@@ -23,6 +25,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -69,8 +72,7 @@ public class SignUp2Fragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
-        mAwesomeValidation.setContext(getContext());
+        mAwesomeValidation = new AwesomeValidation(BASIC);
         infoUserGarageModel = FirebaseUtil.userGarageSign;
         reference=FirebaseDatabase.getInstance().getReference().child("cities");
 
@@ -96,59 +98,50 @@ public class SignUp2Fragment extends Fragment {
                              Bundle savedInstanceState) {
 
         binding = FragmentSignUp2Binding.inflate(getLayoutInflater());
+        binding.terms.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
         LocationManager manager2 = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
         final boolean locationEnable2 = manager2.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        if(!locationEnable2){ binding.btnOpneGps.setVisibility(View.VISIBLE); }
-        else{ binding.btnOpneGps.setVisibility(View.GONE); }
 
-        binding.btnOpneGps.setOnClickListener(v -> {
-        LocationManager manager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
-        final boolean locationEnable = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-            if(!locationEnable){
-                binding.btnOpneGps.setVisibility(View.VISIBLE);
-                Toast.makeText(getContext(), "please, opne Gps to get Location", Toast.LENGTH_SHORT).show();
-                enableLoaction();
-            }else{
-                binding.btnOpneGps.setVisibility(View.GONE);
-                Toast.makeText(getContext(), "GPS is opne", Toast.LENGTH_SHORT).show();
+        binding.btnGetlocationSign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LocationManager manager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+                final boolean locationEnable = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                if(!locationEnable){
+                    Toast.makeText(getContext(), "please, open Gps to get Location", Toast.LENGTH_SHORT).show();
+                    enableLoaction();
+                }
+                getCurrantLoaction();
             }
         });
-
-        binding.btnGetlocationSign.setOnClickListener(v -> getCurrantLoaction());
 
         addValidationForEditText();
 
-        binding.checkSign2.setOnClickListener(v -> {
-            if (mAwesomeValidation.validate()) {
-                binding.scrollSign2.fullScroll(View.FOCUS_DOWN);
-                binding.nextSign2.setVisibility(View.VISIBLE);
-                binding.layoutSuccess2.setVisibility(View.VISIBLE);
-            } else {
-                binding.layoutSuccess2.setVisibility(View.GONE);
-            }
-        });
+
 
         binding.nextSign2.setOnClickListener(v -> {
-            infoUserGarageModel.setLocation(longitude+","+latitude);
-            infoUserGarageModel.setCityAr(getCityAr);
-            infoUserGarageModel.setCityEn(getCityEn);
-            infoUserGarageModel.setGovernoateAR(getGoverAr);
-            infoUserGarageModel.setGovernoateEn(getGoverEn);
-            infoUserGarageModel.setRestOfAddressEN(binding.restOfAddressSignEn.getText().toString());
-            infoUserGarageModel.setRestOfAddressAr(binding.restOfAddressSignAr.getText().toString());
-            getCityNum(new GetCity() {
-                @Override
-                public void getNum(int i) {
-                    reference.child(cityId).child("numberGarage").setValue(i+1);
-                }
-            });
+            if (mAwesomeValidation.validate()) {
+                infoUserGarageModel.setLocation(longitude + "," + latitude);
+                infoUserGarageModel.setCityAr(getCityAr);
+                infoUserGarageModel.setCityEn(getCityEn);
+                infoUserGarageModel.setGovernoateAR(getGoverAr);
+                infoUserGarageModel.setGovernoateEn(getGoverEn);
+                infoUserGarageModel.setRestOfAddressEN(binding.restOfAddressSignEn.getEditText().getText().toString());
+                infoUserGarageModel.setRestOfAddressAr(binding.restOfAddressSignAr.getEditText().getText().toString());
+                getCityNum(new GetCity() {
+                    @Override
+                    public void getNum(int i) {
+                        reference.child(cityId).child("numberGarage").setValue(i + 1);
+                    }
+                });
 
 
-            SignUp3Fragment newFragment = new SignUp3Fragment();
-            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragmentContainerView, newFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+                SignUp3Fragment newFragment = new SignUp3Fragment();
+                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentContainerView, newFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
         });
 
 
@@ -178,9 +171,8 @@ public class SignUp2Fragment extends Fragment {
     }
 
     private void addValidationForEditText() {
-        mAwesomeValidation.addValidation(binding.restOfAddressSignAr, RegexTemplate.NOT_EMPTY,getString(R.string.text_empt));
-        mAwesomeValidation.addValidation(binding.restOfAddressSignEn, RegexTemplate.NOT_EMPTY,getString(R.string.text_empt));
-        mAwesomeValidation.addValidation(binding.location,RegexTemplate.NOT_EMPTY,getString(R.string.invalid_location));
+        mAwesomeValidation.addValidation(binding.restOfAddressSignAr.getEditText(), RegexTemplate.NOT_EMPTY,getString(R.string.text_empt));
+        mAwesomeValidation.addValidation(binding.restOfAddressSignEn.getEditText(), RegexTemplate.NOT_EMPTY,getString(R.string.text_empt));
     }
 
     private void getCurrantLoaction() {
@@ -203,9 +195,9 @@ public class SignUp2Fragment extends Fragment {
                         longitude = locationResult.getLocations().get(indx).getLongitude();
                         latitude =    locationResult.getLocations().get(indx).getLatitude();
                         allLocation  =  longitude + "," + latitude;
-                        binding.location.setText(allLocation);
                         Toast.makeText(getContext(), allLocation, Toast.LENGTH_SHORT).show();
                     }
+
                 }
             }, Looper.getMainLooper());
         }
@@ -278,8 +270,6 @@ public class SignUp2Fragment extends Fragment {
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         city = dataSnapshot.getValue(City.class);
                         cityId=dataSnapshot.getKey();
-                        //    Log.d("LLLL", dataSnapshot.getKey() + "");
-                        //  Log.d("LLLL", city.getNumberGarage() + "");
                     }
                     getCity.getNum(city.getNumberGarage());
                 }

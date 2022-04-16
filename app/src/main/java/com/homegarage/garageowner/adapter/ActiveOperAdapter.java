@@ -1,8 +1,10 @@
 package com.homegarage.garageowner.adapter;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +13,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,13 +34,14 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ActiveOperAdapter extends RecyclerView.Adapter<ActiveOperAdapter.ViewHolder> {
+    public ArrayList<Opreation> opreations;
+    DatabaseReference opreationsRef;
+    Query query;
 
-    public ArrayList<Opreation> opreations = FirebaseUtil.activeOpreations;;
-    ActiveListenr activeListenr;
-    public ActiveOperAdapter(ActiveListenr activeListenr) {
-        this.activeListenr = activeListenr;
-        DatabaseReference opreationsRef=FirebaseUtil.referenceOperattion;
-        Query query=opreationsRef.orderByChild("to").equalTo(FirebaseUtil.mFirebaseAuthl.getUid());
+    public ActiveOperAdapter() {
+        opreations= FirebaseUtil.activeOpreations;
+        opreationsRef=FirebaseUtil.referenceOperattion;
+        query=opreationsRef.orderByChild("to").equalTo(FirebaseUtil.mFirebaseAuthl.getUid());
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -44,17 +49,20 @@ public class ActiveOperAdapter extends RecyclerView.Adapter<ActiveOperAdapter.Vi
                     for(DataSnapshot item : snapshot.getChildren()){
                         opreations.clear();
                         Opreation opreation= item.getValue(Opreation.class);
-                        if ( (opreation.getState().equals("2") && opreation.getType().equals("2"))
-                                || opreation.getPrice() < 0
-                        ) {
+                        if ((opreation.getState().equals("2") && opreation.getType().equals("2"))) {
                             opreations.add(opreation);
                             notifyItemChanged(opreations.size()-1);
-                        }notifyDataSetChanged();
+                        }
+                        notifyDataSetChanged();
+                        Log.i("tttt",opreations.size()+"  Active");
                     }
                 }
             }
+
             @Override
-            public void onCancelled(@NonNull DatabaseError error) { }
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
         });
     }
 
@@ -65,7 +73,7 @@ public class ActiveOperAdapter extends RecyclerView.Adapter<ActiveOperAdapter.Vi
         return new ViewHolder(view);
     }
 
-
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bind(opreations.get(position));
@@ -77,22 +85,13 @@ public class ActiveOperAdapter extends RecyclerView.Adapter<ActiveOperAdapter.Vi
 
     }
 
-    public  interface ActiveListenr{
-        void onActiveListenr(Opreation opreation);
-    }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
-        View activeOpreation;
-        TextView carOnwer,date , roundTime;
+        TextView carOnwer,date;
         ProgressBar progressBar;
         Chronometer chronometer;
         Date start = null;
-        Date end = null;
-        String roundTxt  ;
-        volatile boolean con;
-        int countProgress , round ;
-        Long diff;
-        SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa" , new Locale("en"));
+        int progress=0;
+        SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm aa" , new Locale("en"));
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -100,96 +99,40 @@ public class ActiveOperAdapter extends RecyclerView.Adapter<ActiveOperAdapter.Vi
             date=itemView.findViewById(R.id.dateTV);
             progressBar=itemView.findViewById(R.id.progressBar);
             chronometer=itemView.findViewById(R.id.chronometer);
-            activeOpreation = itemView.findViewById(R.id.active_opreation);
-            roundTime = itemView.findViewById(R.id.round_time_txt);
         }
 
-        public void  bind(Opreation opreation) {
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        public void  bind(Opreation opreation)
+        {
             date.setText("Date : " + opreation.getDate());
             carOnwer.setText("Car Owner : " + opreation.getFromName());
-          /*  try { start = formatterLong.parse(opreation.getDate());
+
+            try { start = formatterLong.parse(opreation.getDate());
             } catch (ParseException e) { e.printStackTrace(); }
 
-             diff = System.currentTimeMillis() - start.getTime();
-            progress = (int) (diff / 5000);
+            Long diff = System.currentTimeMillis() - start.getTime();
+            progress = (int) (diff / 10000);
+
 
             chronometer.setBase(SystemClock.elapsedRealtime() - diff);
-            progressBar.setMax(2160);
+            progressBar.setMin(0);
+            progressBar.setMax(1100);
             chronometer.start();
             Handler handler=new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if(progress<2160) {
+                    if(progress<1100)
+                    {
                         progressBar.setProgress(progress);
                         progress++;
-                        handler.postDelayed(this,5000);
-                    } else {handler.removeCallbacks(this); }
-                }
-            },5000);*/
-            setProgressBar(opreation);
-            activeOpreation.setOnClickListener(v -> activeListenr.onActiveListenr(opreation));
+                        handler.postDelayed(this,10000);
+                    }
+                    else
+                    {
+                        handler.removeCallbacks(this);
+                }}
+            },10000);
         }
-
-        private void setProgressBar(Opreation opreation){
-
-            roundTxt = itemView.getContext().getString(R.string.rotating)+ " : ";;
-            try { start = formatterLong.parse(opreation.getDate());
-            } catch (ParseException e) { e.printStackTrace(); }
-
-            if(opreation.getDataEnd()==null) {
-                diff = System.currentTimeMillis() - start.getTime();
-            }else {
-                try { end = formatterLong.parse(opreation.getDataEnd());
-                } catch (ParseException e) { e.printStackTrace(); }
-                diff = end.getTime() - start.getTime();
-            }
-
-            if(diff<0){ con = false;countProgress = (int) (-1 * diff / 5000);
-            }else { con=true;countProgress = (int) (diff / 5000);
-                round = (countProgress/2160) + 1;
-                roundTime.setText(roundTxt + round);}
-
-            chronometer.setBase(SystemClock.elapsedRealtime() - diff);
-            if(con && (opreation.getState().equals("1") || opreation.getState().equals("2"))){
-                progressBar.setMax(2160);
-                chronometer.start();
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(countProgress==2160){
-                            progressBar.setProgress(countProgress);
-                            round++;
-                            roundTime.setText(roundTxt + round);
-                            countProgress=0;
-                            handler.postDelayed(this,5000);
-                        }else if(countProgress<2160){
-                            progressBar.setProgress(countProgress);
-                            countProgress++;
-                            handler.postDelayed(this,5000);
-                        }else{ handler.removeCallbacks(this); }}
-                },5000);
-
-            }else if(con == false) {
-                progressBar.setMax(countProgress);
-                chronometer.start();
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(countProgress==0){
-                            con=true;
-                            progressBar.setProgress(countProgress);
-                        }
-                        if(countProgress>0){
-                            progressBar.setProgress(countProgress);
-                            countProgress--;
-                            handler.postDelayed(this,5000);
-                        }else{ handler.removeCallbacks(this); }}
-                },5000);
-            }
-        }
-
     }
 }

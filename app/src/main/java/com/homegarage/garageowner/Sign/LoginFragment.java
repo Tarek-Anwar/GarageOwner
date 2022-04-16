@@ -1,5 +1,6 @@
 package com.homegarage.garageowner.Sign;
 
+import static com.basgeekball.awesomevalidation.ValidationStyle.BASIC;
 import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
 
 import android.content.Intent;
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.firebase.auth.FirebaseAuth;
 import com.homegarage.garageowner.FirebaseUtil;
@@ -34,8 +36,8 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
-        mAwesomeValidation.setContext(getContext());
+        mAwesomeValidation = new AwesomeValidation(BASIC);
+
     }
 
     @Override
@@ -47,8 +49,8 @@ public class LoginFragment extends Fragment {
         binding.btnLogin.setOnClickListener(v -> {
 
             if(mAwesomeValidation.validate()){
-                String email= binding.etEmailLog.getText().toString().trim();
-                String pass = binding.etPasswordLog.getText().toString().trim();
+                String email= binding.etEmailLog.getEditText().getText().toString().trim();
+                String pass = binding.etPasswordLog.getEditText().getText().toString().trim();
                 FirebaseAuth firebaseAuth = FirebaseUtil.mFirebaseAuthl;
                 firebaseAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(task -> {
                     if(task.isSuccessful()){
@@ -62,9 +64,22 @@ public class LoginFragment extends Fragment {
                     }
                 });
             }
+            else
+            {
+                binding.etEmailLog.getEditText().setError(getString(R.string.email_valid));
+                binding.etPasswordLog.getEditText().setError(getString(R.string.invalid_password));
+                binding.etEmailLog.setBackgroundColor(R.color.white);
+            }
         });
 
-        binding.btnGoSign.setOnClickListener(v -> {
+        binding.tvGoSign.setOnClickListener(v -> {
+            SginUp1Fragment fragment = new SginUp1Fragment();
+            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragmentContainerView,fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        });
+        binding.tv2GoSign.setOnClickListener(v -> {
             SginUp1Fragment fragment = new SginUp1Fragment();
             FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainerView,fragment);
@@ -76,8 +91,8 @@ public class LoginFragment extends Fragment {
     }
 
     private void addValidationForEditText() {
-        mAwesomeValidation.addValidation(binding.etPasswordLog,RegexTemplate.NOT_EMPTY,getString(R.string.invalid_password));
-        mAwesomeValidation.addValidation(binding.etEmailLog, Patterns.EMAIL_ADDRESS, getString(R.string.email_valid));
+        mAwesomeValidation.addValidation(binding.etPasswordLog.getEditText(),RegexTemplate.NOT_EMPTY,getString(R.string.invalid_password));
+        mAwesomeValidation.addValidation(binding.etEmailLog.getEditText(), Patterns.EMAIL_ADDRESS, getString(R.string.email_valid));
     }
 
     @Override
