@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.homegarage.garageowner.FirebaseUtil;
 import com.homegarage.garageowner.R;
 import com.homegarage.garageowner.model.CarInfo;
+import com.homegarage.garageowner.model.InfoUserGarageModel;
 import com.homegarage.garageowner.model.MoneyModel;
 import com.homegarage.garageowner.model.Opreation;
 import com.homegarage.garageowner.model.PurchaseModel;
@@ -40,9 +41,8 @@ public class DialogDespost extends DialogFragment {
     String txt;
     DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("CarInfo");
     DatabaseReference refAppBalance = FirebaseDatabase.getInstance().getReference().child("App").child(FirebaseUtil.mFirebaseAuthl.getUid());
-    DatabaseReference referenceOperattion = FirebaseUtil.referenceOperattion;
     DatabaseReference refPushase = FirebaseUtil.referencePurchase;
-    ArrayList<Opreation> opreations = FirebaseUtil.payOpreations;
+    InfoUserGarageModel garageModel;
 
 
     SimpleDateFormat formatterLong = new SimpleDateFormat("dd/MM/yyyy hh:mm aa", new Locale("en"));
@@ -50,6 +50,7 @@ public class DialogDespost extends DialogFragment {
 
     public DialogDespost(CarInfo carInfo) {
         this.carInfo = carInfo;
+        garageModel = FirebaseUtil.userGarageInfo.get(FirebaseUtil.userGarageInfo.size()-1);
     }
 
     @Nullable
@@ -72,7 +73,7 @@ public class DialogDespost extends DialogFragment {
             @Override
             public void OnDeositAdded(MoneyModel moneyModel) {
                 depositBTN.setOnClickListener(view1 -> {
-                    float depositNum =Float.parseFloat(balanceET.getText().toString());
+                    float depositNum = Float.parseFloat(balanceET.getText().toString());
                     carInfo.setBalance(depositNum + carInfo.getBalance());
                     balanceTV.setText("Balance " + carInfo.getBalance());
                     reference.child(carInfo.getId()).child("balance").setValue(carInfo.getBalance());
@@ -81,24 +82,25 @@ public class DialogDespost extends DialogFragment {
                     refAppBalance.child("appPercent").setValue(moneyModel.getAppPercent());
                     refAppBalance.child("totalBalance").setValue(moneyModel.getMoneyForGarage()-moneyModel.getAppPercent());
 
-                    PurchaseModel opreation = new PurchaseModel();
                     Date date = new Date(System.currentTimeMillis());
                     String dateOpreation = formatterLong.format(date);
-                    opreation.setDate(dateOpreation);
-                    opreation.setType("3");
-                    opreation.setFrom(FirebaseUtil.mFirebaseAuthl.getUid());
-                    opreation.setTo(carInfo.getId());
-                    opreation.setValue(depositNum);
-                    opreation.setFromName(FirebaseUtil.mFirebaseAuthl.getCurrentUser().getDisplayName());
-                    opreation.setToName(carInfo.getName());
-                    opreation.setId(refPushase.push().getKey());
-                    refPushase.child(opreation.getId()).setValue(opreation);
+
+                    PurchaseModel purchase = new PurchaseModel();
+                    purchase.setDate(dateOpreation);
+                    purchase.setType("3");
+                    purchase.setFrom(carInfo.getId());
+                    purchase.setTo(garageModel.getId());
+                    purchase.setValue(depositNum);
+                    purchase.setFromName(carInfo.getName());
+                    purchase.setToName(garageModel.getNameEn());
+                    purchase.setId(refPushase.push().getKey());
+                    refPushase.child(purchase.getId()).setValue(purchase);
+
                     Toast.makeText(getContext(), "thanks", Toast.LENGTH_SHORT).show();
+                    dismiss();
                 });
             }
-
         });
-
 
         return view;
     }
@@ -124,7 +126,7 @@ public class DialogDespost extends DialogFragment {
                 if(snapshot.exists()){
                     moneyModel = snapshot.getValue(MoneyModel.class);
                     callback.OnDeositAdded(moneyModel);
-                }
+                }else  callback.OnDeositAdded(new MoneyModel(0,0,0));
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }

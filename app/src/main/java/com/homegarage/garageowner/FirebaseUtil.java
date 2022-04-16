@@ -28,10 +28,11 @@ public class FirebaseUtil {
     public static StorageReference mStorageReference;
     public static FirebaseStorage mStorage;
 
-    public static InfoUserGarageModel userGarageInfo;
 
     public static ArrayList<Opreation> reqstOperaionList;
     public static ArrayList<Opreation> activeOpreations;
+    public static ArrayList<InfoUserGarageModel> userGarageInfo;
+
     public static ArrayList<Integer> stateList ;
     public static ArrayList<Integer> typeList ;
     public static ArrayList<Integer> paylist;
@@ -72,12 +73,13 @@ public class FirebaseUtil {
         paylist.add(R.string.deposit);
 
 
-        userGarageInfo = new InfoUserGarageModel();
+
         userGarageSign = new InfoUserGarageModel();
 
         activeOpreations=new ArrayList<>();
         payOpreations=new ArrayList<>();
         reqstOperaionList = new ArrayList<>();
+        userGarageInfo = new ArrayList<>();
         mDatabaseReference = mFirebaseDatabase.getReference().child(ref);
         referenceOperattion = mFirebaseDatabase.getReference().child(refOperattion);
         referenceCar = mFirebaseDatabase.getReference().child("CarInfo");
