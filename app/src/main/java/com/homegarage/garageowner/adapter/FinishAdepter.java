@@ -51,9 +51,7 @@ public class FinishAdepter extends RecyclerView.Adapter<FinishAdepter.ViewHolder
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
 
     }

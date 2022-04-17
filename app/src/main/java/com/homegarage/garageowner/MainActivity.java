@@ -29,6 +29,7 @@ import com.homegarage.garageowner.databinding.ActivityMainBinding;
 import com.homegarage.garageowner.home.EditUserInfoActivity;
 import com.homegarage.garageowner.model.InfoUserGarageModel;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private FirebaseUser user;
-    private InfoUserGarageModel userGarageInfo = FirebaseUtil.userGarageInfo;
+    private ArrayList <InfoUserGarageModel> userGarageInfo;
     FragmentContainerView containerView;
     FragmentContainerView view;
     View v;
@@ -57,8 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseUtil.openFbReference("GaragerOnwerInfo", "Operation");
         user = FirebaseUtil.mFirebaseAuthl.getCurrentUser();
-
-
+        userGarageInfo = FirebaseUtil.userGarageInfo;
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.main_nave_view);
         //find header Navigation
@@ -141,8 +141,9 @@ public class MainActivity extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
                         containerView.setVisibility(View.VISIBLE);
-                        userGarageInfo = snapshot.getValue(InfoUserGarageModel.class);
-                        setHeaderNav(userGarageInfo);
+                        InfoUserGarageModel model = snapshot.getValue(InfoUserGarageModel.class);
+                        userGarageInfo.add(model);
+                        setHeaderNav(model);
                     }
                     else
                     {

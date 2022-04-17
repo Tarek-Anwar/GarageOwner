@@ -26,9 +26,11 @@ public class Finish extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         binding=FragmentFinishBinding.inflate(getLayoutInflater());
         binding.finishedRV.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         binding.finishedRV.setAdapter(new FinishAdepter());
+
         return binding.getRoot();
     }
 }

@@ -44,7 +44,6 @@
     <string name="file_user_info">flle_uset_info</string>
     <string name="edit_info">Edit Information</string>
     <string name="new_password">Add New Password ?</string>
-
     <string name="save">Save</string>
     <string name="requst_reservation">Requst Reservation from</string>
     <string name="in_time">In Time</string>
@@ -68,6 +67,14 @@
     <string name="first_fragment_label" translatable="false">First Fragment</string>
     <string name="second_fragment_label" translatable="false">Second Fragment</string>
     <string name="previous">Previous</string>
+
+    <string name="total">Total</string>
+    <string name="deposit">Deposit</string>
+    <string name="rotating">Rotating</string>
+    <string name="eg">E.G.</string>
+    <string name="done">Done</string>
+    <string name="cancel">Cancel</string>
+    <string name="Purchase">Purchase</string>
 
     <string name="hello_first_fragment" translatable="false">Hello first fragment</string>
     <string name="hello_second_fragment" translatable="false">Hello second fragment. Arg: %1$s</string>
