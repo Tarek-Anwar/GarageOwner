@@ -3,10 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/drawable/davidlogin.xml" value="0.1945" />
-        <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/drawable/offline.xml" value="0.5" />
-        <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/drawable/online.xml" value="0.1945" />
-        <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/drawable/round_btn.xml" value="0.1945" />
         <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/layout/activity_info.xml" value="0.19010416666666666" />
         <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
         <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/layout/activity_main2.xml" value="0.17074275362318841" />
@@ -17,12 +13,12 @@
         <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/layout/fragment_car_profile.xml" value="0.20416666666666666" />
         <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/layout/fragment_finish.xml" value="0.33" />
         <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/layout/fragment_home.xml" value="0.25" />
-        <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/layout/fragment_login.xml" value="0.5" />
+        <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/layout/fragment_login.xml" value="0.37889447236180906" />
         <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/layout/fragment_requestes.xml" value="0.1296875" />
-        <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/layout/fragment_sgin_up.xml" value="0.22" />
-        <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/layout/fragment_sign_up2.xml" value="0.33" />
-        <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/layout/fragment_sign_up3.xml" value="0.19010416666666666" />
-        <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/layout/fragment_sign_up4.xml" value="0.20416666666666666" />
+        <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/layout/fragment_sgin_up.xml" value="0.20416666666666666" />
+        <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/layout/fragment_sign_up2.xml" value="0.19010416666666666" />
+        <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/layout/fragment_sign_up3.xml" value="0.33" />
+        <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/layout/fragment_sign_up4.xml" value="0.19010416666666666" />
         <entry key="..\:/ANDROID/FinalProject/AHMED/GarageOwner/app/src/main/res/menu/navigation_menu.xml" value="0.20416666666666666" />
         <entry key="..\:/Android Project/GarageOwner2/app/src/main/res/layout/active_item_view.xml" value="0.4" />
         <entry key="..\:/Android Project/GarageOwner2/app/src/main/res/layout/activity_edit_user_info.xml" value="0.2" />
@@ -31,10 +27,14 @@
         <entry key="..\:/Android Project/GarageOwner2/app/src/main/res/layout/activity_sign.xml" value="0.25416666666666665" />
         <entry key="..\:/Android Project/GarageOwner2/app/src/main/res/layout/activity_test.xml" value="0.25416666666666665" />
         <entry key="..\:/Android Project/GarageOwner2/app/src/main/res/layout/dialog.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android Project/GarageOwner2/app/src/main/res/layout/finished_itemview.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android Project/GarageOwner2/app/src/main/res/layout/fragment_active.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android Project/GarageOwner2/app/src/main/res/layout/fragment_active_resqust.xml" value="0.6" />
         <entry key="..\:/Android Project/GarageOwner2/app/src/main/res/layout/fragment_car_profile.xml" value="0.4" />
         <entry key="..\:/Android Project/GarageOwner2/app/src/main/res/layout/fragment_home.xml" value="0.25416666666666665" />
         <entry key="..\:/Android Project/GarageOwner2/app/src/main/res/layout/fragment_login.xml" value="0.25416666666666665" />
-        <entry key="..\:/Android Project/GarageOwner2/app/src/main/res/layout/fragment_requst_reser.xml" value="0.536" />
+        <entry key="..\:/Android Project/GarageOwner2/app/src/main/res/layout/fragment_requestes.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android Project/GarageOwner2/app/src/main/res/layout/fragment_requst_reser.xml" value="0.264" />
         <entry key="..\:/Android Project/GarageOwner2/app/src/main/res/layout/fragment_sgin_up.xml" value="0.264" />
         <entry key="..\:/Android Project/GarageOwner2/app/src/main/res/layout/fragment_sign_up2.xml" value="0.264" />
         <entry key="..\:/Android Project/GarageOwner2/app/src/main/res/layout/fragment_sign_up3.xml" value="0.1465798045602606" />
