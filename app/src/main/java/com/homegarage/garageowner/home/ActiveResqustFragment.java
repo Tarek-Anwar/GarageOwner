@@ -38,19 +38,16 @@ public class ActiveResqustFragment extends Fragment {
     Date start = null;
     Date end = null;
     Long diff;
-    InfoUserGarageModel garageModel;
     volatile boolean con;
     int countProgress , round ;
     String roundTxt  ;
     DatabaseReference referenceOper ;
-    DatabaseReference referenceCar;
     DatabaseReference refPushase = FirebaseUtil.referencePurchase;
     SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa" , new Locale("en"));
 
     public ActiveResqustFragment(Opreation opreation) {
         this.opreation = opreation;
         referenceOper = FirebaseUtil.referenceOperattion.child(opreation.getId());
-        garageModel = FirebaseUtil.userGarageInfo.get(FirebaseUtil.userGarageInfo.size()-1);
     }
 
     @Override
@@ -96,7 +93,7 @@ public class ActiveResqustFragment extends Fragment {
                             if (opreation.getDataEnd() == null) {
                                 opreation.setDataEnd(formatterLong.format(date));
                             }
-                            opreation.setPrice(-1 * calPriceExpect(garageModel.getPriceForHour(), opreation.getDate(), opreation.getDataEnd()));
+                            opreation.setPrice(-1 * calPriceExpect(FirebaseUtil.userGarageInfo.getPriceForHour(), opreation.getDate(), opreation.getDataEnd()));
                             opreation.setState("3");
                             opreation.setType("5");
                             referenceOper.setValue(opreation);
@@ -106,36 +103,21 @@ public class ActiveResqustFragment extends Fragment {
                 }else {
                     if(binding.btnDepostReser.getText().equals(pay)){
                         binding.btnDepostReser.setOnClickListener(v -> {
-                            DatabaseReference garageReference = FirebaseUtil.mDatabaseReference.child(garageModel.getId());
                             Date date = new Date(System.currentTimeMillis());
                             String dateOpreation = formatterLong.format(date);
 
-                            float costOper = opreation.getPrice()*-1;
-                            float appBalance = (float) (costOper * .1);
-                            float grageBalance = costOper - appBalance;
-
-                            //update car owner balance
-                            carInfo.setBalance(carInfo.getBalance() - costOper);
-                            referenceCar.child("balance").setValue(carInfo.getBalance());
-
-                            //update balance for grage owner
-                            garageModel.setBalance(garageModel.getBalance() + grageBalance);
-                            garageReference.child("Balance").setValue(garageModel.getBalance());
-
                             PurchaseModel  purchase = new PurchaseModel();
                             purchase.setDate(dateOpreation);
-                            purchase.setType("1");
-                            purchase.setFrom(carInfo.getId());
-                            purchase.setTo(garageModel.getId());
-                            purchase.setValue(costOper);
-                            purchase.setFromName(carInfo.getName());
-                            purchase.setToName(garageModel.getNameEn());
+                            purchase.setType("3");
+                            purchase.setFrom(FirebaseUtil.mFirebaseAuthl.getUid());
+                            purchase.setTo(carInfo.getId());
+                            purchase.setValue(opreation.getPrice()*-1);
+                            purchase.setFromName(FirebaseUtil.mFirebaseAuthl.getCurrentUser().getDisplayName());
+                            purchase.setToName(carInfo.getName());
                             purchase.setId(refPushase.push().getKey());
                             refPushase.child(purchase.getId()).setValue(purchase);
 
-                            referenceCar.child("balance").setValue(carInfo.getBalance()+opreation.getPrice());
                             referenceOper.child("price").setValue(opreation.getPrice()*-1);
-
                             getParentFragmentManager().popBackStackImmediate();
                         });
                     }else if(binding.btnDepostReser.getText().equals(depost)){
@@ -159,8 +141,8 @@ public class ActiveResqustFragment extends Fragment {
     }
 
     private void getCarOwer(OnCarOwnerGetCallback callback){
-        referenceCar = FirebaseUtil.referenceCar.child(opreation.getFrom());
-        referenceCar.addValueEventListener(new ValueEventListener() {
+        DatabaseReference reference = FirebaseUtil.referenceCar.child(opreation.getFrom());
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 carInfo = snapshot.getValue(CarInfo.class);
@@ -168,6 +150,7 @@ public class ActiveResqustFragment extends Fragment {
                     callback.carOwnerGetCallback(carInfo);
                     callback.operationGetCallback(opreation);
                 }
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
@@ -181,8 +164,11 @@ public class ActiveResqustFragment extends Fragment {
                     callback.operationGetCallback(opreation);
                 }
             }
+
             @Override
-            public void onCancelled(@NonNull DatabaseError error) { }
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
         });
     }
 
