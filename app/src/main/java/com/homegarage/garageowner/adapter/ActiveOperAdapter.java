@@ -35,13 +35,12 @@ import java.util.Locale;
 
 public class ActiveOperAdapter extends RecyclerView.Adapter<ActiveOperAdapter.ViewHolder> {
     public ArrayList<Opreation> opreations;
-    DatabaseReference opreationsRef;
-    Query query;
+
 
     public ActiveOperAdapter() {
-        opreations= FirebaseUtil.activeOpreations;
-        opreationsRef=FirebaseUtil.referenceOperattion;
-        query=opreationsRef.orderByChild("to").equalTo(FirebaseUtil.mFirebaseAuthl.getUid());
+         opreations= FirebaseUtil.activeOpreations;
+        DatabaseReference opreationsRef=FirebaseUtil.referenceOperattion;
+        Query query = opreationsRef.orderByChild("to").equalTo(FirebaseUtil.mFirebaseAuthl.getUid());
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -54,15 +53,12 @@ public class ActiveOperAdapter extends RecyclerView.Adapter<ActiveOperAdapter.Vi
                             notifyItemChanged(opreations.size()-1);
                         }
                         notifyDataSetChanged();
-                        Log.i("tttt",opreations.size()+"  Active");
                     }
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
     }
 
@@ -91,7 +87,8 @@ public class ActiveOperAdapter extends RecyclerView.Adapter<ActiveOperAdapter.Vi
         Chronometer chronometer;
         Date start = null;
         int progress=0;
-        SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm aa" , new Locale("en"));
+        Long diff;
+        SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa" , new Locale("en"));
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -101,29 +98,25 @@ public class ActiveOperAdapter extends RecyclerView.Adapter<ActiveOperAdapter.Vi
             chronometer=itemView.findViewById(R.id.chronometer);
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.O)
-        public void  bind(Opreation opreation)
-        {
+        public void  bind(Opreation opreation) {
             date.setText("Date : " + opreation.getDate());
             carOnwer.setText("Car Owner : " + opreation.getFromName());
 
             try { start = formatterLong.parse(opreation.getDate());
+                diff = System.currentTimeMillis() - start.getTime();
             } catch (ParseException e) { e.printStackTrace(); }
 
-            Long diff = System.currentTimeMillis() - start.getTime();
+
             progress = (int) (diff / 10000);
 
-
             chronometer.setBase(SystemClock.elapsedRealtime() - diff);
-            progressBar.setMin(0);
             progressBar.setMax(1100);
             chronometer.start();
             Handler handler=new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if(progress<1100)
-                    {
+                    if(progress<1100) {
                         progressBar.setProgress(progress);
                         progress++;
                         handler.postDelayed(this,10000);

@@ -31,9 +31,9 @@ public class Active extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        adapter=new ActiveOperAdapter();
+        binding = FragmentActiveBinding.inflate(getLayoutInflater());
 
-                binding = FragmentActiveBinding.inflate(getLayoutInflater());
+        adapter=new ActiveOperAdapter();
         binding.recyclerActive.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         binding.recyclerActive.setAdapter(adapter);
 
