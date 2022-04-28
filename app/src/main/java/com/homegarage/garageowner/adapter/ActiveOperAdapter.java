@@ -1,17 +1,16 @@
 package com.homegarage.garageowner.adapter;
 
-import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Chronometer;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -22,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.homegarage.garageowner.FirebaseUtil;
 import com.homegarage.garageowner.R;
 import com.homegarage.garageowner.model.Opreation;
+import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -83,7 +83,8 @@ public class ActiveOperAdapter extends RecyclerView.Adapter<ActiveOperAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         View activeOpreation;
-        TextView carOnwer,date , roundTime;
+        ImageView img;
+        TextView carOnwer,day,time ,email,roundTime;
         ProgressBar progressBar;
         Chronometer chronometer;
         Date start = null;
@@ -92,41 +93,38 @@ public class ActiveOperAdapter extends RecyclerView.Adapter<ActiveOperAdapter.Vi
         volatile boolean con;
         int countProgress , round ;
         Long diff;
+        DatabaseReference referenceOpreation;
         SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa" , new Locale("en"));
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            carOnwer=itemView.findViewById(R.id.carTV);
-            date=itemView.findViewById(R.id.dateTV);
-            progressBar=itemView.findViewById(R.id.progressBar);
+            carOnwer=itemView.findViewById(R.id.text_name_car_owner2);
+            day=itemView.findViewById(R.id.dateCalender2);
+            progressBar=itemView.findViewById(R.id.progressBar2);
             chronometer=itemView.findViewById(R.id.chronometer);
             activeOpreation = itemView.findViewById(R.id.active_opreation);
-            roundTime = itemView.findViewById(R.id.round_time_txt);
+            time = itemView.findViewById(R.id.time2);
+            email=itemView.findViewById(R.id.gmail2);
+            img=itemView.findViewById(R.id.circleImageView2);
+            roundTime=itemView.findViewById(R.id.round_time_txt);
         }
 
         public void  bind(Opreation opreation) {
-            date.setText("Date : " + opreation.getDate());
-            carOnwer.setText("Car Owner : " + opreation.getFromName());
-          /*  try { start = formatterLong.parse(opreation.getDate());
-            } catch (ParseException e) { e.printStackTrace(); }
-
-             diff = System.currentTimeMillis() - start.getTime();
-            progress = (int) (diff / 5000);
-
-            chronometer.setBase(SystemClock.elapsedRealtime() - diff);
-            progressBar.setMax(2160);
-            chronometer.start();
-            Handler handler=new Handler();
-            handler.postDelayed(new Runnable() {
+            StringBuilder dayClock=new StringBuilder(opreation.getDate());
+            carOnwer.setText(opreation.getFromName());
+            day.setText(dayClock.substring(0,10));
+            time.setText(dayClock.substring(11,16)+" "+dayClock.substring(dayClock.length()-2));
+            referenceOpreation=FirebaseUtil.referenceCar.child(opreation.getFrom());
+            referenceOpreation.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void run() {
-                    if(progress<2160) {
-                        progressBar.setProgress(progress);
-                        progress++;
-                        handler.postDelayed(this,5000);
-                    } else {handler.removeCallbacks(this); }
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    email.setText(snapshot.child("email").getValue(String.class));
+                    Picasso.get().load(snapshot.child("imageUrl").getValue(String.class)).placeholder(R.drawable.profile_icon).into(img);
                 }
-            },5000);*/
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
             setProgressBar(opreation);
             activeOpreation.setOnClickListener(v -> activeListenr.onActiveListenr(opreation));
         }

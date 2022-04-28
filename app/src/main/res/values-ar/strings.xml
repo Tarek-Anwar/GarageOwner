@@ -88,4 +88,5 @@
     <string name="bank_account_number">رقم الحساب</string>
     <string name="enter_a_pic_n_for_national_id_card">صورة البطاقة</string>
     <string name="finish">انهاء</string>
+    <string name="refuse">REFUSE</string>
 </resources>

@@ -105,6 +105,7 @@
     <string name="bank_account_number">Bank account number</string>
     <string name="enter_a_pic_n_for_national_id_card">Enter a pic \n (for National ID card)</string>
     <string name="finish">finish</string>
+    <string name="refuse">REFUSE</string>
 
 
 </resources>

@@ -70,7 +70,7 @@ public class RequstReserFragment extends Fragment {
 
         binding.profileImageCar.setOnClickListener(v -> {
             FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragmentContainerViewNotification,new CarProfileFragment(carInfo) , "CarProfileFragment");
+            transaction.replace(R.id.fragmentContainerViewNotification,new CarProfileFragment(carInfo,opreation,false) , "CarProfileFragment");
             transaction.addToBackStack(null);
             transaction.commit();
         });

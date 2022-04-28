@@ -40,6 +40,7 @@ public class ActiveResqustFragment extends Fragment {
     Long diff;
     InfoUserGarageModel garageModel;
     volatile boolean con;
+    final boolean FINISH=true;
     int countProgress , round ;
     String roundTxt  ;
     DatabaseReference referenceOper ;
@@ -205,27 +206,27 @@ public class ActiveResqustFragment extends Fragment {
 
         binding.chronometer.setBase(SystemClock.elapsedRealtime() - diff);
         if(con && (opreation.getState().equals("1") || opreation.getState().equals("2"))){
-            binding.progressBar.setMax(2160);
+            binding.progressBar2.setMax(2160);
             binding.chronometer.start();
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     if(countProgress==2160){
-                        binding.progressBar.setProgress(countProgress);
+                        binding.progressBar2.setProgress(countProgress);
                         round++;
                         binding.roundTime.setText(round + round);
                         countProgress=0;
                         handler.postDelayed(this,5000);
                     }else if(countProgress<2160){
-                        binding.progressBar.setProgress(countProgress);
+                        binding.progressBar2.setProgress(countProgress);
                         countProgress++;
                         handler.postDelayed(this,5000);
                     }else{ handler.removeCallbacks(this); }}
             },5000);
 
         }else if(con == false) {
-            binding.progressBar.setMax(countProgress);
+            binding.progressBar2.setMax(countProgress);
             binding.chronometer.start();
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -233,11 +234,11 @@ public class ActiveResqustFragment extends Fragment {
                 public void run() {
                     if(countProgress==0){
                         con=true;
-                        binding.progressBar.setProgress(countProgress);
+                        binding.progressBar2.setProgress(countProgress);
                         setProgressBar();
                     }
                     if(countProgress>0){
-                        binding.progressBar.setProgress(countProgress);
+                        binding.progressBar2.setProgress(countProgress);
                         countProgress--;
                         handler.postDelayed(this,5000);
                     }else{ handler.removeCallbacks(this); }}

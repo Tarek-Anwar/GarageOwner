@@ -39,7 +39,7 @@ public class FinishAdepter extends RecyclerView.Adapter<FinishAdepter.ViewHolder
                     for(DataSnapshot item : snapshot.getChildren())
                     {
                         Opreation opreation=item.getValue(Opreation.class);
-                        if(opreation.getState().equals("3")&&opreation.getType().equals("6"))
+                        if(opreation.getState().equals("3")&&opreation.getType().equals("5"))
                         {
                             opreations.add(opreation);
                             notifyItemChanged(opreations.size()-1);
