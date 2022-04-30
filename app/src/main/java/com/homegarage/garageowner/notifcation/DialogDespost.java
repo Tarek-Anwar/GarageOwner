@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,11 +35,10 @@ import java.util.Locale;
 public class DialogDespost extends DialogFragment {
 
     TextView balanceTV;
-    EditText balanceET;
+    TextInputLayout balanceET;
     Button depositBTN;
     CarInfo carInfo;
     MoneyModel moneyModel;
-    String txt;
     DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("CarInfo");
     DatabaseReference refAppBalance = FirebaseDatabase.getInstance().getReference().child("App").child(FirebaseUtil.mFirebaseAuthl.getUid());
     DatabaseReference refPushase = FirebaseUtil.referencePurchase;
@@ -60,22 +60,21 @@ public class DialogDespost extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog, container, false);
         initViews(view);
 
-        txt = balanceTV.getText().toString();
-        balanceTV.setText(txt + carInfo.getBalance());
 
+        balanceTV.setText(carInfo.getBalance()+" "+"E.G");
 
         getDepsit(new OnDepositGetCallback() {
             @Override
             public void onCarRecived(CarInfo carInfo) {
-                balanceTV.setText(txt + carInfo.getBalance());
+                balanceTV.setText(carInfo.getBalance()+"");
             }
 
             @Override
             public void OnDeositAdded(MoneyModel moneyModel) {
                 depositBTN.setOnClickListener(view1 -> {
-                    float depositNum = Float.parseFloat(balanceET.getText().toString());
+                    float depositNum = Float.parseFloat(balanceET.getEditText().getText().toString());
                     carInfo.setBalance(depositNum + carInfo.getBalance());
-                    balanceTV.setText("Balance " + carInfo.getBalance());
+                    balanceTV.setText(carInfo.getBalance()+"");
                     reference.child(carInfo.getId()).child("balance").setValue(carInfo.getBalance());
 
                     moneyModel.setAppPercent(moneyModel.getAppPercent()+depositNum);
@@ -106,8 +105,8 @@ public class DialogDespost extends DialogFragment {
     }
 
     private void initViews(View view) {
-        balanceTV = view.findViewById(R.id.carBalance);
-        balanceET = view.findViewById(R.id.balanceET);
+        balanceTV = view.findViewById(R.id.balance);
+        balanceET = view.findViewById(R.id.depositTL);
         depositBTN = view.findViewById(R.id.depoistBTN);
     }
     void getDepsit(OnDepositGetCallback callback) {

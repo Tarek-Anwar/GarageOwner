@@ -94,7 +94,7 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
     }
 
     public class RequstViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        SimpleDateFormat formatterLong = new SimpleDateFormat("dd/MM/yyyy hh:mm", new Locale("en"));
+        SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa" , new Locale("en"));
         TextView nameCar , emailTV,dateOper ,time;
         Button btnAccpet , btnRefusal;
         CircleImageView imageView;
@@ -117,7 +117,7 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
             StringBuilder dateTime=new StringBuilder(opreation.getDate());
             nameCar.setText(opreation.getFromName());
             dateOper.setText(dateTime.substring(0,10));
-            time.setText(dateTime.substring(11,dateTime.length()));
+            time.setText(dateTime.substring(11,16)+dateTime.substring(dateTime.length()-2));
             reference.child(opreation.getFrom()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -7,7 +7,7 @@ xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".notifcation.CarProfileFragment"
-    android:background="@color/ORANGE_500"
+    android:background="@drawable/pickerline"
     >
 
     <de.hdodenhof.circleimageview.CircleImageView

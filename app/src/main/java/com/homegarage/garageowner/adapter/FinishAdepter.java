@@ -17,8 +17,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.homegarage.garageowner.FirebaseUtil;
 import com.homegarage.garageowner.R;
 import com.homegarage.garageowner.model.Opreation;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FinishAdepter extends RecyclerView.Adapter<FinishAdepter.ViewHolder> {
     ArrayList<Opreation> opreations;
@@ -74,18 +77,50 @@ public class FinishAdepter extends RecyclerView.Adapter<FinishAdepter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView name,date,price;
+        TextView name,emaliTV,dateFinish,dateStart,price,timeStart,timeFinish;
+        CircleImageView imageView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            name=itemView.findViewById(R.id.carOwner);
-            date=itemView.findViewById(R.id.dateFinish);
-            price=itemView.findViewById(R.id.price);
+            name=itemView.findViewById(R.id.text_name_car_owner3);
+            emaliTV=itemView.findViewById(R.id.gmail3);
+            dateFinish=itemView.findViewById(R.id.dateFinish);
+            dateStart=itemView.findViewById(R.id.dateStart);
+            price=itemView.findViewById(R.id.cost);
+            timeStart=itemView.findViewById(R.id.time3);
+            timeFinish=itemView.findViewById(R.id.timeEnd);
+            imageView=itemView.findViewById(R.id.circleImageView3);
         }
         public void bind(Opreation opreation)
         {
             name.setText(opreation.getFromName());
-            date.setText(opreation.getDate());
-            price.setText(String.format("%.2f",opreation.getPrice()));
+
+            StringBuilder builder=new StringBuilder();
+            builder.append(opreation.getDate());
+
+            dateStart.setText(builder.substring(0,10));
+            timeStart.setText(builder.substring(11,16)+" "+builder.substring(builder.length()-2));
+
+            builder.delete(0,builder.length());
+            builder.append(opreation.getDataEnd());
+
+            dateFinish.setText(builder.substring(0,10));
+            timeFinish.setText(builder.substring(11,16)+" "+builder.substring(builder.length()-2));
+
+            price.setText(String.format("%.2f",opreation.getPrice())+" EL");
+
+            FirebaseUtil.referenceCar.child(opreation.getFrom()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            String url=snapshot.child("imageUrl").getValue(String.class);
+                            String email=snapshot.child("email").getValue(String.class);
+                            emaliTV.setText(email);
+                            Picasso.get().load(url).placeholder(R.drawable.profile_icon).into(imageView);
+                        }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
     }
 }
