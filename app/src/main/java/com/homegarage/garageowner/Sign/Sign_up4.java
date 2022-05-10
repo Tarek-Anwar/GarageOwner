@@ -25,11 +25,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.homegarage.garageowner.FirebaseUtil;
-import com.homegarage.garageowner.MainActivity;
-import com.homegarage.garageowner.R;
 import com.homegarage.garageowner.databinding.FragmentSignUp4Binding;
+import com.homegarage.garageowner.ui.FirebaseUtil;
+import com.homegarage.garageowner.R;
 import com.homegarage.garageowner.model.InfoUserGarageModel;
+import com.homegarage.garageowner.ui.MainActivity;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -38,7 +38,7 @@ import java.util.UUID;
 public class Sign_up4 extends Fragment {
     FragmentSignUp4Binding binding;
     InfoUserGarageModel garageModel;
-    ActivityResultLauncher<Object> launcher,launcher1;
+    ActivityResultLauncher<Object> launcher;
     DatabaseReference reference;
     AwesomeValidation validation;
     FirebaseUser user;

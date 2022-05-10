@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,16 +18,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.homegarage.garageowner.FirebaseUtil;
+import com.homegarage.garageowner.ui.FirebaseUtil;
 import com.homegarage.garageowner.R;
 import com.homegarage.garageowner.model.CarInfo;
 import com.homegarage.garageowner.model.InfoUserGarageModel;
 import com.homegarage.garageowner.model.MoneyModel;
-import com.homegarage.garageowner.model.Opreation;
 import com.homegarage.garageowner.model.PurchaseModel;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 

@@ -1,7 +1,6 @@
 package com.homegarage.garageowner.Sign;
 
 import static com.basgeekball.awesomevalidation.ValidationStyle.BASIC;
-import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
 
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -16,18 +15,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
-import com.basgeekball.awesomevalidation.ValidationStyle;
-import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
-import com.homegarage.garageowner.FirebaseUtil;
+import com.homegarage.garageowner.ui.FirebaseUtil;
 import com.homegarage.garageowner.R;
 import com.homegarage.garageowner.databinding.FragmentSginUpBinding;
 import com.homegarage.garageowner.model.InfoUserGarageModel;

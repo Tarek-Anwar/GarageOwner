@@ -16,10 +16,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.homegarage.garageowner.FirebaseUtil;
+import com.homegarage.garageowner.ui.FirebaseUtil;
 import com.homegarage.garageowner.R;
 import com.homegarage.garageowner.databinding.FragmentCarProfileBinding;
-import com.homegarage.garageowner.home.Active;
+import com.homegarage.garageowner.home.HomeFragment;
 import com.homegarage.garageowner.model.CarInfo;
 import com.homegarage.garageowner.model.InfoUserGarageModel;
 import com.homegarage.garageowner.model.Opreation;
@@ -89,7 +89,7 @@ public class CarProfileFragment extends Fragment {
                 referenceOper.setValue(opreation);
                 FirebaseUtil.activeOpreations.remove(opreation);
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragmentContainerView2 , new Active()).addToBackStack(null).commit();
+                transaction.replace(R.id.fragmentContainerView2 , new HomeFragment()).addToBackStack(null).commit();
             }
         });
 
@@ -100,15 +100,23 @@ public class CarProfileFragment extends Fragment {
                 dialog.show(getParentFragmentManager(),"deposit");
             }
         });
-        /*
+
         binding.cardView3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel : "+carInfo.getPhone()));
+                    Intent call_intent = new Intent(Intent.ACTION_DIAL);
+                    call_intent.setData(Uri.parse("tel:"+carInfo.getPhone()));
+                    startActivity(call_intent);
+            }
+        });
+        binding.cardView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:"+carInfo.getEmail()));
                 startActivity(intent);
             }
-        });*/
+        });
         return binding.getRoot();
     }
     private float calPriceExpect(Float f , String s_time , String e_time){
@@ -124,4 +132,5 @@ public class CarProfileFragment extends Fragment {
         if(total<10) return 10;
         else  return total ;
     }
+
 }

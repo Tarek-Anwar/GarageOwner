@@ -3,6 +3,7 @@ package com.homegarage.garageowner.adapter;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.homegarage.garageowner.FirebaseUtil;
+import com.homegarage.garageowner.ui.FirebaseUtil;
 import com.homegarage.garageowner.R;
 import com.homegarage.garageowner.model.Opreation;
 import com.homegarage.garageowner.notifcation.NotificationActivity;
@@ -36,7 +37,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.RequstViewHolder> {
 
-
+    final String TAG="opreation state";
    public ArrayList <Opreation> opreationslist;
     DatabaseReference reference;
     Query query;
@@ -73,6 +74,7 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
         });
+        Log.d(TAG,opreationslist.size()+"R");
     }
 
     @NonNull
@@ -95,7 +97,7 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
 
     public class RequstViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa" , new Locale("en"));
-        TextView nameCar , emailTV,dateOper ,time;
+        TextView nameCar , dateOper ,time;
         Button btnAccpet , btnRefusal;
         CircleImageView imageView;
         DatabaseReference reference;
@@ -104,7 +106,6 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
             nameCar = itemView.findViewById(R.id.text_name_car_owner2);
             dateOper = itemView.findViewById(R.id.dateCalender2);
             time=itemView.findViewById(R.id.time2);
-            emailTV=itemView.findViewById(R.id.gmail2);
             btnAccpet = itemView.findViewById(R.id.btn_accpet_requst);
             btnRefusal = itemView.findViewById(R.id.btn_reusal_req);
             imageView=itemView.findViewById(R.id.circleImageView2);
@@ -117,13 +118,12 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
             StringBuilder dateTime=new StringBuilder(opreation.getDate());
             nameCar.setText(opreation.getFromName());
             dateOper.setText(dateTime.substring(0,10));
-            time.setText(dateTime.substring(11,16)+dateTime.substring(dateTime.length()-2));
+            time.setText(dateTime.substring(11,16)+" "+dateTime.substring(dateTime.length()-2));
             reference.child(opreation.getFrom()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     String url=snapshot.child("imageUrl").getValue(String.class);
-                    String email=snapshot.child("email").getValue(String.class);
-                    emailTV.setText(email);
+
                     Picasso.get().load(url).placeholder(R.drawable.profile_icon).into(imageView);
                 }
 

@@ -1,10 +1,16 @@
-package com.homegarage.garageowner;
+package com.homegarage.garageowner.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,25 +29,36 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.homegarage.garageowner.R;
 import com.homegarage.garageowner.Sign.SignActivity;
 import com.homegarage.garageowner.Sign.SignUp2Fragment;
 import com.homegarage.garageowner.databinding.ActivityMainBinding;
 import com.homegarage.garageowner.home.EditUserInfoActivity;
 import com.homegarage.garageowner.model.InfoUserGarageModel;
+import com.homegarage.garageowner.service.LocalHelper;
+import com.homegarage.garageowner.ui.FirebaseUtil;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
-
+    private final String LANG_APP="APP_LANG";
+    private FirebaseUser user;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private TextView name , balance;
     private ImageView img_profile;
-
+    private RadioGroup radioGroup;
+    private RadioButton arab,eng;
     private ActivityMainBinding binding;
-    private FirebaseUser user;
+    public static SharedPreferences preferences;
+    public static SharedPreferences.Editor editor;
+    private Context context;
+    private Resources resources;
+
     private ArrayList <InfoUserGarageModel> userGarageInfo;
     FragmentContainerView containerView;
     FragmentContainerView view;
@@ -52,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        preferences=getSharedPreferences("user info", Context.MODE_PRIVATE);
+        editor=preferences.edit();
 
         containerView=(FragmentContainerView)findViewById(R.id.fragmentContainerView2);
         view=(FragmentContainerView)findViewById(R.id.fragmentContainerView);
@@ -64,6 +84,9 @@ public class MainActivity extends AppCompatActivity {
         //find header Navigation
         v = navigationView.getHeaderView(0);
         intiHeader(v);
+
+
+
 
         //set usr information if their
         img_profile.setOnClickListener( V->{
@@ -96,6 +119,32 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
+        //change lang
+        arab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeLang("ar");
+            }
+        });
+        eng.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeLang("en");
+            }
+        });
+        String lang = preferences.getString(LocalHelper.SELECTED_LANGUAGE,"en");
+
+        if(lang.equals("en")) {
+            eng.setChecked(true);
+            context = LocalHelper.setLocale(MainActivity.this, lang);
+            resources = context.getResources();
+        }
+            else
+            {
+            context = LocalHelper.setLocale(MainActivity.this, lang);
+            resources = context.getResources();
+            arab.setChecked(true);
+        }
         checkLogin();
     }
 
@@ -103,6 +152,9 @@ public class MainActivity extends AppCompatActivity {
         name = v.findViewById(R.id.user_name_nav);
         balance = v.findViewById(R.id.user_balance);
         img_profile = v.findViewById(R.id.img_profile);
+        radioGroup =v.findViewById(R.id.lang_select);
+        arab = v.findViewById(R.id.arab_lang);
+        eng = v.findViewById(R.id.eng_lang);
     }
 
     @Override
@@ -114,10 +166,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void setHeaderNav(InfoUserGarageModel model){
-        if (model != null) {
-            name.setText(model.getNameEn());
-            balance.setText("Balance "+model.getBalance()+" EG");
-        }
+                assert model.getImageGarage()!=null;
+                Picasso.get().load(model.getImageGarage()).placeholder(R.drawable.profile_icon).into(img_profile);
+                balance.setText(model.getBalance()+" E.G");
+                if (Locale.getDefault().getLanguage().equals("en")) {
+                    name.setText(model.getNameEn());
+                } else {
+                    name.setText(model.getNameAr());
+                }
     }
 
     @Override
@@ -165,6 +221,12 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+    private void changeLang(String lang){
+        context = LocalHelper.setLocale(MainActivity.this, lang);
+        resources = context.getResources();
 
-
+        Intent intent = new Intent(MainActivity.this,MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
 }

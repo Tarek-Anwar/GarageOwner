@@ -32,26 +32,15 @@ android:layout_width="match_parent"
         android:id="@+id/text_name_car_owner2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
         android:textColor="@color/black"
         android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/circleImageView2"
         app:layout_constraintStart_toEndOf="@+id/circleImageView2"
         app:layout_constraintTop_toTopOf="@id/circleImageView2"
-        tools:text="Tarek"
-        android:layout_marginStart="24dp"
-        />
+        tools:text="Tarek" />
 
-    <TextView
-        android:id="@+id/gmail2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@id/circleImageView2"
-        app:layout_constraintTop_toBottomOf="@id/text_name_car_owner2"
-        tools:text="ahmedmokhter@gmail.com"
-        android:layout_marginStart="15dp"
-        android:textSize="12sp"
-        />
+
     <View
         android:id="@+id/view2"
         android:layout_width="2dp"

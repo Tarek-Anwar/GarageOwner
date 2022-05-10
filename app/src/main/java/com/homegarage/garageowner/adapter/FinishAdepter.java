@@ -14,7 +14,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.homegarage.garageowner.FirebaseUtil;
+import com.homegarage.garageowner.ui.FirebaseUtil;
 import com.homegarage.garageowner.R;
 import com.homegarage.garageowner.model.Opreation;
 import com.squareup.picasso.Picasso;
@@ -27,7 +27,7 @@ public class FinishAdepter extends RecyclerView.Adapter<FinishAdepter.ViewHolder
     ArrayList<Opreation> opreations;
     Query query;
     DatabaseReference reference;
-
+    final String TAG="opreation state";
     public FinishAdepter() {
         opreations= FirebaseUtil.payOpreations;
         reference=FirebaseUtil.referenceOperattion;
@@ -56,7 +56,7 @@ public class FinishAdepter extends RecyclerView.Adapter<FinishAdepter.ViewHolder
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
         });
-
+        Log.d(TAG,opreations.size()+"f");
     }
 
     @NonNull
@@ -77,12 +77,11 @@ public class FinishAdepter extends RecyclerView.Adapter<FinishAdepter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView name,emaliTV,dateFinish,dateStart,price,timeStart,timeFinish;
+        TextView name,dateFinish,dateStart,price,timeStart,timeFinish;
         CircleImageView imageView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name=itemView.findViewById(R.id.text_name_car_owner3);
-            emaliTV=itemView.findViewById(R.id.gmail3);
             dateFinish=itemView.findViewById(R.id.dateFinish);
             dateStart=itemView.findViewById(R.id.dateStart);
             price=itemView.findViewById(R.id.cost);
@@ -112,8 +111,6 @@ public class FinishAdepter extends RecyclerView.Adapter<FinishAdepter.ViewHolder
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                             String url=snapshot.child("imageUrl").getValue(String.class);
-                            String email=snapshot.child("email").getValue(String.class);
-                            emaliTV.setText(email);
                             Picasso.get().load(url).placeholder(R.drawable.profile_icon).into(imageView);
                         }
                 @Override

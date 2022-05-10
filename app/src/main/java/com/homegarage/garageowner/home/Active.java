@@ -5,18 +5,19 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.util.Log;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.homegarage.garageowner.FirebaseUtil;
+import com.homegarage.garageowner.ui.ActiveViewModel;
+import com.homegarage.garageowner.ui.FirebaseUtil;
 import com.homegarage.garageowner.R;
 import com.homegarage.garageowner.adapter.ActiveOperAdapter;
 import com.homegarage.garageowner.databinding.FragmentActiveBinding;
@@ -30,12 +31,15 @@ public class Active extends Fragment {
     ActiveOperAdapter adapter;
     CarInfo car;
     DatabaseReference reference;
+    ActiveViewModel viewModel;
 
     public Active() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        viewModel= ViewModelProviders.of(getActivity()).get(ActiveViewModel.class);
+        Log.i("opreations in active fragment",viewModel.getActiveOpreations().size()+"");
     }
 
     @Override
@@ -60,7 +64,6 @@ public class Active extends Fragment {
                 });
             }
         });
-
                 binding = FragmentActiveBinding.inflate(getLayoutInflater());
         binding.recyclerActive.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         binding.recyclerActive.setAdapter(adapter);

@@ -2,6 +2,7 @@ package com.homegarage.garageowner.adapter;
 
 import android.os.Handler;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.homegarage.garageowner.FirebaseUtil;
+import com.homegarage.garageowner.ui.FirebaseUtil;
 import com.homegarage.garageowner.R;
 import com.homegarage.garageowner.model.Opreation;
 import com.squareup.picasso.Picasso;
@@ -30,9 +31,11 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ActiveOperAdapter extends RecyclerView.Adapter<ActiveOperAdapter.ViewHolder> {
-
-    public ArrayList<Opreation> opreations = FirebaseUtil.activeOpreations;;
+    final String TAG="opreation state";
+    public ArrayList<Opreation> activeOpreations=FirebaseUtil.activeOpreations;
     ActiveListenr activeListenr;
+
+
     public ActiveOperAdapter(ActiveListenr activeListenr) {
         this.activeListenr = activeListenr;
         DatabaseReference opreationsRef=FirebaseUtil.referenceOperattion;
@@ -42,20 +45,22 @@ public class ActiveOperAdapter extends RecyclerView.Adapter<ActiveOperAdapter.Vi
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     for(DataSnapshot item : snapshot.getChildren()){
-                        opreations.clear();
                         Opreation opreation= item.getValue(Opreation.class);
                         if ( (opreation.getState().equals("2") && opreation.getType().equals("2"))
                                 || opreation.getPrice() < 0
                         ) {
-                            opreations.add(opreation);
-                            notifyItemChanged(opreations.size()-1);
-                        }notifyDataSetChanged();
+                            activeOpreations.add(opreation);
+                            Log.i("opreations in view model", activeOpreations.size() + "");
+                            notifyItemChanged(activeOpreations.size() - 1);
+                        }
+                        notifyDataSetChanged();
                     }
                 }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
         });
+
     }
 
     @NonNull
@@ -64,18 +69,33 @@ public class ActiveOperAdapter extends RecyclerView.Adapter<ActiveOperAdapter.Vi
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.active_item_view,parent,false);
         return new ViewHolder(view);
     }
-
+    public void setActiveOpreations(ArrayList<Opreation> activeOpreations) {
+        this.activeOpreations = activeOpreations;
+        notifyDataSetChanged();
+    }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(opreations.get(position));
+        holder.bind(activeOpreations.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return opreations.size();
+        return activeOpreations.size();
 
     }
+  /*  void observeViewModel(ActiveViewModel viewModel)
+    {
+        viewModel.getActiveOpreations().observeForever(new Observer<ArrayList<Opreation>>() {
+            @Override
+            public void onChanged(ArrayList<Opreation> opreations) {
+                if(opreations!= null)
+                {
+                    opreationsActive=opreations;
+                }
+            }
+        });
+    }*/
 
     public  interface ActiveListenr{
         void onActiveListenr(Opreation opreation);
@@ -84,7 +104,7 @@ public class ActiveOperAdapter extends RecyclerView.Adapter<ActiveOperAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         View activeOpreation;
         ImageView img;
-        TextView carOnwer,day,time ,email,roundTime;
+        TextView carOnwer,day,time ,roundTime;
         ProgressBar progressBar;
         Chronometer chronometer;
         Date start = null;
@@ -104,7 +124,6 @@ public class ActiveOperAdapter extends RecyclerView.Adapter<ActiveOperAdapter.Vi
             chronometer=itemView.findViewById(R.id.chronometer);
             activeOpreation = itemView.findViewById(R.id.active_opreation);
             time = itemView.findViewById(R.id.time2);
-            email=itemView.findViewById(R.id.gmail2);
             img=itemView.findViewById(R.id.circleImageView2);
             roundTime=itemView.findViewById(R.id.round_time_txt);
         }
@@ -118,7 +137,6 @@ public class ActiveOperAdapter extends RecyclerView.Adapter<ActiveOperAdapter.Vi
             referenceOpreation.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    email.setText(snapshot.child("email").getValue(String.class));
                     Picasso.get().load(snapshot.child("imageUrl").getValue(String.class)).placeholder(R.drawable.profile_icon).into(img);
                 }
                 @Override
