@@ -31,7 +31,9 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/user_balance">
+        app:layout_constraintTop_toBottomOf="@id/user_balance"
+        android:visibility="gone"
+        >
 
         <RadioButton
             android:id="@+id/arab_lang"

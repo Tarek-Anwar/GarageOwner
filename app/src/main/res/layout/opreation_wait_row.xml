@@ -24,7 +24,9 @@
         android:layout_height="100dp"
         android:layout_margin="5dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/profile_icon"
+        />
 
 
     <TextView
@@ -66,8 +68,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@id/btn_accpet_requst"
-        app:layout_constraintStart_toStartOf="@+id/btn_accpet_requst"
+        app:layout_constraintBottom_toTopOf="@id/btn_accpet_requst2"
+        app:layout_constraintStart_toStartOf="@+id/btn_accpet_requst2"
         app:layout_constraintTop_toBottomOf="@id/calender2"
         tools:text="12/2/2022"
         android:layout_marginStart="12dp"
@@ -92,11 +94,11 @@
         app:layout_constraintTop_toBottomOf="@id/timeIMG2"
         app:layout_constraintStart_toStartOf="@id/view2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btn_reusal_req"
+        app:layout_constraintBottom_toTopOf="@id/btn_reusal_req2"
         android:layout_marginStart="12dp"/>
 
     <Button
-        android:id="@+id/btn_accpet_requst"
+        android:id="@+id/btn_accpet_requst2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/accpet"
@@ -105,12 +107,12 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btn_reusal_req"
+        android:id="@+id/btn_reusal_req2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/refuse"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/view2"
-        app:layout_constraintTop_toTopOf="@+id/btn_accpet_requst" />
+        app:layout_constraintTop_toTopOf="@+id/btn_accpet_requst2" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

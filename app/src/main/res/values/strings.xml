@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Garage Owner</string>
+    <string name="app_name">Car Home</string>
     <string name="email_valid">Email address please</string>
     <string name="text_empt">Not Find Text</string>
     <string name="phone_invalid">Telephone Number please</string>

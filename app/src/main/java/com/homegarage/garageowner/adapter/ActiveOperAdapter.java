@@ -118,14 +118,14 @@ public class ActiveOperAdapter extends RecyclerView.Adapter<ActiveOperAdapter.Vi
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            carOnwer=itemView.findViewById(R.id.text_name_car_owner2);
-            day=itemView.findViewById(R.id.dateCalender2);
-            progressBar=itemView.findViewById(R.id.progressBar2);
-            chronometer=itemView.findViewById(R.id.chronometer);
+            carOnwer=itemView.findViewById(R.id.text_name_car_ownerActive);
+            day=itemView.findViewById(R.id.dateCalenderActive);
+            progressBar=itemView.findViewById(R.id.progressBarActive);
+            chronometer=itemView.findViewById(R.id.chronometerActive);
             activeOpreation = itemView.findViewById(R.id.active_opreation);
-            time = itemView.findViewById(R.id.time2);
-            img=itemView.findViewById(R.id.circleImageView2);
-            roundTime=itemView.findViewById(R.id.round_time_txt);
+            time = itemView.findViewById(R.id.timeActive);
+            img=itemView.findViewById(R.id.circleImageViewActive);
+            roundTime=itemView.findViewById(R.id.round_time_txtActive);
         }
 
         public void  bind(Opreation opreation) {

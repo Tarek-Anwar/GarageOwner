@@ -22,6 +22,7 @@ import com.homegarage.garageowner.databinding.FragmentRequstReserBinding;
 import com.homegarage.garageowner.model.CarInfo;
 import com.homegarage.garageowner.model.Opreation;
 import com.homegarage.garageowner.service.FcmNotificationsSender;
+import com.squareup.picasso.Picasso;
 
 
 public class RequstReserFragment extends Fragment {
@@ -31,6 +32,7 @@ public class RequstReserFragment extends Fragment {
     CarInfo carInfo;
     Opreation opreation = null;
     DatabaseReference refOperation;
+    String imgUrl;
 
     public RequstReserFragment(){ }
 
@@ -51,7 +53,6 @@ public class RequstReserFragment extends Fragment {
             getOpreation(new OnDataReceiveCallback() {
                 @Override
                 public void onDataReceived(String date) {
-                    binding.txtTimeReser.setText(date);
                 }
 
                 @Override
@@ -60,15 +61,17 @@ public class RequstReserFragment extends Fragment {
                 }
             });
         }
-
+        Picasso.get().load(imgUrl).placeholder(R.drawable.profile_icon).into(binding.circleImageViewNot);
         opreation = NotificationActivity.allOpreation;
         if(opreation != null){
             refOperation = FirebaseUtil.mFirebaseDatabase.getReference("Operation").child(opreation.getId());
-            binding.txtTimeReser.setText(opreation.getDate());
             getCarInfo(opreation.getFrom(), date -> binding.txtNameCarOwner.setText(date));
+            StringBuilder builder=new StringBuilder(opreation.getDate());
+            binding.dateCalenderNot.setText(builder.substring(0,10));
+            binding.timeNot.setText(builder.substring(11,16)+" "+builder.substring(builder.length()-2));
         }
 
-        binding.profileImageCar.setOnClickListener(v -> {
+        binding.circleImageViewNot.setOnClickListener(v -> {
             FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainerViewNotification,new CarProfileFragment(carInfo,opreation,false) , "CarProfileFragment");
             transaction.addToBackStack(null);
@@ -78,16 +81,16 @@ public class RequstReserFragment extends Fragment {
         Intent intent = new Intent(getActivity(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-        binding.btnAccpetReser.setOnClickListener(v -> {
+        binding.btnAccpetRequstNot.setOnClickListener(v -> {
             opreation.setState("2");
             opreation.setType("2");
             refOperation.setValue(opreation);
 
-            binding.btnAccpetReser.setEnabled(false);
-            binding.btnRefusalReser.setEnabled(false);
+            binding.btnAccpetRequstNot.setEnabled(false);
+            binding.btnReusalReqNot.setEnabled(false);
 
-            binding.btnAccpetReser.setEnabled(false);
-            binding.btnRefusalReser.setEnabled(false);
+            binding.btnAccpetRequstNot.setEnabled(false);
+            binding.btnReusalReqNot.setEnabled(false);
             new Handler().postDelayed(() -> {
 
                 FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
@@ -105,12 +108,12 @@ public class RequstReserFragment extends Fragment {
 
         });
 
-        binding.btnRefusalReser.setOnClickListener(v -> {
+        binding.btnReusalReqNot.setOnClickListener(v -> {
             opreation.setState("3");
             opreation.setType("3");
 
-            binding.btnAccpetReser.setEnabled(false);
-            binding.btnRefusalReser.setEnabled(false);
+            binding.btnAccpetRequstNot.setEnabled(false);
+            binding.btnReusalReqNot.setEnabled(false);
             new Handler().postDelayed(() -> {
                 FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
                         carInfo.getId()
@@ -163,6 +166,7 @@ public class RequstReserFragment extends Fragment {
                 carInfo = snapshot.getValue(CarInfo.class);
                 assert carInfo != null;
                 opreation.setFromName(carInfo.getName());
+                imgUrl=snapshot.child("imageUrl").getValue(String.class);
                 refOperation.setValue(opreation);
                 callback.onIDReceived(carInfo.getName());
             }

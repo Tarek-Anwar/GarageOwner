@@ -29,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.homegarage.garageowner.R;
+import com.homegarage.garageowner.Sign.ChangePassword;
 import com.homegarage.garageowner.model.InfoUserGarageModel;
 import com.homegarage.garageowner.ui.FirebaseUtil;
 import com.squareup.picasso.Picasso;
@@ -115,10 +116,22 @@ public class EditUserInfoActivity extends AppCompatActivity {
 
             }
         });
+        editPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(), ChangePassword.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveingEdit();
+
+                if(awesomeValidation.validate())
+                {
+                    saveingEdit();
+                }
             }
         });
     }

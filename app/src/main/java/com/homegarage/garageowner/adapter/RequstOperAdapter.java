@@ -106,8 +106,8 @@ public class RequstOperAdapter extends RecyclerView.Adapter<RequstOperAdapter.Re
             nameCar = itemView.findViewById(R.id.text_name_car_owner2);
             dateOper = itemView.findViewById(R.id.dateCalender2);
             time=itemView.findViewById(R.id.time2);
-            btnAccpet = itemView.findViewById(R.id.btn_accpet_requst);
-            btnRefusal = itemView.findViewById(R.id.btn_reusal_req);
+            btnAccpet = itemView.findViewById(R.id.btn_accpet_requst2);
+            btnRefusal = itemView.findViewById(R.id.btn_reusal_req2);
             imageView=itemView.findViewById(R.id.circleImageView2);
             itemView.setOnClickListener(this);
             reference=FirebaseUtil.referenceCar;
